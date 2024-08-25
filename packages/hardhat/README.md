@@ -1,5 +1,11 @@
 # Smart Contracts
 
+First, deploy LP Nft smartcontract.
+Then deploy UstcPlus. UstcPlus requires LpNFT address.
+Once UstcPlus is deployed, set the USTC address on LP Nft.
+
+---
+
 This project demonstrates how to add smart contracts to your project using [Hardhat](https://hardhat.org/docs). It provides a sample `Message` contract, a test and deployment scripts.
 
 Try running some of the following tasks:

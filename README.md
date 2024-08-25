@@ -17,7 +17,7 @@
 
 1, Download and install all dependencies. This line of code in the terminal is executed only once.
 ```bash
-npm install
+yarn install
 ```
 
 2, Register on [Cloud.WalletConnect.com](https://cloud.walletconnect.com/) and get the project ID.
@@ -26,7 +26,7 @@ In the `app/.env` set `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` to the project ID t
 
 3, Run the website on your laptop and visit [localhost:3000](http://localhost:3000/)
 ```bash
-npm run dev
+yarn run dev
 ```
 
 ## Deploy on Vercel 🚢

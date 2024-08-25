@@ -10,5 +10,11 @@
     "dev": "yarn workspaces -pt run dev",
     "build": "yarn workspaces -pt run build",
     "test": "yarn workspaces -pt run test"
+  },
+  "dependencies": {
+    "@layerzerolabs/lz-definitions": "^2.3.38",
+    "@openzeppelin/contracts": "^5.0.2",
+    "@openzeppelin/contracts-upgradeable": "^5.0.2",
+    "dotenv": "^16.4.5"
   }
 }
