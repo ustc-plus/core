@@ -8,12 +8,10 @@ interface ILpNft {
     function mint(address _to, uint256 tokenId, uint256 usdcAmount, uint256 ustcPlusAmount) external;
     // Burn given NFT. If it's burned before the timeout, then it slashes.
     function burn(uint256 tokenId) external returns(bool);
-    function burnFrom(uint256 tokenId, address owner) external returns(bool);
     // Redeems some tokens. Either give amount1 or amount2, but not both.
-    function redeem(uint256 tokenId, uint256 amount1, uint256 amount2) external returns(bool);
-    function redeemFrom(uint256 tokenId, uint256 amount1, uint256 amount2, address owner) external returns(bool);
+    function redeem(uint256 tokenId, uint256 percents) external returns(bool);
     // Returns the time when the total slashing period ends
     function slashEndTime(uint256 tokenId) external view returns(uint256);
     // Returns current amount of tokens that the LP will burn
-    function slashCurrentAmount() external view returns(uint256, uint256);
+    function slashCurrentAmount(uint256 tokenId) external view returns(uint256);
 }
