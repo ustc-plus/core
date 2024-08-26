@@ -86,11 +86,11 @@ contract LpNft is ERC721Upgradeable, OwnableUpgradeable, ILpNft {
 
     if (slashingPercentage > 0) {
       usdc.transfer(dao, _usdcSlashing);
-      ustcPlus.transfer(dao, _ustcPlusSlashing);
+      ustcPlus.transferByLpNft(dao, _ustcPlusSlashing);
     }
 
     usdc.transfer(msg.sender, _usdcAmount);
-    ustcPlus.transfer(msg.sender, _ustcPlusAmount);
+    ustcPlus.transferByLpNft(msg.sender, _ustcPlusAmount);
 
     paramsOf[tokenId].usdcTaken += _usdcSlashing + _usdcAmount;
     paramsOf[tokenId].ustcPlusTaken += _ustcPlusSlashing + _ustcPlusAmount;
