@@ -1,12 +1,14 @@
 # USTC+ Core
 
-**Let's get back USTC back!**
+**Let's get USTC back!**
 
 *For devs, this project uses the [Nexth](https://github.com/wslyvh/nexth) template. Nexth &ndash; A Next.js + Ethereum starter kit with Viem, Wagmi, Web3Modal, SIWE, Tailwind, daisyUI and more to quickly ship production-ready Web3 Apps*
 
 ![USTC Plus](./USTC_plus.png)
 
 ## Packages 📦
+For the user, first, he deposits 50% to mint NFT.
+
 `TODO change parts`
 
 - [App](./packages/app) - Next.js 14, with App router

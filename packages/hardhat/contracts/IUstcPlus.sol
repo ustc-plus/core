@@ -7,4 +7,5 @@ interface IUstcPlus is IERC20 {
     // Calculate amount of tokens to reward to all LP owners.
     function lpNft() external returns(address);
     function transferByLpNft(address to, uint256 value) external returns(bool);
+    function mintByLpManager(address to, uint256 value) external returns(uint256);
 }

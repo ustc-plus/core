@@ -21,6 +21,7 @@
     "hardhat": "^2.22.2"
   },
   "dependencies": {
+    "@layerzerolabs/lz-evm-oapp-v2": "^2.3.38",
     "@nomicfoundation/hardhat-network-helpers": "^1.0.0",
     "@types/chai": "^4.2.0",
     "@types/chai-as-promised": "^7.1.6",

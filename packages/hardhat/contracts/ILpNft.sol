@@ -5,7 +5,7 @@ interface ILpNft {
     // Calculate amount of tokens to reward to all LP owners.
     function distribute(uint256 _amount) external returns(bool);
     // Mint new nft with the given collateral amounts. First amount is USDC amount, the second amount is USTC amount.
-    function mint(uint256 amount1, uint256 amount2) external returns(uint256);
+    function mint(address _to, uint256 tokenId, uint256 usdcAmount, uint256 ustcPlusAmount) external;
     // Burn given NFT. If it's burned before the timeout, then it slashes.
     function burn(uint256 tokenId) external returns(bool);
     function burnFrom(uint256 tokenId, address owner) external returns(bool);
