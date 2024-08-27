@@ -54,40 +54,40 @@ const config = {
   networks: {
     lineaTestnet: {
       eid: EndpointId.LINEASEP_V2_TESTNET,
-      url: process.env.RPC_URL_LINEA_SEPOLIA || 'https://59141.rpc.thirdweb.com',
+      url: process.env.LINEA_TESTNET_RPC || 'https://59141.rpc.thirdweb.com',
       accounts: [CONFIG.DEPLOYER_KEY],
     },
     baseTestnet: {
       eid: EndpointId.BASESEP_V2_TESTNET,
-      url: process.env.RPC_URL_BASE_SEPOLIA || 'https://sepolia.base.org',
+      url: process.env.BASE_TESTNET_RPC || 'https://sepolia.base.org',
       accounts: [CONFIG.DEPLOYER_KEY],
     },
     mainnet: {
       chainId: 1,
       eid: EndpointId.ETHEREUM_V2_MAINNET,
-      url: process.env.RPC_URL_ETHEREUM || 'https://rpc.ankr.com/eth',
+      url: process.env.ETH_MAINNET_RPC || 'https://rpc.ankr.com/eth',
       accounts: [CONFIG.DEPLOYER_KEY],
     },
     linea: {
       eid: EndpointId.ZKCONSENSYS_V2_MAINNET,
-      url: process.env.RPC_URL_LINEA || 'https://1rpc.io/linea',
+      url: process.env.LINEA_MAINNET_RPC || 'https://1rpc.io/linea',
       accounts: [CONFIG.DEPLOYER_KEY],
     },
     sepolia: {
       eid: EndpointId.SEPOLIA_V2_TESTNET,
-      url: process.env.RPC_URL_SEPOLIA || 'https://rpc.sepolia.org/',
+      url: process.env.ETH_SEPOLIA_RPC || 'https://rpc.sepolia.org/',
       chainId: 11155111,
       accounts: [CONFIG.DEPLOYER_KEY],
     },
     optimisticEthereum: {
       eid: EndpointId.OPTIMISM_V2_MAINNET,
       chainId: 10,
-      url: 'https://mainnet.optimism.io/',
+      url: process.env.OP_MAINNET_RPC || 'https://mainnet.optimism.io/',
       accounts: [CONFIG.DEPLOYER_KEY],
     },
     base: {
       chainId: 8453,
-      url: 'https://mainnet.base.org',
+      url: process.env.BASE_MAINNET_RPC || 'https://mainnet.base.org',
       accounts: [CONFIG.DEPLOYER_KEY],
     },
   },
