@@ -6,28 +6,32 @@ import { OFT } from "@layerzerolabs/lz-evm-oapp-v2/contracts/oft/OFT.sol";
 import { ILpNft } from "./ILpNft.sol";
 import { IUstcPlus } from "./IUstcPlus.sol";
 
-contract UstcPlus is OFT, Ownable, IUstcPlus {
-    ILpNft public lpNft;
+contract UstcPlus is OFT, IUstcPlus {
+    ILpNft private _lpNft;
     address public lpManager;
 
     modifier onlyLpNft {
-        require(msg.sender == address(lpNft), "not LP NFT");
+        require(msg.sender == lpNft(), "not LP NFT");
         _;
     }
 
-    modifer onlyLpManager {
+    modifier onlyLpManager {
         require(msg.sender == address(lpManager), "npt lp manager");
         _;
     }
 
     constructor(
-        address _lpNft,
+        address lpNft_,
         address _lpManager,
         address _lzEndpoint,
         address _delegate
     ) OFT("USTC Plus", "USTC+", _lzEndpoint, _delegate) Ownable(_delegate) {
-        lpNft = ILpNft(_lpNft);
+        _lpNft = ILpNft(lpNft_);
         lpManager = _lpManager;
+    }
+
+    function lpNft() public view returns(address) {
+        return address(_lpNft);
     }
 
     function _update(address from, address to, uint256 value) internal override {
@@ -36,15 +40,16 @@ contract UstcPlus is OFT, Ownable, IUstcPlus {
         } else {
             uint256 percent = value / 100;
             uint256 remaining = value - percent;
-            super._update(from, address(lpNft), percent);
-            require(lpNft.distribute(percent));
+            super._update(from, lpNft(), percent);
+            require(_lpNft.distribute(percent));
             super._update(from, to, remaining);
         }
     }
 
     // This function transfers tokens to the user without slashing 1% fee.
     function transferByLpNft(address to, uint256 value) external onlyLpNft returns(bool) {
-        super._update(address(lpNft), to, value);
+        super._update(lpNft(), to, value);
+        return true;
     }
 
     function mintByLpManager(address to, uint256 value) external onlyLpManager returns(uint256) {
