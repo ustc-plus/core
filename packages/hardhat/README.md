@@ -17,6 +17,12 @@ yarn test
 yarn coverage
 ```
 
+## Smartcontract addresses
+
+### Sepolia
+
+* TestERC20 &ndash; a fake USDC stable coin on Testnets. [View on Etherscan](https://sepolia.etherscan.io/token/0x32e5c809663f371ec25c7a21953647b448394aa3).
+
 ## Deploy
 
 First, to test out you need USDC stable coins. On the testnet we use a fake USDC called "TestERC20".
@@ -28,10 +34,20 @@ cd packages/hardhat
 
 Then, deploy the smartcontract:
 ```bash
-npx hardhat ignition deploy ./ignition/modules/TestERC20.ts --network lineaTestnet
+npx hardhat ignition deploy ./ignition/modules/TestERC20.ts --network sepolia
 ```
 
-> For the testing we use Linea Testnet, since i already have some ETH from the faucet. You may use any other networks.
+> For the testing we use Sepolia Testnet, since i already have some ETH from the faucet. You may use any other networks.
+
+Grab the deployed smartcontract address and verify it. Deploying then verifying are the two steps for each smartcontract.
+
+```bash
+npx hardhat verify --network sepolia 0x32e5c809663f371ec25c7a21953647b448394aa3
+```
+
+---
+Deploy USTC+ smartcontract
+---
 
 Once you're ready to deploy your contracts, setup a deployer account using `DEPLOYER_KEY` and try to run e.g.
 
