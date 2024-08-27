@@ -22,8 +22,12 @@ yarn coverage
 ### Sepolia
 
 * TestERC20 &ndash; a fake USDC stable coin on Testnets. [View on Etherscan](https://sepolia.etherscan.io/token/0x32e5c809663f371ec25c7a21953647b448394aa3).
+* LpNft &ndash; a USDC and USTC+ pair liquidity pool kept as an NFT. [View on Etherscan](https://sepolia.etherscan.io/0x2bb57c4E224151fB818dE5A0Af4B0e76B9b13C98)
 
 ## Deploy
+
+Fake USDC
+---
 
 First, to test out you need USDC stable coins. On the testnet we use a fake USDC called "TestERC20".
 So, head to the `hardhat` directory:
@@ -45,8 +49,40 @@ Grab the deployed smartcontract address and verify it. Deploying then verifying 
 npx hardhat verify --network sepolia 0x32e5c809663f371ec25c7a21953647b448394aa3
 ```
 
+Deploy LpNft
 ---
-Deploy USTC+ smartcontract
+Deploy LP NFT.
+
+```bash
+npx hardhat ignition deploy ./ignition/modules/LpNft.ts --network sepolia
+```
+
+Then, verify the smartcontract:
+
+```bash
+npx hardhat verify --network sepolia "LpNft#TransparentUpgradeableProxy address" "LpNft#LpNft address" "deployer address" "0x"
+```
+
+```bash
+npx hardhat verify --network sepolia "LpNft#LpNft address"
+```
+
+Deploy LpManager
+---
+LP Manager mints USTC+ and LP NFTs that consists USTC+ and USDC.
+
+```bash
+npx hardhat ignition deploy ./ignition/modules/LpManager.ts --network sepolia
+```
+
+Then, verify the smartcontract:
+
+```bash
+npx hardhat verify --network sepolia <address>
+```
+
+
+Deploy USTC+
 ---
 
 Once you're ready to deploy your contracts, setup a deployer account using `DEPLOYER_KEY` and try to run e.g.
