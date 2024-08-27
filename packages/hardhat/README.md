@@ -22,7 +22,8 @@ yarn coverage
 ### Sepolia
 
 * TestERC20 &ndash; a fake USDC stable coin on Testnets. [View on Etherscan](https://sepolia.etherscan.io/token/0x32e5c809663f371ec25c7a21953647b448394aa3).
-* LpNft &ndash; a USDC and USTC+ pair liquidity pool kept as an NFT. [View on Etherscan](https://sepolia.etherscan.io/0x2bb57c4E224151fB818dE5A0Af4B0e76B9b13C98)
+* LpNft &ndash; a USDC and USTC+ pair liquidity pool kept as an NFT. [View on Etherscan](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+* LpManager &ndash; A USTC+ and Liquidity Pool NFTs minter. [View on Etherscan](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
 
 ## Deploy
 
@@ -54,28 +55,54 @@ Deploy LpNft
 Deploy LP NFT.
 
 ```bash
-npx hardhat ignition deploy ./ignition/modules/LpNft.ts --network sepolia
+npx hardhat run ./scripts/deploy-lp-nft.js --network sepolia
 ```
 
 Then, verify the smartcontract:
 
 ```bash
-npx hardhat verify --network sepolia "LpNft#TransparentUpgradeableProxy address" "LpNft#LpNft address" "deployer address" "0x"
+npx hardhat verify --network sepolia <address>
 ```
 
+Open up the `scripts/upgrade-lp-nft.js` and set the deployed smartcontract address there. Later in case, when you want to upgrade smartcontract, you may do it easily.
+
+---
+After changes, you need to upgrade the smartcontracts. It has two steps:
+
 ```bash
-npx hardhat verify --network sepolia "LpNft#LpNft address"
+npx hardhat run ./scripts/upgrade-lp-nft.js --network sepolia
+```
+
+
+```bash
+npx hardhat verify --network sepolia <address>
 ```
 
 Deploy LpManager
 ---
 LP Manager mints USTC+ and LP NFTs that consists USTC+ and USDC.
 
+Deploy LP NFT.
+
 ```bash
-npx hardhat ignition deploy ./ignition/modules/LpManager.ts --network sepolia
+npx hardhat run ./scripts/deploy-lp-manager.js --network sepolia
 ```
 
 Then, verify the smartcontract:
+
+```bash
+npx hardhat verify --network sepolia <address>
+```
+
+Open up the `scripts/upgrade-lp-manager.js` and set the deployed smartcontract address there. Later in case, when you want to upgrade smartcontract, you may do it easily.
+
+---
+After changes, you need to upgrade the smartcontracts. It has two steps:
+
+```bash
+npx hardhat run ./scripts/upgrade-lp-manager.js --network sepolia
+```
+
 
 ```bash
 npx hardhat verify --network sepolia <address>

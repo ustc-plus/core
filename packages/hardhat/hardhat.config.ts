@@ -1,8 +1,12 @@
-import '@nomicfoundation/hardhat-toolbox-viem'
+import '@nomicfoundation/hardhat-ethers'
 import '@nomicfoundation/hardhat-verify'
+import 'hardhat-deploy'
+import '@openzeppelin/hardhat-upgrades'
 import { CONFIG } from './utils/config'
+import "@nomicfoundation/hardhat-toolbox"
 import { EndpointId } from '@layerzerolabs/lz-definitions'
-import '@layerzerolabs/toolbox-hardhat'
+//import '@nomiclabs/hardhat-ethers'
+//import '@layerzerolabs/toolbox-hardhat'
 
 const config = {
   solidity: {
