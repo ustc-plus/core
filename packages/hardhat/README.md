@@ -19,13 +19,21 @@ yarn coverage
 
 ## Deploy
 
+First, to test out you need USDC stable coins. On the testnet we use a fake USDC called "TestERC20".
+So, head to the `hardhat` directory:
+
+```bash
+cd packages/hardhat
+```
+
+Then, deploy the smartcontract:
+```bash
+npx hardhat ignition deploy ./ignition/modules/TestERC20.ts --network lineaTestnet
+```
+
+> For the testing we use Linea Testnet, since i already have some ETH from the faucet. You may use any other networks.
+
 Once you're ready to deploy your contracts, setup a deployer account using `DEPLOYER_KEY` and try to run e.g.
-
-```
-yarn deploy --network sepolia
-```
-
-Note that you need testnet Ethers for that. More info and faucet links can be found on [Sepolia Dev](https://sepolia.dev/). You can set up different networks using [Hardhat's network configuration](https://hardhat.org/hardhat-runner/docs/config#networks-configuration).
 
 ## Verify
 
