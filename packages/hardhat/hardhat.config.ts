@@ -1,12 +1,9 @@
 import '@nomicfoundation/hardhat-ethers'
+import "@nomicfoundation/hardhat-toolbox"
 import '@nomicfoundation/hardhat-verify'
 import 'hardhat-deploy'
 import '@openzeppelin/hardhat-upgrades'
 import { CONFIG } from './utils/config'
-import "@nomicfoundation/hardhat-toolbox"
-import { EndpointId } from '@layerzerolabs/lz-definitions'
-//import '@nomiclabs/hardhat-ethers'
-//import '@layerzerolabs/toolbox-hardhat'
 
 const config = {
   solidity: {
@@ -57,34 +54,28 @@ const config = {
   },
   networks: {
     lineaTestnet: {
-      eid: EndpointId.LINEASEP_V2_TESTNET,
       url: process.env.LINEA_TESTNET_RPC || 'https://59141.rpc.thirdweb.com',
       accounts: [CONFIG.DEPLOYER_KEY],
     },
     baseTestnet: {
-      eid: EndpointId.BASESEP_V2_TESTNET,
       url: process.env.BASE_TESTNET_RPC || 'https://sepolia.base.org',
       accounts: [CONFIG.DEPLOYER_KEY],
     },
     mainnet: {
       chainId: 1,
-      eid: EndpointId.ETHEREUM_V2_MAINNET,
       url: process.env.ETH_MAINNET_RPC || 'https://rpc.ankr.com/eth',
       accounts: [CONFIG.DEPLOYER_KEY],
     },
     linea: {
-      eid: EndpointId.ZKCONSENSYS_V2_MAINNET,
       url: process.env.LINEA_MAINNET_RPC || 'https://1rpc.io/linea',
       accounts: [CONFIG.DEPLOYER_KEY],
     },
     sepolia: {
-      eid: EndpointId.SEPOLIA_V2_TESTNET,
       url: process.env.ETH_SEPOLIA_RPC || 'https://rpc.sepolia.org/',
       chainId: 11155111,
       accounts: [CONFIG.DEPLOYER_KEY],
     },
     optimisticEthereum: {
-      eid: EndpointId.OPTIMISM_V2_MAINNET,
       chainId: 10,
       url: process.env.OP_MAINNET_RPC || 'https://mainnet.optimism.io/',
       accounts: [CONFIG.DEPLOYER_KEY],
