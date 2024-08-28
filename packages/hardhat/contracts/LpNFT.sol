@@ -40,12 +40,12 @@ contract LpNft is ERC721Upgradeable, OwnableUpgradeable, ILpNft {
   }
 
   function setUstcPlus(address _ustcPlus) external onlyOwner {
-    require(address(ustcPlus) == address(0), 'already set');
+    //require(address(ustcPlus) == address(0), 'already set');
     ustcPlus = IUstcPlus(_ustcPlus);
   }
 
   function setUsdc(address _usdc) external onlyOwner {
-    require(address(usdc) == address(0), 'already set');
+    //require(address(usdc) == address(0), 'already set');
     usdc = IERC20(_usdc);
   }
 
@@ -55,7 +55,9 @@ contract LpNft is ERC721Upgradeable, OwnableUpgradeable, ILpNft {
   }
 
 
-  function distribute(uint256 _amount) external override returns (bool) {}
+  function distribute(uint256 _amount) external override returns (bool) {
+    return true;
+  }
 
   function mint(address _to, uint256 tokenId, uint256 _usdcAmount, uint256 _ustcPlusAmount) external override onlyLpManager {
     _safeMint(_to, tokenId);
@@ -68,34 +70,41 @@ contract LpNft is ERC721Upgradeable, OwnableUpgradeable, ILpNft {
   }
 
   function redeem(uint256 tokenId, uint256 percent) public override returns (bool) {
-    require(_getApproved(tokenId) == msg.sender || ownerOf(tokenId) == msg.sender, "no permission");
+    require(ownerOf(tokenId) == msg.sender, "no permission");
     require(slashEndTime(tokenId) > 0, "invalid token");
     require(percent > 0 && percent <= 100, "one value only");
     Params memory _params = paramsOf[tokenId];
 
+    uint256 _usdcPercent = (_params.usdcAmount - _params.usdcTaken) / 100;
+    uint256 _ustcPlusPercent = (_params.ustcPlusAmount - _params.ustcPlusTaken) / 100;
+
+    uint256 _usdcTaken = _usdcPercent * percent;
+    uint256 _ustcPlusTaken = _ustcPlusPercent * percent;
+    uint256 _usdcSlashing = 0;
+    uint256 _ustcPlusSlashing = 0;
+
     uint256 slashingPercentage = slashCurrentAmount(tokenId);
-
-    uint256 _usdcPercent = (_params.usdcAmount - _params.usdcTaken) / (percent + slashingPercentage);
-    uint256 _ustcPlusPercent = (_params.ustcPlusAmount - _params.ustcPlusTaken) / (percent + slashingPercentage);
-
-    uint256 _usdcSlashing = _usdcPercent * slashingPercentage;
-    uint256 _ustcPlusSlashing = _ustcPlusPercent * slashingPercentage;
-
-    uint256 _usdcAmount = _usdcPercent * percent;
-    uint256 _ustcPlusAmount = _ustcPlusPercent * percent;
-
     if (slashingPercentage > 0) {
+      uint256 _usdcAtom = _usdcTaken / 100;
+      uint256 _ustcPlusAtom = _ustcPlusTaken/ 100;
+
+      _usdcSlashing = _usdcAtom * slashingPercentage;
+      _ustcPlusSlashing = _ustcPlusAtom * slashingPercentage;
+
+      _usdcTaken -= _usdcSlashing;
+      _ustcPlusTaken -= _ustcPlusSlashing;
+
       usdc.transfer(dao, _usdcSlashing);
       ustcPlus.transferByLpNft(dao, _ustcPlusSlashing);
     }
 
-    usdc.transfer(msg.sender, _usdcAmount);
-    ustcPlus.transferByLpNft(msg.sender, _ustcPlusAmount);
+    usdc.transfer(msg.sender, _usdcTaken);
+    ustcPlus.transferByLpNft(msg.sender, _ustcPlusTaken);
 
-    paramsOf[tokenId].usdcTaken += _usdcSlashing + _usdcAmount;
-    paramsOf[tokenId].ustcPlusTaken += _ustcPlusSlashing + _ustcPlusAmount;
+    paramsOf[tokenId].usdcTaken += _usdcTaken + _usdcSlashing;
+    paramsOf[tokenId].ustcPlusTaken += _ustcPlusTaken + _ustcPlusSlashing;
 
-    if (percent == 100 || paramsOf[tokenId].usdcAmount - paramsOf[tokenId].usdcTaken == 0) {
+    if (percent == 100) {
       _burn(tokenId);
     }
 
@@ -122,7 +131,7 @@ contract LpNft is ERC721Upgradeable, OwnableUpgradeable, ILpNft {
 
     Params memory _params = paramsOf[tokenId];
 
-    uint256 monthsPassed = (block.timestamp - _params.startTime) % 2592000;   // 2.5 million seconds in 30 days or 1% per 30 days
+    uint256 monthsPassed = (block.timestamp - _params.startTime) / 2592000;   // 2.5 million seconds in 30 days or 1% per 30 days
     uint256 slashingPercentage = 24;
     if (monthsPassed > 24) {
       slashingPercentage = 0;
