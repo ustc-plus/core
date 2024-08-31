@@ -4,3 +4,6 @@
 [submodule "packages/foundry/lib/openzeppelin-contracts"]
 	path = packages/foundry/lib/openzeppelin-contracts
 	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+[submodule "packages/reflect-contracts"]
+	path = packages/reflect-contracts
+	url = https://github.com/reflectfinance/reflect-contracts.git

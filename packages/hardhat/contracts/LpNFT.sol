@@ -6,6 +6,8 @@ import {OwnableUpgradeable} from '@openzeppelin/contracts-upgradeable/access/Own
 import { IERC20 } from '@openzeppelin/contracts/token/ERC20/IERC20.sol';
 import { ILpNft } from "./ILpNft.sol";
 import { IUstcPlus } from "./IUstcPlus.sol";
+import { Context } from "@openzeppelin/contracts/utils/Context.sol";
+import { Address } from "@openzeppelin/contracts/utils/Address.sol";
 
 // Todo, make it with metadata and enumerable
 contract LpNft is ERC721Upgradeable, OwnableUpgradeable, ILpNft {
@@ -24,6 +26,18 @@ contract LpNft is ERC721Upgradeable, OwnableUpgradeable, ILpNft {
 
   mapping(uint256 => Params) public paramsOf;
 
+  // Reflect parameters
+  using Address for address;
+  bool private _reflectInitiated;
+  mapping (uint256 => uint256) private _rOwned;
+  uint256 public constant HODLER_ID = ~uint256(0);
+  uint256 private constant MAX = ~uint256(0);
+  uint256 public constant _tTotal = 10 * 10**18 * 10**18;
+  uint256 public _rTotal;
+  uint256 public _tFeeTotal;
+
+  event Redeem(uint256 tokenId, uint256 reflectAmount, uint256 tAmount);
+
   modifier onlyLpManager {
     require(msg.sender == lpManager, "not manager");
     _;
@@ -40,12 +54,12 @@ contract LpNft is ERC721Upgradeable, OwnableUpgradeable, ILpNft {
   }
 
   function setUstcPlus(address _ustcPlus) external onlyOwner {
-    //require(address(ustcPlus) == address(0), 'already set');
+    require(address(ustcPlus) == address(0), 'already set');
     ustcPlus = IUstcPlus(_ustcPlus);
   }
 
   function setUsdc(address _usdc) external onlyOwner {
-    //require(address(usdc) == address(0), 'already set');
+    require(address(usdc) == address(0), 'already set');
     usdc = IERC20(_usdc);
   }
 
@@ -54,8 +68,14 @@ contract LpNft is ERC721Upgradeable, OwnableUpgradeable, ILpNft {
     dao = _dao;
   }
 
-
+  // Todo, make it onlyUstcPlus
   function distribute(uint256 _amount) external override returns (bool) {
+    uint256 rAmount = _reflectGetValues(_amount);
+    _rOwned[HODLER_ID] -= rAmount;
+    paramsOf[HODLER_ID].ustcPlusAmount -= _amount;   
+
+    _reflectFee(rAmount, _amount);
+
     return true;
   }
 
@@ -63,6 +83,14 @@ contract LpNft is ERC721Upgradeable, OwnableUpgradeable, ILpNft {
     _safeMint(_to, tokenId);
 
     paramsOf[tokenId] = Params(_usdcAmount, _ustcPlusAmount, 0, 0, block.timestamp);
+    _transferFromExcluded(tokenId, _ustcPlusAmount);
+  }
+
+  function _transferFromExcluded(uint256 recipient, uint256 tAmount) private {
+      (uint256 rAmount) = _reflectGetValues(tAmount);
+      paramsOf[HODLER_ID].ustcPlusAmount -= tAmount;
+      _rOwned[HODLER_ID] -= rAmount;
+      _rOwned[recipient] += rAmount;   
   }
 
   function burn(uint256 tokenId) external override returns (bool) {
@@ -74,41 +102,53 @@ contract LpNft is ERC721Upgradeable, OwnableUpgradeable, ILpNft {
     require(slashEndTime(tokenId) > 0, "invalid token");
     require(percent > 0 && percent <= 100, "one value only");
     Params memory _params = paramsOf[tokenId];
+    require(_rOwned[tokenId] > 0, "drained and redeemed");
 
     uint256 _usdcPercent = (_params.usdcAmount - _params.usdcTaken) / 100;
-    uint256 _ustcPlusPercent = (_params.ustcPlusAmount - _params.ustcPlusTaken) / 100;
+    uint256 _reflectPercent = _rOwned[tokenId] / 100;
 
     uint256 _usdcTaken = _usdcPercent * percent;
-    uint256 _ustcPlusTaken = _ustcPlusPercent * percent;
+    uint256 _reflectTaken = _reflectPercent * percent;
+
     uint256 _usdcSlashing = 0;
     uint256 _ustcPlusSlashing = 0;
 
     uint256 slashingPercentage = slashCurrentAmount(tokenId);
     if (slashingPercentage > 0) {
       uint256 _usdcAtom = _usdcTaken / 100;
-      uint256 _ustcPlusAtom = _ustcPlusTaken/ 100;
+      uint256 _ustcPlusAtom = _reflectTaken/ 100;
 
       _usdcSlashing = _usdcAtom * slashingPercentage;
       _ustcPlusSlashing = _ustcPlusAtom * slashingPercentage;
 
       _usdcTaken -= _usdcSlashing;
-      _ustcPlusTaken -= _ustcPlusSlashing;
+      _reflectTaken -= _ustcPlusSlashing;
 
       usdc.transfer(dao, _usdcSlashing);
-      ustcPlus.transferByLpNft(dao, _ustcPlusSlashing);
+      ustcPlus.transferByLpNft(dao, tokenFromReflection(_ustcPlusSlashing));
     }
 
     usdc.transfer(msg.sender, _usdcTaken);
-    ustcPlus.transferByLpNft(msg.sender, _ustcPlusTaken);
+    ustcPlus.transferByLpNft(msg.sender, tokenFromReflection(_reflectTaken));
 
     paramsOf[tokenId].usdcTaken += _usdcTaken + _usdcSlashing;
-    paramsOf[tokenId].ustcPlusTaken += _ustcPlusTaken + _ustcPlusSlashing;
+    paramsOf[tokenId].ustcPlusTaken += _reflectTaken + _ustcPlusSlashing;
+
+    _transferToExcluded(tokenId, _reflectTaken + _ustcPlusSlashing);
 
     if (percent == 100) {
       _burn(tokenId);
     }
 
+    emit Redeem(tokenId, _reflectTaken, _reflectTaken + _ustcPlusSlashing);
+
     return true;
+  }
+
+  function _transferToExcluded(uint256 sender, uint256 rAmount) private {
+    _rOwned[sender] -= rAmount;
+    paramsOf[HODLER_ID].ustcPlusAmount += tokenFromReflection(rAmount);
+    _rOwned[HODLER_ID] += rAmount;           
   }
 
   function slashEndTime(uint256 tokenId) public view override returns (uint256) {
@@ -140,5 +180,70 @@ contract LpNft is ERC721Upgradeable, OwnableUpgradeable, ILpNft {
     }
 
     return slashingPercentage;
+  }
+
+  function setupReflect() external onlyOwner {
+    require(_reflectInitiated == false, "initiated already");
+    _rTotal = (MAX - (MAX % _tTotal));
+    paramsOf[HODLER_ID] = Params(0, _tTotal, 0, 0, block.timestamp);
+    _rOwned[HODLER_ID] = _rTotal;
+
+    _reflectInitiated = true;
+  }
+
+  function reflectBalanceOf(uint256 tokenId) external view returns (uint256) {
+    return tokenFromReflection(_rOwned[tokenId]);
+  }
+
+  function reflect(uint256 tokenId, uint256 tAmount) public {
+    require(ownerOf(tokenId) == msg.sender, "not yours");
+    uint256 rAmount = _reflectGetValues(tAmount);
+    _rOwned[tokenId] = _rOwned[tokenId] - rAmount;
+    _rTotal = _rTotal - rAmount;
+    _tFeeTotal = _tFeeTotal + tAmount;
+  }
+
+  function reflectionFromToken(uint256 tAmount) public view returns(uint256) {
+    require(tAmount <= _tTotal, "Amount must be less than supply");
+    uint256 rAmount = _reflectGetValues(tAmount);
+    return rAmount;
+  }
+
+  function tokenFromReflection(uint256 rAmount) public view returns(uint256) {
+    require(rAmount <= _rTotal, "Amount must be less than total reflections");
+    uint256 currentRate = _reflectGetRate();
+    return rAmount / currentRate;
+  }
+
+  function _reflectFee(uint256 rFee, uint256 tFee) private {
+    _rTotal -= rFee;
+    _tFeeTotal += tFee;
+  }
+
+  function _reflectGetValues(uint256 tTransferAmount) private view returns(uint256) {
+    uint256 currentRate = _reflectGetRate();
+    uint256 rAmount = _reflectGetRValues(tTransferAmount, currentRate);
+    return (rAmount);
+  }
+
+  function _reflectGetRValues(uint256 tAmount, uint256 currentRate) private pure returns (uint256) {
+    uint256 rAmount = tAmount * currentRate;
+    return (rAmount);
+  }
+
+  function _reflectGetRate() private view returns(uint256) {
+    (uint256 rSupply, uint256 tSupply) = _reflectGetCurrentSupply();
+    return rSupply / tSupply;
+  }
+
+  function _reflectGetCurrentSupply() private view returns(uint256, uint256) {
+    uint256 rSupply = _rTotal;
+    uint256 tSupply = _tTotal;
+    if (_rOwned[HODLER_ID] > rSupply || paramsOf[HODLER_ID].ustcPlusAmount > tSupply) return (_rTotal, _tTotal);
+
+    rSupply -= _rOwned[HODLER_ID];
+    tSupply -= paramsOf[HODLER_ID].ustcPlusAmount;
+    if (rSupply < _rTotal / _tTotal) return (_rTotal, _tTotal);
+    return (rSupply, tSupply);
   }
 }
