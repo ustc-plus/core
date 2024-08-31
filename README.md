@@ -2,11 +2,21 @@
 
 **Let's get USTC back!**
 
-*For devs, this project uses the [Nexth](https://github.com/wslyvh/nexth) template. Nexth &ndash; A Next.js + Ethereum starter kit with Viem, Wagmi, Web3Modal, SIWE, Tailwind, daisyUI and more to quickly ship production-ready Web3 Apps*
+_For devs, this project uses the [Nexth](https://github.com/wslyvh/nexth) template. Nexth &ndash; A Next.js + Ethereum starter kit with Viem, Wagmi, Web3Modal, SIWE, Tailwind, daisyUI and more to quickly ship production-ready Web3 Apps_
 
 ![USTC Plus](./USTC_plus.png)
 
+## Smartcontract addresses
+
+### Sepolia
+
+- TestERC20 &ndash; a fake USDC stable coin on Testnets. [View on Etherscan](https://sepolia.etherscan.io/token/0x32e5c809663f371ec25c7a21953647b448394aa3).
+- LpNft &ndash; a USDC and USTC+ pair liquidity pool kept as an NFT. [View on Etherscan](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+- LpManager &ndash; A USTC+ and Liquidity Pool NFTs minter. [View on Etherscan](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+- USTC+ &ndash; A cross-chain Terra UST Classic implementation using Layerzero technology. [View on Etherscan](https://sepolia.etherscan.io/token/0x05df326185A182274058a42cBe613c628f1506B4)
+
 ## Packages 📦
+
 For the user, first, he deposits 50% to mint NFT.
 
 `TODO change parts`
@@ -14,10 +24,10 @@ For the user, first, he deposits 50% to mint NFT.
 - [App](./packages/app) - Next.js 14, with App router
 - [Hardhat](./packages/hardhat/) - EVM based smartcontracts projects
 
-
 ## Development 🛠️
 
 1, Download and install all dependencies. This line of code in the terminal is executed only once.
+
 ```bash
 yarn install
 ```
@@ -27,6 +37,7 @@ Create `app/.env` file based on `app/.env.sample`.
 In the `app/.env` set `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` to the project ID that you obtained from the WalletConnect cloud.
 
 3, Run the website on your laptop and visit [localhost:3000](http://localhost:3000/)
+
 ```bash
 yarn run dev
 ```
