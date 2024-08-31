@@ -43,6 +43,11 @@ contract LpNft is ERC721Upgradeable, OwnableUpgradeable, ILpNft {
     _;
   }
 
+  modifier onlyUstcPlus {
+    require(msg.sender == address(ustcPlus), "not ustc+");
+    _;
+  }
+
   function initialize() public initializer {
     __ERC721_init('USTC+ LP', 'USTCLP');
     __Ownable_init(msg.sender);
@@ -68,8 +73,7 @@ contract LpNft is ERC721Upgradeable, OwnableUpgradeable, ILpNft {
     dao = _dao;
   }
 
-  // Todo, make it onlyUstcPlus
-  function distribute(uint256 _amount) external override returns (bool) {
+  function distribute(uint256 _amount) external override onlyUstcPlus returns (bool) {
     uint256 rAmount = _reflectGetValues(_amount);
     _rOwned[HODLER_ID] -= rAmount;
     paramsOf[HODLER_ID].ustcPlusAmount -= _amount;   
