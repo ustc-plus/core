@@ -3,8 +3,8 @@ import flowbite from 'flowbite-react/tailwind'
 
 const config: Config = {
   theme: {},
-  content: ['./src/**/*.{js,ts,jsx,tsx,mdx}', flowbite.content()],
-  plugins: [require('@tailwindcss/typography'), require('daisyui'), flowbite.plugin()],
+  content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
+  plugins: [require('@tailwindcss/typography'), require('daisyui')],
   daisyui: {
     // More details at https://daisyui.com/docs/config/
     themes: ['dark'],

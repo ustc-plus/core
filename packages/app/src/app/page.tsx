@@ -1,223 +1,132 @@
+'use client'
+
 import { CardList } from '@/components/CardList'
 import { SITE_DESCRIPTION, SITE_NAME } from '@/utils/site'
 import { EXAMPLE_ITEMS } from './examples/examples'
-import { Carousel, Button } from 'flowbite-react'
 
 export default function Home() {
   return (
     <>
       <h2 className='text-2xl mb-2'>{SITE_NAME}</h2>
       <p>{SITE_DESCRIPTION}</p>
-      <Button>Click Me</Button>
+      <div role='tablist' className='mt-4 tabs tabs-lifted'>
+        <input type='radio' name='main_tabs' role='tab' className='tab' aria-label='Liquidity' defaultChecked={true} />
+        <div role='tabpanel' className='tab-content bg-base-100 border-base-300 rounded-box p-6'>
+          <h3 className='text-xl mb-2'>Create USTC+ and Ustc+ Liquidity</h3>
+          <input type='text' placeholder='usdc' className='input input-bordered w-full max-w-xs' />
+          <button className='mx-5 btn btn-primary'>Mint</button>
+          <div className='content-center'>
+            <ul className='steps'>
+              <li className='step step-primary'>Approve USDC</li>
+              <li className='step step-primary'>Start Minting</li>
+              <li className='step'>Buy USTC+</li>
+              <li className='step'>Mint Liquidity NFT</li>
+            </ul>
+          </div>
+          <div className='divider'></div>
+          <div className='card bg-base-300 rounded-box grid h-20 place-items-center'>
+            Estimated received:
+            <br />
+            USDC = 40
+            <br />
+            USTC+ = 200
+          </div>
+        </div>
 
-      <div className='carousel rounded-box w-64'>
-        <div className='carousel-item w-full'>
-          <img
-            src='https://img.daisyui.com/images/stock/photo-1559703248-dcaaec9fab78.webp'
-            className='w-full'
-            alt='Tailwind CSS Carousel component'
-          />
-        </div>
-        <div className='carousel-item w-full'>
-          <img
-            src='https://img.daisyui.com/images/stock/photo-1565098772267-60af42b81ef2.webp'
-            className='w-full'
-            alt='Tailwind CSS Carousel component'
-          />
-        </div>
-        <div className='carousel-item w-full'>
-          <img
-            src='https://img.daisyui.com/images/stock/photo-1572635148818-ef6fd45eb394.webp'
-            className='w-full'
-            alt='Tailwind CSS Carousel component'
-          />
-        </div>
-        <div className='carousel-item w-full'>
-          <img
-            src='https://img.daisyui.com/images/stock/photo-1494253109108-2e30c049369b.webp'
-            className='w-full'
-            alt='Tailwind CSS Carousel component'
-          />
-        </div>
-        <div className='carousel-item w-full'>
-          <img
-            src='https://img.daisyui.com/images/stock/photo-1550258987-190a2d41a8ba.webp'
-            className='w-full'
-            alt='Tailwind CSS Carousel component'
-          />
-        </div>
-        <div className='carousel-item w-full'>
-          <img
-            src='https://img.daisyui.com/images/stock/photo-1559181567-c3190ca9959b.webp'
-            className='w-full'
-            alt='Tailwind CSS Carousel component'
-          />
-        </div>
-        <div className='carousel-item w-full'>
-          <img
-            src='https://img.daisyui.com/images/stock/photo-1601004890684-d8cbf643f5f2.webp'
-            className='w-full'
-            alt='Tailwind CSS Carousel component'
-          />
-        </div>
-      </div>
-
-      {/*Here is the main body*/}
-      <div className='h-56 sm:h-64 xl:h-80 2xl:h-96'>
-        <Carousel>
-          <div className='flex h-full items-center justify-center bg-gray-400 dark:bg-gray-700 dark:text-white'>
-            Slide 1
-          </div>
-          <div className='flex h-full items-center justify-center bg-gray-400 dark:bg-gray-700 dark:text-white'>
-            Slide 2
-          </div>
-          <div className='flex h-full items-center justify-center bg-gray-400 dark:bg-gray-700 dark:text-white'>
-            Slide 3
-          </div>
-        </Carousel>
-      </div>
-      <div className='mt-4'>
-        <Carousel slide={false}>
-          <div className='flex h-full items-center justify-center bg-gray-400 dark:bg-gray-700 dark:text-white'>
-            Swap
-            <div className='mb-4 border-b border-gray-200 dark:border-gray-700'>
-              <ul
-                className='flex flex-wrap -mb-px text-sm font-medium text-center'
-                id='default-tab'
-                data-tabs-toggle='#default-tab-content'
-                role='tablist'>
-                <li className='me-2' role='presentation'>
-                  <button
-                    className='inline-block p-4 border-b-2 rounded-t-lg'
-                    id='profile-tab'
-                    data-tabs-target='#profile'
-                    type='button'
-                    role='tab'
-                    aria-controls='profile'
-                    aria-selected='false'>
-                    Profile
-                  </button>
-                </li>
-                <li className='me-2' role='presentation'>
-                  <button
-                    className='inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'
-                    id='dashboard-tab'
-                    data-tabs-target='#dashboard'
-                    type='button'
-                    role='tab'
-                    aria-controls='dashboard'
-                    aria-selected='false'>
-                    Dashboard
-                  </button>
-                </li>
-                <li className='me-2' role='presentation'>
-                  <button
-                    className='inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'
-                    id='settings-tab'
-                    data-tabs-target='#settings'
-                    type='button'
-                    role='tab'
-                    aria-controls='settings'
-                    aria-selected='false'>
-                    Settings
-                  </button>
-                </li>
-                <li role='presentation'>
-                  <button
-                    className='inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'
-                    id='contacts-tab'
-                    data-tabs-target='#contacts'
-                    type='button'
-                    role='tab'
-                    aria-controls='contacts'
-                    aria-selected='false'>
-                    Contacts
-                  </button>
-                </li>
-              </ul>
-            </div>
-            <div id='default-tab-content'>
-              <div
-                className='hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800'
-                id='profile'
-                role='tabpanel'
-                aria-labelledby='profile-tab'>
-                <p className='text-sm text-gray-500 dark:text-gray-400'>
-                  This is some placeholder content the{' '}
-                  <strong className='font-medium text-gray-800 dark:text-white'>
-                    Profile tab's associated content
-                  </strong>
-                  . Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps
-                  classes to control the content visibility and styling.
+        <input type='radio' name='main_tabs' role='tab' className='tab' aria-label='Redeem' />
+        <div role='tabpanel' className='tab-content bg-base-100 border-base-300 rounded-box p-6'>
+          <h3 className='text-xl mb-2'>Redeem your USDC and USTC+</h3>
+          <div>
+            <div className='card card-compact bg-accent text-accent-content w-96 shadow-xl'>
+              <figure>
+                <h2 className='card-title content-center'>Lp #1!</h2>
+              </figure>
+              <div className='card-body'>
+                <p>Liquidity balance</p>
+                <p>USDC: 100</p>
+                <p>
+                  USTC+: 1342 <span className='badge badge-md badge-secondary'>+343 fee</span>
                 </p>
-              </div>
-              <div
-                className='hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800'
-                id='dashboard'
-                role='tabpanel'
-                aria-labelledby='dashboard-tab'>
-                <p className='text-sm text-gray-500 dark:text-gray-400'>
-                  This is some placeholder content the{' '}
-                  <strong className='font-medium text-gray-800 dark:text-white'>
-                    Dashboard tab's associated content
-                  </strong>
-                  . Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps
-                  classes to control the content visibility and styling.
-                </p>
-              </div>
-              <div
-                className='hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800'
-                id='settings'
-                role='tabpanel'
-                aria-labelledby='settings-tab'>
-                <p className='text-sm text-gray-500 dark:text-gray-400'>
-                  This is some placeholder content the{' '}
-                  <strong className='font-medium text-gray-800 dark:text-white'>
-                    Settings tab's associated content
-                  </strong>
-                  . Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps
-                  classes to control the content visibility and styling.
-                </p>
-              </div>
-              <div
-                className='hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800'
-                id='contacts'
-                role='tabpanel'
-                aria-labelledby='contacts-tab'>
-                <p className='text-sm text-gray-500 dark:text-gray-400'>
-                  This is some placeholder content the{' '}
-                  <strong className='font-medium text-gray-800 dark:text-white'>
-                    Contacts tab's associated content
-                  </strong>
-                  . Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps
-                  classes to control the content visibility and styling.
-                </p>
+                <div className='card-actions justify-end'>
+                  <button
+                    className='btn btn-primary'
+                    onClick={() => (document.getElementById('my_modal_2') as HTMLDialogElement)?.showModal()}>
+                    redeem (Slash 23%)
+                  </button>
+                </div>
+                <div className='divider'></div>
+                <p>To get fully: 100 more days</p>
               </div>
             </div>
           </div>
-          <div className='flex h-full items-center justify-center bg-gray-400 dark:bg-gray-700 dark:text-white'>
-            Lock
+        </div>
+
+        <input type='radio' name='main_tabs' role='tab' className='tab' aria-label='Unwrap' />
+        <div role='tabpanel' className='tab-content bg-base-100 border-base-300 rounded-box p-6'>
+          <h3 className='text-xl mb-2'>Unwrap USTC+ to USTC</h3>
+          <input
+            key='redeem_input'
+            type='text'
+            placeholder='Amount in Percent'
+            className='input input-bordered w-full max-w-xs'
+          />
+          <input key='redeem_range' type='range' min={0} max='100' className='range range-primary' />
+          <button className='mx-5 btn btn-primary'>Redeem (23% slashing)</button>
+          <input type='text' placeholder='Luna Classic Address' className='input input-bordered w-full max-w-xs' />
+          <button className='mx-5 btn btn-primary'>Unwrap</button>
+          <div className='divider'></div>
+          <div>
+            Burning your USTC+ on <span className='badge badge-md badge-accent'>Ethereum</span> in exchange for USTC on{' '}
+            <span className='badge badge-md badge-accent'>Luna Classic</span> network.
           </div>
-          <div className='flex h-full items-center justify-center bg-gray-400 dark:bg-gray-700 dark:text-white'>
-            Bridge
-          </div>
-          <div className='flex h-full items-center justify-center bg-gray-400 dark:bg-gray-700 dark:text-white'>
-            Faucet
-          </div>
-        </Carousel>
+        </div>
+
+        <input type='radio' name='main_tabs' role='tab' className='tab' aria-label='Bridge' />
+        <div role='tabpanel' className='tab-content bg-base-100 border-base-300 rounded-box p-6'>
+          <h3 className='text-xl mb-2'>
+            Bridge at most <span className='badge badge-md badge-accent'>231 USTC+ between networks</span>
+          </h3>
+          <select className='select w-full max-w-xs'>
+            <option value={1} selected>
+              Ethereum
+            </option>
+          </select>
+          <div className='divider divider-horizontal'>To</div>
+          <select className='select w-full max-w-xs'>
+            <option value={1} selected>
+              Linea
+            </option>
+          </select>
+          <br />
+          <input key='redeem_input' type='text' placeholder='' className='input input-bordered w-full max-w-xs' /> USTC+
+          <input key='redeem_range' type='range' min={0} max='100' className='range range-primary' />
+          <button className='mx-5 btn btn-primary'>Unwrap</button>
+        </div>
       </div>
 
-      {/* Examples are only used for demo purposes. Feel free to delete this section */}
-      <div className='mt-4'>
-        <h3 className='text-lg mb-2'>New examples</h3>
-        <p className='mb-4'>
-          The following examples are used for demo purposes and help you bootstrap development. You can find the example
-          the main repo at <code>src/app/examples</code>. Feel free to delete this section and the examples folder for
-          your own App.
-        </p>
-
-        <CardList items={EXAMPLE_ITEMS} />
-      </div>
+      <dialog id='my_modal_2' className='modal modal-bottom sm:modal-middle'>
+        <div className='modal-box'>
+          <h3 className='font-bold text-lg'>
+            Redeem from Lp #1 for <span className='badge badge-md badge-accent'>34 USDC</span> and{' '}
+            <span className='badge badge-md badge-accent'>45 USTC+</span>
+          </h3>
+          <div className='py-4'>
+            <input
+              key='redeem_input'
+              type='text'
+              placeholder='Amount in Percent'
+              className='input input-bordered w-full max-w-xs'
+            />
+            <input key='redeem_range' type='range' min={0} max='100' className='range range-primary' />
+            <button className='mx-5 btn btn-primary'>Redeem (23% slashing)</button>
+            <div className='divider'></div>
+            <div>Redeeming 100% of tokens will burn this NFT permanently</div>
+          </div>
+        </div>
+        <form method='dialog' className='modal-backdrop'>
+          <button>close</button>
+        </form>
+      </dialog>
     </>
   )
 }
