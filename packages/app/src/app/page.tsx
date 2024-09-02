@@ -86,16 +86,12 @@ export default function Home() {
           <h3 className='text-xl mb-2'>
             Bridge at most <span className='badge badge-md badge-accent'>231 USTC+ between networks</span>
           </h3>
-          <select className='select w-full max-w-xs'>
-            <option value={1} selected>
-              Ethereum
-            </option>
+          <select className='select w-full max-w-xs' value={1}>
+            <option value={1}>Ethereum</option>
           </select>
           <div className='divider divider-horizontal'>To</div>
-          <select className='select w-full max-w-xs'>
-            <option value={1} selected>
-              Linea
-            </option>
+          <select className='select w-full max-w-xs' value={15421}>
+            <option value={15421}>Linea</option>
           </select>
           <br />
           <input key='redeem_input' type='text' placeholder='' className='input input-bordered w-full max-w-xs' /> USTC+
