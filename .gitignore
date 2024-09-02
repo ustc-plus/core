@@ -58,3 +58,4 @@ next-env.d.ts
 # subgraph
 **/subgraph/node_modules
 **/subgraph/build
+packages/backend/env/binance.env
