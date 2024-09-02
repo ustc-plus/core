@@ -21,8 +21,13 @@ For the user, first, he deposits 50% to mint NFT.
 
 `TODO change parts`
 
-- [App](./packages/app) - Next.js 14, with App router
-- [Hardhat](./packages/hardhat/) - EVM based smartcontracts projects
+- [App](./packages/app) - Frontend
+- [Contracts](./packages/hardhat/) - Liquidity smartcontracts
+- [Ustc_plus](./packages/ustc_plus/) - Ustc+ smartcontract.
+
+The USTC+ smartcontract is based on LayerZero which in turn based on old Hardhat packages.
+Meanwhile, the Liquidity smartcontracts are based on the most recent version of Hardhat and Openzeppelin Upgradeables.
+The recent hardhat used by openzeppelin upgradeables and layerzero are not compatible, therefore we made two separate packages.
 
 ## Development 🛠️
 
