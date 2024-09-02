@@ -60,7 +60,11 @@ export default function RootLayout(props: PropsWithChildren) {
         />
       </head>
 
-      <body>
+      <body
+        style={{
+          background: 'url("bg.jpg")',
+          backgroundSize: 'cover',
+        }}>
         <Web3Provider initialState={initialState}>
           <NotificationProvider>
             <Layout>{props.children}</Layout>
