@@ -20,37 +20,14 @@ import HttpStatusCodes from '@src/common/HttpStatusCodes'
 import { RouteError } from '@src/common/classes'
 import { NodeEnvs } from '@src/common/misc'
 
-import { Spot, RestMarketTypes, RestTradeTypes, TimeInForce, Side, OrderType } from '@binance/connector-typescript'
-
 import { Cron } from 'croner'
-
-const API_KEY = process.env.BINANCE_API_KEY!
-const API_SECRET = process.env.BINANCE_SECRET_KEY!
-const BASE_URL = process.env.BINANCE_API_URL!
-const binanceClient = new Spot(API_KEY, API_SECRET, { baseURL: BASE_URL })
-let binanceUsdcDepositAddress = ''
-
-binanceClient
-  .depositAddress('USDT')
-  .then((response) => {
-    binanceUsdcDepositAddress = response.address
-  })
-  .catch((error) => {
-    console.error(error)
-  })
-
-type Hello = {
-  unixtimestamp: number
-  depositAddress: string
-  ustcPrice: number
-  minUsdt: number
-  maxUsdt: number
-}
+import { txToStartMinting } from '@src/services/Blockchain'
+import { Info, getInfo, trade, getOrderInfo, getDepositStatus } from '@src/services/Binance'
 
 // **** Variables **** //
 
 const app = express()
-let info: Hello
+let info: Info
 
 // **** Setup **** //
 
@@ -65,23 +42,9 @@ const job = Cron(
   '*/10 * * * * *',
   /* Function (optional) */
   async () => {
-    let binanceUstcPrice = await getUstcPrice()
-    if (binanceUstcPrice === undefined) {
-      return
-    }
-
-    let exchangeInfo = await getExchangeInfo(binanceUstcPrice)
-    if (typeof exchangeInfo === 'string') {
-      console.error(`getExchangeInfo Error: ${exchangeInfo}`)
-      return
-    }
-
-    info = {
-      unixtimestamp: Date.now(),
-      depositAddress: binanceUsdcDepositAddress,
-      ustcPrice: binanceUstcPrice,
-      minUsdt: exchangeInfo.minUsdt,
-      maxUsdt: exchangeInfo.maxUsdt,
+    let newInfo = await getInfo()
+    if (newInfo !== undefined) {
+      info = newInfo
     }
   }
 )
@@ -149,101 +112,80 @@ app.get('/hello', async (_: Request, res: Response) => {
 if (process.env.NODE_ENV! === 'development') {
   app.get('/trade/:usdt', async (req: Request, res: Response) => {
     let usdt = parseFloat(req.params.usdt)
-    let ustcPlusPrice: number = 0.0
-    usdt = 5.01588251
 
-    console.log(`For testing we will use ${usdt} instead ${req.params.usdt} USDT for trading`)
+    let tradeRes = await trade(usdt)
 
-    let binanceUstcPrice = await getUstcPrice()
-    if (binanceUstcPrice === undefined) {
-      return res.json({ message: 'failed to get ustc price.. please try again later' })
-    } else {
-      ustcPlusPrice = binanceUstcPrice
+    if (typeof tradeRes === 'string') {
+      return res.json({ message: tradeRes })
     }
 
-    let exchangeInfo = await getExchangeInfo(ustcPlusPrice)
-    if (typeof exchangeInfo === 'string') {
-      return res.json({ message: exchangeInfo })
-    }
-
-    if (usdt < exchangeInfo.minUsdt || usdt > exchangeInfo.maxUsdt) {
-      return res.json({
-        message: `Given USDT must be at least ${exchangeInfo.minUsdt} and maximum ${exchangeInfo.maxUsdt} USDT`,
-        minUsdt: exchangeInfo.minUsdt,
-        maxUsdt: exchangeInfo.maxUsdt,
-      })
-    }
-
-    const options = getOrderOption(usdt, ustcPlusPrice, exchangeInfo)
-
-    try {
-      let binanceRes: RestTradeTypes.newOrderResponse = await binanceClient.newOrder(
-        'USTCUSDT',
-        Side.BUY,
-        OrderType.LIMIT,
-        options
-      )
-      if (binanceRes.status === 'FILLED') {
-        return res.json({
-          ustcPlusPrice,
-          usdt,
-          qty: binanceRes.executedQty,
-          completed: true,
-          orderId: binanceRes.orderId,
-        })
-      } else if (
-        ['CANCELED', 'PENDING_CANCEL', 'REJECTED', 'EXPIRED', 'EXPIRED_IN_MATCH'].indexOf(binanceRes.status!) > -1
-      ) {
-        return res.json({ message: `Order status: ${binanceRes.status}` })
-      } else {
-        return res.json({
-          ustcPlusPrice,
-          usdt,
-          qty: binanceRes.executedQty,
-          completed: false,
-          orderId: binanceRes.orderId,
-        })
-      }
-    } catch (error) {
-      console.error(`Binance returned error for new order`)
-      console.error(error)
-      return res.json({ ustcPlusPrice, usdt, message: error })
-    }
+    return res.json(tradeRes)
   })
 }
 
-app.get('/status/:id', async (req: Request, res: Response) => {
-  let id = parseFloat(req.params.id)
-
-  const options: RestTradeTypes.getOrderOptions = {
-    recvWindow: 5000,
-    orderId: id,
+app.get('/start-minting/:chainId/:txid', async (req: Request, res: Response) => {
+  let chainId = parseInt(req.params.chainId)
+  if (isNaN(chainId) || chainId == 0) {
+    return res.json({ message: `invalid chain id` })
   }
 
-  try {
-    let binanceRes: RestTradeTypes.getOrderResponse = await binanceClient.getOrder('USTCUSDT', options)
-    if (binanceRes.status === 'FILLED') {
-      return res.json({
-        qty: binanceRes.executedQty,
-        completed: true,
-        orderId: binanceRes.orderId,
-      })
-    } else if (
-      ['CANCELED', 'PENDING_CANCEL', 'REJECTED', 'EXPIRED', 'EXPIRED_IN_MATCH'].indexOf(binanceRes.status!) > -1
-    ) {
-      return res.json({ message: `Order status: ${binanceRes.status}` })
+  let txid = req.params.txid
+
+  const startMinting = await txToStartMinting(chainId, txid)
+  if (typeof startMinting === 'string') {
+    return res.json({ message: startMinting })
+  }
+
+  if (info === undefined) {
+    return res.json({ message: `Binance information was reset` })
+  }
+
+  txid = '0x22521ce04050d09c7de21f52895e4d65d1a8fe1fc36a69b4360346f07fc07cd3'
+  console.log(`Initially was given ${req.params.txid} but we will use ${txid} instead`)
+
+  const depositStatus = await getDepositStatus(txid)
+
+  const responseData = {
+    status: depositStatus,
+    timestamp: startMinting.timestamp,
+    nftId: parseInt(startMinting.depositId),
+    orderCompleted: false,
+    orderId: 0,
+    ustcPlusAmount: '0',
+    message: '',
+  }
+
+  if (depositStatus == 1) {
+    console.log(`Data was deposited, therefore we will trade it by buying ${startMinting.usdcAmount}...`)
+
+    console.log(`Instead trading ${startMinting.usdcAmount} we will trade ${info.minUsdt}`)
+    const order = await trade(info.minUsdt)
+    if (typeof order === 'string') {
+      responseData.message = order
     } else {
-      return res.json({
-        qty: binanceRes.executedQty,
-        completed: false,
-        orderId: binanceRes.orderId,
-      })
+      responseData.orderId = order.orderId
+      responseData.orderCompleted = order.completed
+      responseData.ustcPlusAmount = order.qty!
     }
-  } catch (error) {
-    console.error(`Binance returned error for order status`)
-    console.error(error)
-    return res.json({ message: error })
+  } else if (depositStatus == -1) {
+    console.log(`No deposit`)
+  } else {
+    console.log(`Waiting for confirmation`)
   }
+
+  return res.json(responseData)
+})
+
+app.get('/status/:id', async (req: Request, res: Response) => {
+  let id = parseInt(req.params.id)
+
+  const orderInfo = await getOrderInfo(id)
+
+  if (typeof orderInfo === 'string') {
+    return res.json({ message: orderInfo })
+  }
+
+  return res.json(orderInfo)
 })
 
 // **** Export default **** //
@@ -251,70 +193,3 @@ app.get('/status/:id', async (req: Request, res: Response) => {
 export default app
 
 ///////////////////////////////////
-
-const getUstcPrice = async (): Promise<number | undefined> => {
-  try {
-    let binanceRes: RestMarketTypes.currentAveragePriceResponse = await binanceClient.currentAveragePrice('USTCUSDT')
-    return parseFloat(binanceRes.price)
-  } catch (error) {
-    console.error(`Failed to get ustc price from binance: ` + error)
-    return undefined
-  }
-}
-
-type ExchangeInfo = {
-  ustcPrecision: number
-  usdtPrecision: number
-  minUsdt: number
-  maxUsdt: number
-}
-
-const getExchangeInfo = async (ustcPrice: number): Promise<ExchangeInfo | string> => {
-  const info: ExchangeInfo = {
-    ustcPrecision: 8,
-    usdtPrecision: 8,
-    minUsdt: ustcPrice,
-    maxUsdt: ustcPrice,
-  }
-
-  const infoOptions: RestMarketTypes.exchangeInformationOptions = {
-    symbol: 'USTCUSDT',
-  }
-
-  try {
-    let binanceRes: RestMarketTypes.exchangeInformationResponse = await binanceClient.exchangeInformation(infoOptions)
-    for (let filter of binanceRes.symbols[0].filters) {
-      if (filter.filterType === 'PRICE_FILTER') {
-        info.ustcPrecision = filter.tickSize.indexOf('1') - 1
-        if (info.ustcPrecision == -1) {
-          info.ustcPrecision = 0
-        }
-      } else if (filter.filterType === 'LOT_SIZE') {
-        info.usdtPrecision = filter.stepSize.indexOf('1') - 1
-        if (info.usdtPrecision == -1) {
-          info.usdtPrecision = 0
-        }
-      } else if (filter.filterType === 'NOTIONAL') {
-        info.minUsdt = parseFloat(filter.minNotional) + ustcPrice
-        info.maxUsdt = parseFloat(filter.maxNotional)
-      }
-    }
-
-    return info
-  } catch (error) {
-    console.error(`Binance returned error for exchange info`)
-    console.error(error)
-    return error
-  }
-}
-
-const getOrderOption = (usdt: number, ustcPrice: number, info: ExchangeInfo): RestTradeTypes.newOrderOptions => {
-  return {
-    timeInForce: TimeInForce.GTC,
-    // Quantity precision depends on the stepSize parameter of LOT_SIZE filter
-    quantity: parseFloat(Math.ceil(usdt / ustcPrice).toFixed(info.usdtPrecision)),
-    // Price precision depends on the tickSize parameter of PRICE_FILTER filter
-    price: parseFloat(ustcPrice.toFixed(info.ustcPrecision)),
-    recvWindow: 5000,
-  }
-}
