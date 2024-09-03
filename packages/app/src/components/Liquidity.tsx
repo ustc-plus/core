@@ -15,12 +15,29 @@ import { useNotifications } from '@/context/Notifications'
 import { isSupportedNetwork, ETH_CHAIN_NAMES } from '@/utils/network'
 import { GetAbi, GetAddr } from '@/utils/web3'
 
-type Hello = {
+function timeout(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
+type Info = {
   unixtimestamp: number
   depositAddress: string
   ustcPrice: number
   minUsdt: number
   maxUsdt: number
+}
+
+type BinanceOrderStatus = -1 | 0 | 6 | 1
+
+type StartMinting = {
+  status?: BinanceOrderStatus
+  timestamp?: number
+  nftId?: number
+  orderCompleted?: boolean
+  orderCompletion?: string
+  orderId?: number
+  ustcPlusAmount?: string
+  message?: string
 }
 
 // export const Liquidity = ({ address, tokenAddress, toFixed, onBalanceChange, className }: TokenBalanceProps) => {
@@ -38,7 +55,7 @@ export const Liquidity = () => {
     },
   })
   const [allowanceAmount, setAllowanceAmount] = useState<number>(0)
-  const [info, setInfo] = useState<Hello>()
+  const [info, setInfo] = useState<Info>()
   const [lpNftAddress, setLpNftAddress] = useState<`0x${string}`>()
   const [lpManagerAddress, setLpManagerAddress] = useState<`0x${string}`>()
   const [usdtAddress, setUsdtAddress] = useState<`0x${string}`>()
@@ -46,6 +63,11 @@ export const Liquidity = () => {
   const [approved, setApproved] = useState<boolean>(false)
   const [processing, setProcessing] = useState<boolean>(false)
   const [mintingStarted, setMintingStarted] = useState<boolean>(false)
+  const [orderStatus, setOrderStatus] = useState<BinanceOrderStatus>(-1)
+  const [orderId, setOrderId] = useState<number>()
+  const [ustcAmount, setUstcAmount] = useState<number>()
+  const [nftId, setNftId] = useState<number>()
+  const [amountAttempt, setAmountAttempt] = useState<number>(0)
 
   // Set the Smartcontract addresses.
   // Depends on:
@@ -98,9 +120,26 @@ export const Liquidity = () => {
     args: [parseUnits(depositAmount.toString(), parseInt(process.env.NEXT_PUBLIC_USDT_DECIMALS!))],
   })
 
+  const { error: endMintingEstimateError } = useSimulateContract({
+    query: {
+      enabled:
+        mintingStarted &&
+        processing &&
+        approved &&
+        account.chain !== undefined &&
+        info !== undefined &&
+        lpManagerAddress !== undefined,
+    },
+    abi: GetAbi('lpManagerAbi'),
+    address: lpManagerAddress,
+    functionName: 'endMinting',
+    args: [nftId!, parseEther(ustcAmount!.toString())],
+  })
+
   // Prepare approve transaction and it's result
   const { data: approveData, writeContract: writeApprove } = useWriteContract()
   const { data: startMintingData, writeContract: writeStartMinting } = useWriteContract()
+  const { data: endMintingData, writeContract: writeEndMinting } = useWriteContract()
 
   // Approve transaction status
   const {
@@ -117,6 +156,14 @@ export const Liquidity = () => {
     isSuccess: startMintingTxSuccess,
   } = useWaitForTransactionReceipt({
     hash: startMintingData,
+  })
+
+  const {
+    isLoading: endMintingIsLoading,
+    error: endMintingTxError,
+    isSuccess: endMintingTxSuccess,
+  } = useWaitForTransactionReceipt({
+    hash: endMintingData,
   })
 
   useEffect(() => {
@@ -161,6 +208,27 @@ export const Liquidity = () => {
     }
   }, [startMintingTxSuccess, startMintingTxError])
 
+  useEffect(() => {
+    if (endMintingTxSuccess) {
+      Add(`Congratulations! Mint process ended!`, {
+        type: 'success',
+        href: account.chain?.blockExplorers?.default.url
+          ? `${account.chain.blockExplorers.default.url}/tx/${endMintingData}`
+          : undefined,
+      })
+      setMintingStarted(false)
+      setProcessing(false)
+      setNftId(undefined)
+      setOrderId(undefined)
+      setOrderStatus(-1)
+    } else if (endMintingTxError) {
+      setProcessing(false)
+      Add(`Approve error: ${endMintingTxError.cause}`, {
+        type: 'error',
+      })
+    }
+  }, [endMintingTxSuccess, endMintingTxError])
+
   // Every 1 second fetch the trading balance from server
   useInterval(async () => {
     const url = process.env.NEXT_PUBLIC_BACKEND_URL!
@@ -171,7 +239,7 @@ export const Liquidity = () => {
     if (data['message'] !== undefined) {
       console.error('Failed to get information: ' + data['message'])
     } else {
-      setInfo(data as Hello)
+      setInfo(data as Info)
     }
   }, 1000)
 
@@ -207,18 +275,49 @@ export const Liquidity = () => {
   }, [allowanceAmount, depositAmount])
 
   const onStartMinting = async (txid: string) => {
+    if (amountAttempt > 3) {
+      Add(`Server error: 3 attempts, but still no result. contact us on telegram :(`, { type: 'error' })
+      setAmountAttempt(0)
+      setProcessing(false)
+      setMintingStarted(false)
+      return
+    }
     const url = process.env.NEXT_PUBLIC_BACKEND_URL!
 
-    const response = await fetch(`${url}/trade/${account.chainId}/${txid}`)
+    const response = await fetch(`${url}/start-minting/${account.chainId}/${txid}`)
     const data = await response.json()
 
-    if (data['message'] !== undefined) {
-      console.error('Failed to get information: ' + data['message'])
-    } else {
-      setInfo(data as Hello)
+    if (data['message'] !== undefined && (data['message'] as string).length > 0) {
+      Add(`Server error: ${data['message']}`, {
+        type: 'error',
+      })
+      setProcessing(false)
+      setMintingStarted(false)
+      return
     }
 
-    onMint()
+    let startMinting = data as StartMinting
+    // Everything is ready, and order is completed.
+    if (startMinting.orderCompleted) {
+      Add(`${startMinting.ustcPlusAmount} were minted successfully. Let's mint LP`, { type: 'success' })
+      setUstcAmount(parseInt(startMinting.ustcPlusAmount!))
+      setNftId(startMinting.nftId!)
+      onMint()
+    } else {
+      // Order was not completed, let's first check the deposit stats
+      if (startMinting.status === -1) {
+        Add(`Deposit was not received by the server, tring again in 2 seconds`, { type: 'warning' })
+        setAmountAttempt(amountAttempt + 1)
+        await timeout(2000)
+        onStartMinting(txid)
+        return
+      } else {
+        Add(`Deposit is in pending, ${startMinting.orderCompletion}`, { type: 'info' })
+        await timeout(2000)
+        setAmountAttempt(amountAttempt + 1)
+        onStartMinting(txid)
+      }
+    }
   }
 
   const onMint = () => {
@@ -272,16 +371,30 @@ export const Liquidity = () => {
         Add(`Mint starting simulation failed: ${startMintingEstimateError.cause}`, {
           type: 'error',
         })
-
-        writeApprove({
-          abi: GetAbi('lpManagerAbi'),
-          address: lpManagerAddress!,
-          functionName: 'startMinting',
-          args: [parseUnits(depositAmount.toString(), parseInt(process.env.NEXT_PUBLIC_USDT_DECIMALS!))],
-        })
-        return
       }
+
+      writeStartMinting({
+        abi: GetAbi('lpManagerAbi'),
+        address: lpManagerAddress!,
+        functionName: 'startMinting',
+        args: [parseUnits(depositAmount.toString(), parseInt(process.env.NEXT_PUBLIC_USDT_DECIMALS!))],
+      })
+      return
     }
+
+    if (endMintingEstimateError) {
+      setProcessing(false)
+      Add(`Mint ending failed: ${endMintingEstimateError.cause}`, {
+        type: 'error',
+      })
+    }
+
+    writeEndMinting({
+      abi: GetAbi('lpManagerAbi'),
+      address: lpManagerAddress!,
+      functionName: 'endMinting',
+      args: [nftId!, parseEther(ustcAmount!.toString())],
+    })
 
     //setProcessing(false);
   }

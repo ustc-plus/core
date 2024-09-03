@@ -69,7 +69,7 @@ export const getInfo = async (): Promise<undefined | Info> => {
 
 // Returns -1 if no deposit was found, otherwise returns status parameter of:
 // https://binance.github.io/binance-connector-node/module-Wallet.html#depositHistory
-export const getDepositStatus = async (txid: string): Promise<number> => {
+export const getDepositStatus = async (txid: string): Promise<RestWalletTypes.depositHistoryResponse | undefined> => {
   const options: RestWalletTypes.depositHistoryOptions = {
     coin: 'USDT',
     txId: txid,
@@ -79,14 +79,14 @@ export const getDepositStatus = async (txid: string): Promise<number> => {
     let binanceRes: RestWalletTypes.depositHistoryResponse[] = await binanceClient.depositHistory(options)
     if (binanceRes.length == 0) {
       console.log(`No deposits by given txid`)
-      return -1
+      return undefined
     }
 
-    return binanceRes[0].status
+    return binanceRes[0]
   } catch (error) {
     console.error(`Binance returned error for order status`)
     console.error(error)
-    return -1
+    return undefined
   }
 }
 

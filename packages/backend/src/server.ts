@@ -146,16 +146,17 @@ app.get('/start-minting/:chainId/:txid', async (req: Request, res: Response) => 
   const depositStatus = await getDepositStatus(txid)
 
   const responseData = {
-    status: depositStatus,
+    status: depositStatus?.status,
     timestamp: startMinting.timestamp,
     nftId: parseInt(startMinting.depositId),
     orderCompleted: false,
+    orderCompletion: depositStatus?.confirmTimes,
     orderId: 0,
     ustcPlusAmount: '0',
     message: '',
   }
 
-  if (depositStatus == 1) {
+  if (depositStatus?.status == 1) {
     console.log(`Data was deposited, therefore we will trade it by buying ${startMinting.usdcAmount}...`)
 
     console.log(`Instead trading ${startMinting.usdcAmount} we will trade ${info.minUsdt}`)
@@ -167,7 +168,7 @@ app.get('/start-minting/:chainId/:txid', async (req: Request, res: Response) => 
       responseData.orderCompleted = order.completed
       responseData.ustcPlusAmount = order.qty!
     }
-  } else if (depositStatus == -1) {
+  } else if (depositStatus == undefined) {
     console.log(`No deposit`)
   } else {
     console.log(`Waiting for confirmation`)
