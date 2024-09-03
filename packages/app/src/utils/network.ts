@@ -1,11 +1,29 @@
 import { mainnet, arbitrum, base, linea, polygon, optimism, scroll } from 'viem/chains'
 import { Chain, hardhat, sepolia } from 'viem/chains'
 
-let chains = [mainnet, arbitrum, base, linea, polygon, optimism, scroll] as [Chain, ...Chain[]]
+// let chains = [mainnet, arbitrum, base, linea, polygon, optimism] as [Chain, ...Chain[]]
+let chains = [mainnet] as [Chain, ...Chain[]]
 
-if (process.env.NODE_ENV !== 'production') chains.push(sepolia, hardhat)
+if (process.env.NODE_ENV !== 'production') chains.push(sepolia)
 
 export const ETH_CHAINS = chains
+export const ETH_CHAIN_NAMES = chains
+  .map((chain) => {
+    chain.name
+  })
+  .join(', ')
+
+export const isSupportedNetwork = (chainId: number | undefined) => {
+  if (chainId === undefined) {
+    return false
+  }
+  for (let chain of chains) {
+    if (chain.id === chainId) {
+      return true
+    }
+  }
+  return false
+}
 
 export const NETWORK_COLORS = {
   ethereum: {
