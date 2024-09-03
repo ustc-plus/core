@@ -27,6 +27,7 @@ type Hello = {
 export const Liquidity = () => {
   const { Add } = useNotifications()
   const account = useAccount()
+  const [depositAmount, setDepositAmount] = useState<number>(0.0)
   const [connected, setConnected] = useState<boolean>(false)
   useAccountEffect({
     onConnect(data) {
@@ -36,12 +37,14 @@ export const Liquidity = () => {
       setConnected(false)
     },
   })
+  const [allowanceAmount, setAllowanceAmount] = useState<number>(0)
   const [info, setInfo] = useState<Hello>()
   const [lpNftAddress, setLpNftAddress] = useState<`0x${string}`>()
   const [lpManagerAddress, setLpManagerAddress] = useState<`0x${string}`>()
   const [usdtAddress, setUsdtAddress] = useState<`0x${string}`>()
   const [ustcPlusAddress, setUtcPlusAddress] = useState<`0x${string}`>()
   const [approved, setApproved] = useState<boolean>(false)
+  const [processing, setProcessing] = useState<boolean>(false)
 
   // Set the Smartcontract addresses.
   // Depends on:
@@ -83,6 +86,21 @@ export const Liquidity = () => {
     args: [lpManagerAddress!, parseEther('10000000')],
   })
 
+  const { error: startMintingEstimateError } = useSimulateContract({
+    query: {
+      enabled:
+        !approved &&
+        account.chain !== undefined &&
+        usdtAddress !== undefined &&
+        info !== undefined &&
+        lpManagerAddress !== undefined,
+    },
+    abi: GetAbi('testErc20Abi'),
+    address: usdtAddress,
+    functionName: 'approve',
+    args: [lpManagerAddress!, parseEther('10000000')],
+  })
+
   // Prepare approve transaction and it's result
   const { data: approveData, writeContract: writeApprove } = useWriteContract()
 
@@ -106,6 +124,7 @@ export const Liquidity = () => {
       setApproved(true)
       onMint()
     } else if (approveTxError) {
+      setProcessing(false)
       Add(`Approve error: ${approveTxError.cause}`, {
         type: 'error',
       })
@@ -145,13 +164,17 @@ export const Liquidity = () => {
     }
     const parsed = allowance as bigint | undefined
     if (parsed !== undefined) {
-      if (parseFloat(formatEther(parsed)) >= info.minUsdt) {
-        setApproved(true)
-        return
-      }
+      setAllowanceAmount(parseFloat(formatEther(parsed)))
     }
-    setApproved(false)
-  }, [allowance, info])
+  }, [allowance])
+
+  useEffect(() => {
+    if (allowanceAmount == 0) {
+      setApproved(false)
+    } else {
+      setApproved(allowanceAmount >= depositAmount)
+    }
+  }, [allowanceAmount, depositAmount])
 
   const onMint = () => {
     console.log(`On: ${account.status} ${account.chainId} ${account.address}`)
@@ -165,10 +188,25 @@ export const Liquidity = () => {
       Add(`Wallet error: Unsupported network. Switch to one of ${ETH_CHAIN_NAMES}`, { type: 'error' })
       return
     }
+    if (info === undefined) {
+      Add(`Server error: didn't get the information about pricing, wait and try again later...`, { type: 'error' })
+      return
+    }
+    if (depositAmount < info.minUsdt) {
+      Add(`Minimum ${info.minUsdt} USDT must be entered`, { type: 'error' })
+      return
+    } else if (depositAmount > info.maxUsdt) {
+      Add(`Maximum ${info.maxUsdt} USDT must be entered`, { type: 'error' })
+      return
+    }
+
+    if (!processing) {
+      setProcessing(true)
+    }
 
     if (!approved) {
       if (approveEstimateError) {
-        console.error(approveEstimateError)
+        setProcessing(false)
         Add(`Approve simulation failed: ${approveEstimateError.cause}`, {
           type: 'error',
         })
@@ -182,6 +220,8 @@ export const Liquidity = () => {
       })
       return
     }
+
+    //setProcessing(false);
   }
 
   return (
@@ -195,12 +235,18 @@ export const Liquidity = () => {
             min={info !== undefined ? info.minUsdt : 0.0}
             max={info !== undefined ? info.maxUsdt : 0.0}
             className='grow'
+            onChange={(e) => setDepositAmount(parseFloat(e.target.value))}
+            disabled={processing}
           />
           <span className='badge badge-info'>USDT</span>
         </label>
-        <button className='mx-5 btn btn-primary flex-none' onClick={() => onMint()}>
-          Mint
-        </button>
+        <div
+          className={processing ? 'tooltip tooltip-open tooltip-secondary' : ''}
+          data-tip="Don't refresh the browser">
+          <button className='mx-5 btn btn-primary flex-none' onClick={() => onMint()} disabled={processing}>
+            {processing ? <span className='loading loading-spinner text-warning'></span> : ''} Mint
+          </button>
+        </div>
       </div>
       <ul className='content-center steps flex'>
         <li className='flex-1 step step-primary'>Approve USDT</li>
@@ -211,11 +257,13 @@ export const Liquidity = () => {
       <div className='card bg-base-300 rounded-box grid h-30'>
         Minimum USDT = {info !== undefined ? info.minUsdt : 0.0}
         <br />
-        Estimated received:
-        <br />
-        USDC = 40
-        <br />
-        USTC+ = 200
+        Estimated Liquidity Pool amount:{' '}
+        {info !== undefined && depositAmount > 0
+          ? (depositAmount / 2).toFixed(4) + ' USDT'
+          : 'calculating USDT...'} and{' '}
+        {info !== undefined && depositAmount > 0
+          ? (depositAmount / 2 / info.ustcPrice).toFixed(4) + ' USTC+'
+          : 'calculating USDT...'}
       </div>
     </div>
   )
