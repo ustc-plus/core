@@ -9,7 +9,7 @@ import {
   useWriteContract,
 } from 'wagmi'
 import { useEffect, useState } from 'react'
-import { erc20Abi, formatEther, parseEther } from 'viem'
+import { erc20Abi, formatEther, formatUnits, parseEther, parseUnits } from 'viem'
 import useInterval from 'use-interval'
 import { useNotifications } from '@/context/Notifications'
 import { isSupportedNetwork, ETH_CHAIN_NAMES } from '@/utils/network'
@@ -45,6 +45,7 @@ export const Liquidity = () => {
   const [ustcPlusAddress, setUtcPlusAddress] = useState<`0x${string}`>()
   const [approved, setApproved] = useState<boolean>(false)
   const [processing, setProcessing] = useState<boolean>(false)
+  const [mintingStarted, setMintingStarted] = useState<boolean>(false)
 
   // Set the Smartcontract addresses.
   // Depends on:
@@ -89,20 +90,17 @@ export const Liquidity = () => {
   const { error: startMintingEstimateError } = useSimulateContract({
     query: {
       enabled:
-        !approved &&
-        account.chain !== undefined &&
-        usdtAddress !== undefined &&
-        info !== undefined &&
-        lpManagerAddress !== undefined,
+        processing && approved && account.chain !== undefined && info !== undefined && lpManagerAddress !== undefined,
     },
-    abi: GetAbi('testErc20Abi'),
-    address: usdtAddress,
-    functionName: 'approve',
-    args: [lpManagerAddress!, parseEther('10000000')],
+    abi: GetAbi('lpManagerAbi'),
+    address: lpManagerAddress,
+    functionName: 'startMinting',
+    args: [parseUnits(depositAmount.toString(), parseInt(process.env.NEXT_PUBLIC_USDT_DECIMALS!))],
   })
 
   // Prepare approve transaction and it's result
   const { data: approveData, writeContract: writeApprove } = useWriteContract()
+  const { data: startMintingData, writeContract: writeStartMinting } = useWriteContract()
 
   // Approve transaction status
   const {
@@ -111,6 +109,14 @@ export const Liquidity = () => {
     isSuccess: approveTxSuccess,
   } = useWaitForTransactionReceipt({
     hash: approveData,
+  })
+
+  const {
+    isLoading: startMintingIsLoading,
+    error: startMintingTxError,
+    isSuccess: startMintingTxSuccess,
+  } = useWaitForTransactionReceipt({
+    hash: startMintingData,
   })
 
   useEffect(() => {
@@ -130,6 +136,30 @@ export const Liquidity = () => {
       })
     }
   }, [approveTxSuccess, approveTxError])
+
+  useEffect(() => {
+    if (startMintingTxSuccess) {
+      Add(`Mint process started...`, {
+        type: 'success',
+        href: account.chain?.blockExplorers?.default.url
+          ? `${account.chain.blockExplorers.default.url}/tx/${startMintingData}`
+          : undefined,
+      })
+      Add(`Waiting server to mint USTC+...`, {
+        type: 'success',
+        href: account.chain?.blockExplorers?.default.url
+          ? `${account.chain.blockExplorers.default.url}/tx/${startMintingData}`
+          : undefined,
+      })
+      setMintingStarted(true)
+      onStartMinting(startMintingData!)
+    } else if (startMintingTxError) {
+      setProcessing(false)
+      Add(`Approve error: ${startMintingTxError.cause}`, {
+        type: 'error',
+      })
+    }
+  }, [startMintingTxSuccess, startMintingTxError])
 
   // Every 1 second fetch the trading balance from server
   useInterval(async () => {
@@ -176,6 +206,21 @@ export const Liquidity = () => {
     }
   }, [allowanceAmount, depositAmount])
 
+  const onStartMinting = async (txid: string) => {
+    const url = process.env.NEXT_PUBLIC_BACKEND_URL!
+
+    const response = await fetch(`${url}/trade/${account.chainId}/${txid}`)
+    const data = await response.json()
+
+    if (data['message'] !== undefined) {
+      console.error('Failed to get information: ' + data['message'])
+    } else {
+      setInfo(data as Hello)
+    }
+
+    onMint()
+  }
+
   const onMint = () => {
     console.log(`On: ${account.status} ${account.chainId} ${account.address}`)
     if (account.status !== 'connected') {
@@ -221,6 +266,23 @@ export const Liquidity = () => {
       return
     }
 
+    if (!mintingStarted) {
+      if (startMintingEstimateError) {
+        setProcessing(false)
+        Add(`Mint starting simulation failed: ${startMintingEstimateError.cause}`, {
+          type: 'error',
+        })
+
+        writeApprove({
+          abi: GetAbi('lpManagerAbi'),
+          address: lpManagerAddress!,
+          functionName: 'startMinting',
+          args: [parseUnits(depositAmount.toString(), parseInt(process.env.NEXT_PUBLIC_USDT_DECIMALS!))],
+        })
+        return
+      }
+    }
+
     //setProcessing(false);
   }
 
@@ -238,7 +300,7 @@ export const Liquidity = () => {
             onChange={(e) => setDepositAmount(parseFloat(e.target.value))}
             disabled={processing}
           />
-          <span className='badge badge-info'>USDT</span>
+          <span className={'badge ' + processing ? 'badge-neutral-content' : 'badge-info'}>USDT</span>
         </label>
         <div
           className={processing ? 'tooltip tooltip-open tooltip-secondary' : ''}
@@ -251,7 +313,7 @@ export const Liquidity = () => {
       <ul className='content-center steps flex'>
         <li className='flex-1 step step-primary'>Approve USDT</li>
         <li className={'flex-1 step' + (approved ? ' step-primary' : '')}>Buy USTC+</li>
-        <li className='flex-1 step'>Mint Liquidity NFT</li>
+        <li className={'flex-1 step' + (mintingStarted ? ' step-primary' : '')}>Mint Liquidity NFT</li>
       </ul>
       <div className='divider'></div>
       <div className='card bg-base-300 rounded-box grid h-30'>
