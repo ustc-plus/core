@@ -8,6 +8,7 @@ import path from 'path'
 import helmet from 'helmet'
 import express, { Request, Response, NextFunction, response } from 'express'
 import logger from 'jet-logger'
+import cors from 'cors'
 
 import 'express-async-errors'
 
@@ -21,6 +22,8 @@ import { NodeEnvs } from '@src/common/misc'
 
 import { Spot, RestMarketTypes, RestTradeTypes, TimeInForce, Side, OrderType } from '@binance/connector-typescript'
 
+import { Cron } from 'croner'
+
 const API_KEY = process.env.BINANCE_API_KEY!
 const API_SECRET = process.env.BINANCE_SECRET_KEY!
 const BASE_URL = process.env.BINANCE_API_URL!
@@ -32,11 +35,22 @@ binanceClient
   .then((response) => {
     binanceUsdcDepositAddress = response.address
   })
-  .catch((error) => {})
+  .catch((error) => {
+    console.error(error)
+  })
+
+type Hello = {
+  unixtimestamp: number
+  depositAddress: string
+  ustcPrice: number
+  minUsdt: number
+  maxUsdt: number
+}
 
 // **** Variables **** //
 
 const app = express()
+let info: Hello
 
 // **** Setup **** //
 
@@ -44,6 +58,33 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser(EnvVars.CookieProps.Secret))
+app.use(cors())
+
+const job = Cron(
+  /* The pattern */
+  '*/10 * * * * *',
+  /* Function (optional) */
+  async () => {
+    let binanceUstcPrice = await getUstcPrice()
+    if (binanceUstcPrice === undefined) {
+      return
+    }
+
+    let exchangeInfo = await getExchangeInfo(binanceUstcPrice)
+    if (typeof exchangeInfo === 'string') {
+      console.error(`getExchangeInfo Error: ${exchangeInfo}`)
+      return
+    }
+
+    info = {
+      unixtimestamp: Date.now(),
+      depositAddress: binanceUsdcDepositAddress,
+      ustcPrice: binanceUstcPrice,
+      minUsdt: exchangeInfo.minUsdt,
+      maxUsdt: exchangeInfo.maxUsdt,
+    }
+  }
+)
 
 // Show routes called in console during development
 if (EnvVars.NodeEnv === NodeEnvs.Dev.valueOf()) {
@@ -99,23 +140,10 @@ app.get('/users', (_: Request, res: Response) => {
 })
 
 app.get('/hello', async (_: Request, res: Response) => {
-  let binanceUstcPrice = await getUstcPrice()
-  if (binanceUstcPrice === undefined) {
-    return res.json({ message: 'failed to get ustc price.. please try again later' })
+  if (info === undefined) {
+    return res.json({ message: 'not set yet' })
   }
-
-  let exchangeInfo = await getExchangeInfo(binanceUstcPrice)
-  if (typeof exchangeInfo === 'string') {
-    return res.json({ message: exchangeInfo })
-  }
-
-  return res.json({
-    message: 'World',
-    depositAddress: binanceUsdcDepositAddress,
-    ustcPrice: binanceUstcPrice,
-    minUsdt: exchangeInfo.minUsdt,
-    maxUsdt: exchangeInfo.maxUsdt,
-  })
+  return res.json(info)
 })
 
 if (process.env.NODE_ENV! === 'development') {

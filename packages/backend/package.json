@@ -29,6 +29,8 @@
   "dependencies": {
     "@binance/connector-typescript": "^0.3.10",
     "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "croner": "^8.1.1",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-async-errors": "^3.1.1",
@@ -44,6 +46,7 @@
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.7",
+    "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/find": "^0.2.4",
     "@types/fs-extra": "^11.0.4",
