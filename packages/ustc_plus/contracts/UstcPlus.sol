@@ -58,4 +58,14 @@ contract UstcPlus is OFT, IUstcPlus {
         _mint(to, value);
         return value;
     }
+
+    // Lp Manager burns user's tokens on one situation only.
+    // When user unwraps his tokens.
+    function burnByLpManager(address to, uint256 value) external onlyLpManager returns(bool) {
+        if (balanceOf(to) < value) {
+            return false;
+        }
+        _burn(to, value);
+        return true;
+    }
 }
