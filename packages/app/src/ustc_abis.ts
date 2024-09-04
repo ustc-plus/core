@@ -1403,10 +1403,10 @@ export const iLayerZeroReceiverAbi = [
 ] as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// ILpNft2
+// ILpNft
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const iLpNft2Abi = [
+export const iLpNftAbi = [
   {
     type: 'function',
     inputs: [{ name: 'tokenId', internalType: 'uint256', type: 'uint256' }],
@@ -2823,10 +2823,10 @@ export const iSendLibAbi = [
 ] as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// IUstcPlus2
+// IUstcPlus
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const iUstcPlus2Abi = [
+export const iUstcPlusAbi = [
   {
     type: 'event',
     anonymous: false,
@@ -2873,6 +2873,16 @@ export const iUstcPlus2Abi = [
     name: 'balanceOf',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
     stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'burnByLpManager',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
   },
   {
     type: 'function',
@@ -5049,7 +5059,8 @@ export const safeErc20Abi = [
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const ustcPlusAbi = [
   {
@@ -5296,6 +5307,16 @@ export const ustcPlusAbi = [
     name: 'balanceOf',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
     stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'burnByLpManager',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
   },
   {
     type: 'function',
@@ -5803,14 +5824,17 @@ export const ustcPlusAbi = [
 ] as const
 
 /**
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const ustcPlusAddress = {
+  137: '0x606689c20562aC06202B8AB2Ad9029c961C2E267',
   11155111: '0x05df326185A182274058a42cBe613c628f1506B4',
 } as const
 
 /**
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const ustcPlusConfig = { address: ustcPlusAddress, abi: ustcPlusAbi } as const
 
@@ -6916,78 +6940,75 @@ export const simulateILayerZeroReceiverLzReceive = /*#__PURE__*/ createSimulateC
 })
 
 /**
- * Wraps __{@link readContract}__ with `abi` set to __{@link iLpNft2Abi}__
+ * Wraps __{@link readContract}__ with `abi` set to __{@link iLpNftAbi}__
  */
-export const readILpNft2 = /*#__PURE__*/ createReadContract({ abi: iLpNft2Abi })
+export const readILpNft = /*#__PURE__*/ createReadContract({ abi: iLpNftAbi })
 
 /**
- * Wraps __{@link readContract}__ with `abi` set to __{@link iLpNft2Abi}__ and `functionName` set to `"slashCurrentAmount"`
+ * Wraps __{@link readContract}__ with `abi` set to __{@link iLpNftAbi}__ and `functionName` set to `"slashCurrentAmount"`
  */
-export const readILpNft2SlashCurrentAmount = /*#__PURE__*/ createReadContract({
-  abi: iLpNft2Abi,
+export const readILpNftSlashCurrentAmount = /*#__PURE__*/ createReadContract({
+  abi: iLpNftAbi,
   functionName: 'slashCurrentAmount',
 })
 
 /**
- * Wraps __{@link readContract}__ with `abi` set to __{@link iLpNft2Abi}__ and `functionName` set to `"slashEndTime"`
+ * Wraps __{@link readContract}__ with `abi` set to __{@link iLpNftAbi}__ and `functionName` set to `"slashEndTime"`
  */
-export const readILpNft2SlashEndTime = /*#__PURE__*/ createReadContract({
-  abi: iLpNft2Abi,
-  functionName: 'slashEndTime',
-})
+export const readILpNftSlashEndTime = /*#__PURE__*/ createReadContract({ abi: iLpNftAbi, functionName: 'slashEndTime' })
 
 /**
- * Wraps __{@link writeContract}__ with `abi` set to __{@link iLpNft2Abi}__
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link iLpNftAbi}__
  */
-export const writeILpNft2 = /*#__PURE__*/ createWriteContract({ abi: iLpNft2Abi })
+export const writeILpNft = /*#__PURE__*/ createWriteContract({ abi: iLpNftAbi })
 
 /**
- * Wraps __{@link writeContract}__ with `abi` set to __{@link iLpNft2Abi}__ and `functionName` set to `"burn"`
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link iLpNftAbi}__ and `functionName` set to `"burn"`
  */
-export const writeILpNft2Burn = /*#__PURE__*/ createWriteContract({ abi: iLpNft2Abi, functionName: 'burn' })
+export const writeILpNftBurn = /*#__PURE__*/ createWriteContract({ abi: iLpNftAbi, functionName: 'burn' })
 
 /**
- * Wraps __{@link writeContract}__ with `abi` set to __{@link iLpNft2Abi}__ and `functionName` set to `"distribute"`
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link iLpNftAbi}__ and `functionName` set to `"distribute"`
  */
-export const writeILpNft2Distribute = /*#__PURE__*/ createWriteContract({ abi: iLpNft2Abi, functionName: 'distribute' })
+export const writeILpNftDistribute = /*#__PURE__*/ createWriteContract({ abi: iLpNftAbi, functionName: 'distribute' })
 
 /**
- * Wraps __{@link writeContract}__ with `abi` set to __{@link iLpNft2Abi}__ and `functionName` set to `"mint"`
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link iLpNftAbi}__ and `functionName` set to `"mint"`
  */
-export const writeILpNft2Mint = /*#__PURE__*/ createWriteContract({ abi: iLpNft2Abi, functionName: 'mint' })
+export const writeILpNftMint = /*#__PURE__*/ createWriteContract({ abi: iLpNftAbi, functionName: 'mint' })
 
 /**
- * Wraps __{@link writeContract}__ with `abi` set to __{@link iLpNft2Abi}__ and `functionName` set to `"redeem"`
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link iLpNftAbi}__ and `functionName` set to `"redeem"`
  */
-export const writeILpNft2Redeem = /*#__PURE__*/ createWriteContract({ abi: iLpNft2Abi, functionName: 'redeem' })
+export const writeILpNftRedeem = /*#__PURE__*/ createWriteContract({ abi: iLpNftAbi, functionName: 'redeem' })
 
 /**
- * Wraps __{@link simulateContract}__ with `abi` set to __{@link iLpNft2Abi}__
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link iLpNftAbi}__
  */
-export const simulateILpNft2 = /*#__PURE__*/ createSimulateContract({ abi: iLpNft2Abi })
+export const simulateILpNft = /*#__PURE__*/ createSimulateContract({ abi: iLpNftAbi })
 
 /**
- * Wraps __{@link simulateContract}__ with `abi` set to __{@link iLpNft2Abi}__ and `functionName` set to `"burn"`
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link iLpNftAbi}__ and `functionName` set to `"burn"`
  */
-export const simulateILpNft2Burn = /*#__PURE__*/ createSimulateContract({ abi: iLpNft2Abi, functionName: 'burn' })
+export const simulateILpNftBurn = /*#__PURE__*/ createSimulateContract({ abi: iLpNftAbi, functionName: 'burn' })
 
 /**
- * Wraps __{@link simulateContract}__ with `abi` set to __{@link iLpNft2Abi}__ and `functionName` set to `"distribute"`
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link iLpNftAbi}__ and `functionName` set to `"distribute"`
  */
-export const simulateILpNft2Distribute = /*#__PURE__*/ createSimulateContract({
-  abi: iLpNft2Abi,
+export const simulateILpNftDistribute = /*#__PURE__*/ createSimulateContract({
+  abi: iLpNftAbi,
   functionName: 'distribute',
 })
 
 /**
- * Wraps __{@link simulateContract}__ with `abi` set to __{@link iLpNft2Abi}__ and `functionName` set to `"mint"`
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link iLpNftAbi}__ and `functionName` set to `"mint"`
  */
-export const simulateILpNft2Mint = /*#__PURE__*/ createSimulateContract({ abi: iLpNft2Abi, functionName: 'mint' })
+export const simulateILpNftMint = /*#__PURE__*/ createSimulateContract({ abi: iLpNftAbi, functionName: 'mint' })
 
 /**
- * Wraps __{@link simulateContract}__ with `abi` set to __{@link iLpNft2Abi}__ and `functionName` set to `"redeem"`
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link iLpNftAbi}__ and `functionName` set to `"redeem"`
  */
-export const simulateILpNft2Redeem = /*#__PURE__*/ createSimulateContract({ abi: iLpNft2Abi, functionName: 'redeem' })
+export const simulateILpNftRedeem = /*#__PURE__*/ createSimulateContract({ abi: iLpNftAbi, functionName: 'redeem' })
 
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link iMessageLibAbi}__
@@ -8155,152 +8176,156 @@ export const simulateISendLibWithdrawLzTokenFee = /*#__PURE__*/ createSimulateCo
 })
 
 /**
- * Wraps __{@link readContract}__ with `abi` set to __{@link iUstcPlus2Abi}__
+ * Wraps __{@link readContract}__ with `abi` set to __{@link iUstcPlusAbi}__
  */
-export const readIUstcPlus2 = /*#__PURE__*/ createReadContract({ abi: iUstcPlus2Abi })
+export const readIUstcPlus = /*#__PURE__*/ createReadContract({ abi: iUstcPlusAbi })
 
 /**
- * Wraps __{@link readContract}__ with `abi` set to __{@link iUstcPlus2Abi}__ and `functionName` set to `"allowance"`
+ * Wraps __{@link readContract}__ with `abi` set to __{@link iUstcPlusAbi}__ and `functionName` set to `"allowance"`
  */
-export const readIUstcPlus2Allowance = /*#__PURE__*/ createReadContract({
-  abi: iUstcPlus2Abi,
-  functionName: 'allowance',
-})
+export const readIUstcPlusAllowance = /*#__PURE__*/ createReadContract({ abi: iUstcPlusAbi, functionName: 'allowance' })
 
 /**
- * Wraps __{@link readContract}__ with `abi` set to __{@link iUstcPlus2Abi}__ and `functionName` set to `"balanceOf"`
+ * Wraps __{@link readContract}__ with `abi` set to __{@link iUstcPlusAbi}__ and `functionName` set to `"balanceOf"`
  */
-export const readIUstcPlus2BalanceOf = /*#__PURE__*/ createReadContract({
-  abi: iUstcPlus2Abi,
-  functionName: 'balanceOf',
-})
+export const readIUstcPlusBalanceOf = /*#__PURE__*/ createReadContract({ abi: iUstcPlusAbi, functionName: 'balanceOf' })
 
 /**
- * Wraps __{@link readContract}__ with `abi` set to __{@link iUstcPlus2Abi}__ and `functionName` set to `"totalSupply"`
+ * Wraps __{@link readContract}__ with `abi` set to __{@link iUstcPlusAbi}__ and `functionName` set to `"totalSupply"`
  */
-export const readIUstcPlus2TotalSupply = /*#__PURE__*/ createReadContract({
-  abi: iUstcPlus2Abi,
+export const readIUstcPlusTotalSupply = /*#__PURE__*/ createReadContract({
+  abi: iUstcPlusAbi,
   functionName: 'totalSupply',
 })
 
 /**
- * Wraps __{@link writeContract}__ with `abi` set to __{@link iUstcPlus2Abi}__
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link iUstcPlusAbi}__
  */
-export const writeIUstcPlus2 = /*#__PURE__*/ createWriteContract({ abi: iUstcPlus2Abi })
+export const writeIUstcPlus = /*#__PURE__*/ createWriteContract({ abi: iUstcPlusAbi })
 
 /**
- * Wraps __{@link writeContract}__ with `abi` set to __{@link iUstcPlus2Abi}__ and `functionName` set to `"approve"`
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link iUstcPlusAbi}__ and `functionName` set to `"approve"`
  */
-export const writeIUstcPlus2Approve = /*#__PURE__*/ createWriteContract({ abi: iUstcPlus2Abi, functionName: 'approve' })
+export const writeIUstcPlusApprove = /*#__PURE__*/ createWriteContract({ abi: iUstcPlusAbi, functionName: 'approve' })
 
 /**
- * Wraps __{@link writeContract}__ with `abi` set to __{@link iUstcPlus2Abi}__ and `functionName` set to `"lpNft"`
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link iUstcPlusAbi}__ and `functionName` set to `"burnByLpManager"`
  */
-export const writeIUstcPlus2LpNft = /*#__PURE__*/ createWriteContract({ abi: iUstcPlus2Abi, functionName: 'lpNft' })
+export const writeIUstcPlusBurnByLpManager = /*#__PURE__*/ createWriteContract({
+  abi: iUstcPlusAbi,
+  functionName: 'burnByLpManager',
+})
 
 /**
- * Wraps __{@link writeContract}__ with `abi` set to __{@link iUstcPlus2Abi}__ and `functionName` set to `"mintByLpManager"`
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link iUstcPlusAbi}__ and `functionName` set to `"lpNft"`
  */
-export const writeIUstcPlus2MintByLpManager = /*#__PURE__*/ createWriteContract({
-  abi: iUstcPlus2Abi,
+export const writeIUstcPlusLpNft = /*#__PURE__*/ createWriteContract({ abi: iUstcPlusAbi, functionName: 'lpNft' })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link iUstcPlusAbi}__ and `functionName` set to `"mintByLpManager"`
+ */
+export const writeIUstcPlusMintByLpManager = /*#__PURE__*/ createWriteContract({
+  abi: iUstcPlusAbi,
   functionName: 'mintByLpManager',
 })
 
 /**
- * Wraps __{@link writeContract}__ with `abi` set to __{@link iUstcPlus2Abi}__ and `functionName` set to `"transfer"`
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link iUstcPlusAbi}__ and `functionName` set to `"transfer"`
  */
-export const writeIUstcPlus2Transfer = /*#__PURE__*/ createWriteContract({
-  abi: iUstcPlus2Abi,
-  functionName: 'transfer',
-})
+export const writeIUstcPlusTransfer = /*#__PURE__*/ createWriteContract({ abi: iUstcPlusAbi, functionName: 'transfer' })
 
 /**
- * Wraps __{@link writeContract}__ with `abi` set to __{@link iUstcPlus2Abi}__ and `functionName` set to `"transferByLpNft"`
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link iUstcPlusAbi}__ and `functionName` set to `"transferByLpNft"`
  */
-export const writeIUstcPlus2TransferByLpNft = /*#__PURE__*/ createWriteContract({
-  abi: iUstcPlus2Abi,
+export const writeIUstcPlusTransferByLpNft = /*#__PURE__*/ createWriteContract({
+  abi: iUstcPlusAbi,
   functionName: 'transferByLpNft',
 })
 
 /**
- * Wraps __{@link writeContract}__ with `abi` set to __{@link iUstcPlus2Abi}__ and `functionName` set to `"transferFrom"`
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link iUstcPlusAbi}__ and `functionName` set to `"transferFrom"`
  */
-export const writeIUstcPlus2TransferFrom = /*#__PURE__*/ createWriteContract({
-  abi: iUstcPlus2Abi,
+export const writeIUstcPlusTransferFrom = /*#__PURE__*/ createWriteContract({
+  abi: iUstcPlusAbi,
   functionName: 'transferFrom',
 })
 
 /**
- * Wraps __{@link simulateContract}__ with `abi` set to __{@link iUstcPlus2Abi}__
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link iUstcPlusAbi}__
  */
-export const simulateIUstcPlus2 = /*#__PURE__*/ createSimulateContract({ abi: iUstcPlus2Abi })
+export const simulateIUstcPlus = /*#__PURE__*/ createSimulateContract({ abi: iUstcPlusAbi })
 
 /**
- * Wraps __{@link simulateContract}__ with `abi` set to __{@link iUstcPlus2Abi}__ and `functionName` set to `"approve"`
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link iUstcPlusAbi}__ and `functionName` set to `"approve"`
  */
-export const simulateIUstcPlus2Approve = /*#__PURE__*/ createSimulateContract({
-  abi: iUstcPlus2Abi,
+export const simulateIUstcPlusApprove = /*#__PURE__*/ createSimulateContract({
+  abi: iUstcPlusAbi,
   functionName: 'approve',
 })
 
 /**
- * Wraps __{@link simulateContract}__ with `abi` set to __{@link iUstcPlus2Abi}__ and `functionName` set to `"lpNft"`
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link iUstcPlusAbi}__ and `functionName` set to `"burnByLpManager"`
  */
-export const simulateIUstcPlus2LpNft = /*#__PURE__*/ createSimulateContract({
-  abi: iUstcPlus2Abi,
-  functionName: 'lpNft',
+export const simulateIUstcPlusBurnByLpManager = /*#__PURE__*/ createSimulateContract({
+  abi: iUstcPlusAbi,
+  functionName: 'burnByLpManager',
 })
 
 /**
- * Wraps __{@link simulateContract}__ with `abi` set to __{@link iUstcPlus2Abi}__ and `functionName` set to `"mintByLpManager"`
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link iUstcPlusAbi}__ and `functionName` set to `"lpNft"`
  */
-export const simulateIUstcPlus2MintByLpManager = /*#__PURE__*/ createSimulateContract({
-  abi: iUstcPlus2Abi,
+export const simulateIUstcPlusLpNft = /*#__PURE__*/ createSimulateContract({ abi: iUstcPlusAbi, functionName: 'lpNft' })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link iUstcPlusAbi}__ and `functionName` set to `"mintByLpManager"`
+ */
+export const simulateIUstcPlusMintByLpManager = /*#__PURE__*/ createSimulateContract({
+  abi: iUstcPlusAbi,
   functionName: 'mintByLpManager',
 })
 
 /**
- * Wraps __{@link simulateContract}__ with `abi` set to __{@link iUstcPlus2Abi}__ and `functionName` set to `"transfer"`
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link iUstcPlusAbi}__ and `functionName` set to `"transfer"`
  */
-export const simulateIUstcPlus2Transfer = /*#__PURE__*/ createSimulateContract({
-  abi: iUstcPlus2Abi,
+export const simulateIUstcPlusTransfer = /*#__PURE__*/ createSimulateContract({
+  abi: iUstcPlusAbi,
   functionName: 'transfer',
 })
 
 /**
- * Wraps __{@link simulateContract}__ with `abi` set to __{@link iUstcPlus2Abi}__ and `functionName` set to `"transferByLpNft"`
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link iUstcPlusAbi}__ and `functionName` set to `"transferByLpNft"`
  */
-export const simulateIUstcPlus2TransferByLpNft = /*#__PURE__*/ createSimulateContract({
-  abi: iUstcPlus2Abi,
+export const simulateIUstcPlusTransferByLpNft = /*#__PURE__*/ createSimulateContract({
+  abi: iUstcPlusAbi,
   functionName: 'transferByLpNft',
 })
 
 /**
- * Wraps __{@link simulateContract}__ with `abi` set to __{@link iUstcPlus2Abi}__ and `functionName` set to `"transferFrom"`
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link iUstcPlusAbi}__ and `functionName` set to `"transferFrom"`
  */
-export const simulateIUstcPlus2TransferFrom = /*#__PURE__*/ createSimulateContract({
-  abi: iUstcPlus2Abi,
+export const simulateIUstcPlusTransferFrom = /*#__PURE__*/ createSimulateContract({
+  abi: iUstcPlusAbi,
   functionName: 'transferFrom',
 })
 
 /**
- * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link iUstcPlus2Abi}__
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link iUstcPlusAbi}__
  */
-export const watchIUstcPlus2Event = /*#__PURE__*/ createWatchContractEvent({ abi: iUstcPlus2Abi })
+export const watchIUstcPlusEvent = /*#__PURE__*/ createWatchContractEvent({ abi: iUstcPlusAbi })
 
 /**
- * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link iUstcPlus2Abi}__ and `eventName` set to `"Approval"`
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link iUstcPlusAbi}__ and `eventName` set to `"Approval"`
  */
-export const watchIUstcPlus2ApprovalEvent = /*#__PURE__*/ createWatchContractEvent({
-  abi: iUstcPlus2Abi,
+export const watchIUstcPlusApprovalEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: iUstcPlusAbi,
   eventName: 'Approval',
 })
 
 /**
- * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link iUstcPlus2Abi}__ and `eventName` set to `"Transfer"`
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link iUstcPlusAbi}__ and `eventName` set to `"Transfer"`
  */
-export const watchIUstcPlus2TransferEvent = /*#__PURE__*/ createWatchContractEvent({
-  abi: iUstcPlus2Abi,
+export const watchIUstcPlusTransferEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: iUstcPlusAbi,
   eventName: 'Transfer',
 })
 
@@ -9958,14 +9983,16 @@ export const watchOwnableOwnershipTransferredEvent = /*#__PURE__*/ createWatchCo
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const readUstcPlus = /*#__PURE__*/ createReadContract({ abi: ustcPlusAbi, address: ustcPlusAddress })
 
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"SEND"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const readUstcPlusSend = /*#__PURE__*/ createReadContract({
   abi: ustcPlusAbi,
@@ -9976,7 +10003,8 @@ export const readUstcPlusSend = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"SEND_AND_CALL"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const readUstcPlusSendAndCall = /*#__PURE__*/ createReadContract({
   abi: ustcPlusAbi,
@@ -9987,7 +10015,8 @@ export const readUstcPlusSendAndCall = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"allowInitializePath"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const readUstcPlusAllowInitializePath = /*#__PURE__*/ createReadContract({
   abi: ustcPlusAbi,
@@ -9998,7 +10027,8 @@ export const readUstcPlusAllowInitializePath = /*#__PURE__*/ createReadContract(
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"allowance"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const readUstcPlusAllowance = /*#__PURE__*/ createReadContract({
   abi: ustcPlusAbi,
@@ -10009,7 +10039,8 @@ export const readUstcPlusAllowance = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"approvalRequired"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const readUstcPlusApprovalRequired = /*#__PURE__*/ createReadContract({
   abi: ustcPlusAbi,
@@ -10020,7 +10051,8 @@ export const readUstcPlusApprovalRequired = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"balanceOf"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const readUstcPlusBalanceOf = /*#__PURE__*/ createReadContract({
   abi: ustcPlusAbi,
@@ -10031,7 +10063,8 @@ export const readUstcPlusBalanceOf = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"combineOptions"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const readUstcPlusCombineOptions = /*#__PURE__*/ createReadContract({
   abi: ustcPlusAbi,
@@ -10042,7 +10075,8 @@ export const readUstcPlusCombineOptions = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"decimalConversionRate"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const readUstcPlusDecimalConversionRate = /*#__PURE__*/ createReadContract({
   abi: ustcPlusAbi,
@@ -10053,7 +10087,8 @@ export const readUstcPlusDecimalConversionRate = /*#__PURE__*/ createReadContrac
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"decimals"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const readUstcPlusDecimals = /*#__PURE__*/ createReadContract({
   abi: ustcPlusAbi,
@@ -10064,7 +10099,8 @@ export const readUstcPlusDecimals = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"endpoint"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const readUstcPlusEndpoint = /*#__PURE__*/ createReadContract({
   abi: ustcPlusAbi,
@@ -10075,7 +10111,8 @@ export const readUstcPlusEndpoint = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"enforcedOptions"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const readUstcPlusEnforcedOptions = /*#__PURE__*/ createReadContract({
   abi: ustcPlusAbi,
@@ -10086,7 +10123,8 @@ export const readUstcPlusEnforcedOptions = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"isComposeMsgSender"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const readUstcPlusIsComposeMsgSender = /*#__PURE__*/ createReadContract({
   abi: ustcPlusAbi,
@@ -10097,7 +10135,8 @@ export const readUstcPlusIsComposeMsgSender = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"isPeer"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const readUstcPlusIsPeer = /*#__PURE__*/ createReadContract({
   abi: ustcPlusAbi,
@@ -10108,7 +10147,8 @@ export const readUstcPlusIsPeer = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"lpManager"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const readUstcPlusLpManager = /*#__PURE__*/ createReadContract({
   abi: ustcPlusAbi,
@@ -10119,7 +10159,8 @@ export const readUstcPlusLpManager = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"lpNft"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const readUstcPlusLpNft = /*#__PURE__*/ createReadContract({
   abi: ustcPlusAbi,
@@ -10130,7 +10171,8 @@ export const readUstcPlusLpNft = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"msgInspector"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const readUstcPlusMsgInspector = /*#__PURE__*/ createReadContract({
   abi: ustcPlusAbi,
@@ -10141,7 +10183,8 @@ export const readUstcPlusMsgInspector = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"name"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const readUstcPlusName = /*#__PURE__*/ createReadContract({
   abi: ustcPlusAbi,
@@ -10152,7 +10195,8 @@ export const readUstcPlusName = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"nextNonce"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const readUstcPlusNextNonce = /*#__PURE__*/ createReadContract({
   abi: ustcPlusAbi,
@@ -10163,7 +10207,8 @@ export const readUstcPlusNextNonce = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"oApp"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const readUstcPlusOApp = /*#__PURE__*/ createReadContract({
   abi: ustcPlusAbi,
@@ -10174,7 +10219,8 @@ export const readUstcPlusOApp = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"oAppVersion"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const readUstcPlusOAppVersion = /*#__PURE__*/ createReadContract({
   abi: ustcPlusAbi,
@@ -10185,7 +10231,8 @@ export const readUstcPlusOAppVersion = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"oftVersion"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const readUstcPlusOftVersion = /*#__PURE__*/ createReadContract({
   abi: ustcPlusAbi,
@@ -10196,7 +10243,8 @@ export const readUstcPlusOftVersion = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"owner"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const readUstcPlusOwner = /*#__PURE__*/ createReadContract({
   abi: ustcPlusAbi,
@@ -10207,7 +10255,8 @@ export const readUstcPlusOwner = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"peers"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const readUstcPlusPeers = /*#__PURE__*/ createReadContract({
   abi: ustcPlusAbi,
@@ -10218,7 +10267,8 @@ export const readUstcPlusPeers = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"preCrime"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const readUstcPlusPreCrime = /*#__PURE__*/ createReadContract({
   abi: ustcPlusAbi,
@@ -10229,7 +10279,8 @@ export const readUstcPlusPreCrime = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"quoteOFT"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const readUstcPlusQuoteOft = /*#__PURE__*/ createReadContract({
   abi: ustcPlusAbi,
@@ -10240,7 +10291,8 @@ export const readUstcPlusQuoteOft = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"quoteSend"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const readUstcPlusQuoteSend = /*#__PURE__*/ createReadContract({
   abi: ustcPlusAbi,
@@ -10251,7 +10303,8 @@ export const readUstcPlusQuoteSend = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"sharedDecimals"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const readUstcPlusSharedDecimals = /*#__PURE__*/ createReadContract({
   abi: ustcPlusAbi,
@@ -10262,7 +10315,8 @@ export const readUstcPlusSharedDecimals = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"symbol"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const readUstcPlusSymbol = /*#__PURE__*/ createReadContract({
   abi: ustcPlusAbi,
@@ -10273,7 +10327,8 @@ export const readUstcPlusSymbol = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"token"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const readUstcPlusToken = /*#__PURE__*/ createReadContract({
   abi: ustcPlusAbi,
@@ -10284,7 +10339,8 @@ export const readUstcPlusToken = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"totalSupply"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const readUstcPlusTotalSupply = /*#__PURE__*/ createReadContract({
   abi: ustcPlusAbi,
@@ -10295,14 +10351,16 @@ export const readUstcPlusTotalSupply = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ustcPlusAbi}__
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const writeUstcPlus = /*#__PURE__*/ createWriteContract({ abi: ustcPlusAbi, address: ustcPlusAddress })
 
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"approve"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const writeUstcPlusApprove = /*#__PURE__*/ createWriteContract({
   abi: ustcPlusAbi,
@@ -10311,9 +10369,22 @@ export const writeUstcPlusApprove = /*#__PURE__*/ createWriteContract({
 })
 
 /**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"burnByLpManager"`
+ *
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ */
+export const writeUstcPlusBurnByLpManager = /*#__PURE__*/ createWriteContract({
+  abi: ustcPlusAbi,
+  address: ustcPlusAddress,
+  functionName: 'burnByLpManager',
+})
+
+/**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"lzReceive"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const writeUstcPlusLzReceive = /*#__PURE__*/ createWriteContract({
   abi: ustcPlusAbi,
@@ -10324,7 +10395,8 @@ export const writeUstcPlusLzReceive = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"lzReceiveAndRevert"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const writeUstcPlusLzReceiveAndRevert = /*#__PURE__*/ createWriteContract({
   abi: ustcPlusAbi,
@@ -10335,7 +10407,8 @@ export const writeUstcPlusLzReceiveAndRevert = /*#__PURE__*/ createWriteContract
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"lzReceiveSimulate"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const writeUstcPlusLzReceiveSimulate = /*#__PURE__*/ createWriteContract({
   abi: ustcPlusAbi,
@@ -10346,7 +10419,8 @@ export const writeUstcPlusLzReceiveSimulate = /*#__PURE__*/ createWriteContract(
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"mintByLpManager"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const writeUstcPlusMintByLpManager = /*#__PURE__*/ createWriteContract({
   abi: ustcPlusAbi,
@@ -10357,7 +10431,8 @@ export const writeUstcPlusMintByLpManager = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"renounceOwnership"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const writeUstcPlusRenounceOwnership = /*#__PURE__*/ createWriteContract({
   abi: ustcPlusAbi,
@@ -10368,7 +10443,8 @@ export const writeUstcPlusRenounceOwnership = /*#__PURE__*/ createWriteContract(
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"send"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const writeUstcPlusSend = /*#__PURE__*/ createWriteContract({
   abi: ustcPlusAbi,
@@ -10379,7 +10455,8 @@ export const writeUstcPlusSend = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"setDelegate"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const writeUstcPlusSetDelegate = /*#__PURE__*/ createWriteContract({
   abi: ustcPlusAbi,
@@ -10390,7 +10467,8 @@ export const writeUstcPlusSetDelegate = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"setEnforcedOptions"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const writeUstcPlusSetEnforcedOptions = /*#__PURE__*/ createWriteContract({
   abi: ustcPlusAbi,
@@ -10401,7 +10479,8 @@ export const writeUstcPlusSetEnforcedOptions = /*#__PURE__*/ createWriteContract
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"setMsgInspector"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const writeUstcPlusSetMsgInspector = /*#__PURE__*/ createWriteContract({
   abi: ustcPlusAbi,
@@ -10412,7 +10491,8 @@ export const writeUstcPlusSetMsgInspector = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"setPeer"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const writeUstcPlusSetPeer = /*#__PURE__*/ createWriteContract({
   abi: ustcPlusAbi,
@@ -10423,7 +10503,8 @@ export const writeUstcPlusSetPeer = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"setPreCrime"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const writeUstcPlusSetPreCrime = /*#__PURE__*/ createWriteContract({
   abi: ustcPlusAbi,
@@ -10434,7 +10515,8 @@ export const writeUstcPlusSetPreCrime = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"transfer"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const writeUstcPlusTransfer = /*#__PURE__*/ createWriteContract({
   abi: ustcPlusAbi,
@@ -10445,7 +10527,8 @@ export const writeUstcPlusTransfer = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"transferByLpNft"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const writeUstcPlusTransferByLpNft = /*#__PURE__*/ createWriteContract({
   abi: ustcPlusAbi,
@@ -10456,7 +10539,8 @@ export const writeUstcPlusTransferByLpNft = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"transferFrom"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const writeUstcPlusTransferFrom = /*#__PURE__*/ createWriteContract({
   abi: ustcPlusAbi,
@@ -10467,7 +10551,8 @@ export const writeUstcPlusTransferFrom = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"transferOwnership"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const writeUstcPlusTransferOwnership = /*#__PURE__*/ createWriteContract({
   abi: ustcPlusAbi,
@@ -10478,14 +10563,16 @@ export const writeUstcPlusTransferOwnership = /*#__PURE__*/ createWriteContract(
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ustcPlusAbi}__
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const simulateUstcPlus = /*#__PURE__*/ createSimulateContract({ abi: ustcPlusAbi, address: ustcPlusAddress })
 
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"approve"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const simulateUstcPlusApprove = /*#__PURE__*/ createSimulateContract({
   abi: ustcPlusAbi,
@@ -10494,9 +10581,22 @@ export const simulateUstcPlusApprove = /*#__PURE__*/ createSimulateContract({
 })
 
 /**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"burnByLpManager"`
+ *
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ */
+export const simulateUstcPlusBurnByLpManager = /*#__PURE__*/ createSimulateContract({
+  abi: ustcPlusAbi,
+  address: ustcPlusAddress,
+  functionName: 'burnByLpManager',
+})
+
+/**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"lzReceive"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const simulateUstcPlusLzReceive = /*#__PURE__*/ createSimulateContract({
   abi: ustcPlusAbi,
@@ -10507,7 +10607,8 @@ export const simulateUstcPlusLzReceive = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"lzReceiveAndRevert"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const simulateUstcPlusLzReceiveAndRevert = /*#__PURE__*/ createSimulateContract({
   abi: ustcPlusAbi,
@@ -10518,7 +10619,8 @@ export const simulateUstcPlusLzReceiveAndRevert = /*#__PURE__*/ createSimulateCo
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"lzReceiveSimulate"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const simulateUstcPlusLzReceiveSimulate = /*#__PURE__*/ createSimulateContract({
   abi: ustcPlusAbi,
@@ -10529,7 +10631,8 @@ export const simulateUstcPlusLzReceiveSimulate = /*#__PURE__*/ createSimulateCon
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"mintByLpManager"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const simulateUstcPlusMintByLpManager = /*#__PURE__*/ createSimulateContract({
   abi: ustcPlusAbi,
@@ -10540,7 +10643,8 @@ export const simulateUstcPlusMintByLpManager = /*#__PURE__*/ createSimulateContr
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"renounceOwnership"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const simulateUstcPlusRenounceOwnership = /*#__PURE__*/ createSimulateContract({
   abi: ustcPlusAbi,
@@ -10551,7 +10655,8 @@ export const simulateUstcPlusRenounceOwnership = /*#__PURE__*/ createSimulateCon
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"send"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const simulateUstcPlusSend = /*#__PURE__*/ createSimulateContract({
   abi: ustcPlusAbi,
@@ -10562,7 +10667,8 @@ export const simulateUstcPlusSend = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"setDelegate"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const simulateUstcPlusSetDelegate = /*#__PURE__*/ createSimulateContract({
   abi: ustcPlusAbi,
@@ -10573,7 +10679,8 @@ export const simulateUstcPlusSetDelegate = /*#__PURE__*/ createSimulateContract(
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"setEnforcedOptions"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const simulateUstcPlusSetEnforcedOptions = /*#__PURE__*/ createSimulateContract({
   abi: ustcPlusAbi,
@@ -10584,7 +10691,8 @@ export const simulateUstcPlusSetEnforcedOptions = /*#__PURE__*/ createSimulateCo
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"setMsgInspector"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const simulateUstcPlusSetMsgInspector = /*#__PURE__*/ createSimulateContract({
   abi: ustcPlusAbi,
@@ -10595,7 +10703,8 @@ export const simulateUstcPlusSetMsgInspector = /*#__PURE__*/ createSimulateContr
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"setPeer"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const simulateUstcPlusSetPeer = /*#__PURE__*/ createSimulateContract({
   abi: ustcPlusAbi,
@@ -10606,7 +10715,8 @@ export const simulateUstcPlusSetPeer = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"setPreCrime"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const simulateUstcPlusSetPreCrime = /*#__PURE__*/ createSimulateContract({
   abi: ustcPlusAbi,
@@ -10617,7 +10727,8 @@ export const simulateUstcPlusSetPreCrime = /*#__PURE__*/ createSimulateContract(
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"transfer"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const simulateUstcPlusTransfer = /*#__PURE__*/ createSimulateContract({
   abi: ustcPlusAbi,
@@ -10628,7 +10739,8 @@ export const simulateUstcPlusTransfer = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"transferByLpNft"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const simulateUstcPlusTransferByLpNft = /*#__PURE__*/ createSimulateContract({
   abi: ustcPlusAbi,
@@ -10639,7 +10751,8 @@ export const simulateUstcPlusTransferByLpNft = /*#__PURE__*/ createSimulateContr
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"transferFrom"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const simulateUstcPlusTransferFrom = /*#__PURE__*/ createSimulateContract({
   abi: ustcPlusAbi,
@@ -10650,7 +10763,8 @@ export const simulateUstcPlusTransferFrom = /*#__PURE__*/ createSimulateContract
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"transferOwnership"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const simulateUstcPlusTransferOwnership = /*#__PURE__*/ createSimulateContract({
   abi: ustcPlusAbi,
@@ -10661,14 +10775,16 @@ export const simulateUstcPlusTransferOwnership = /*#__PURE__*/ createSimulateCon
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ustcPlusAbi}__
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const watchUstcPlusEvent = /*#__PURE__*/ createWatchContractEvent({ abi: ustcPlusAbi, address: ustcPlusAddress })
 
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ustcPlusAbi}__ and `eventName` set to `"Approval"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const watchUstcPlusApprovalEvent = /*#__PURE__*/ createWatchContractEvent({
   abi: ustcPlusAbi,
@@ -10679,7 +10795,8 @@ export const watchUstcPlusApprovalEvent = /*#__PURE__*/ createWatchContractEvent
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ustcPlusAbi}__ and `eventName` set to `"EnforcedOptionSet"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const watchUstcPlusEnforcedOptionSetEvent = /*#__PURE__*/ createWatchContractEvent({
   abi: ustcPlusAbi,
@@ -10690,7 +10807,8 @@ export const watchUstcPlusEnforcedOptionSetEvent = /*#__PURE__*/ createWatchCont
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ustcPlusAbi}__ and `eventName` set to `"MsgInspectorSet"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const watchUstcPlusMsgInspectorSetEvent = /*#__PURE__*/ createWatchContractEvent({
   abi: ustcPlusAbi,
@@ -10701,7 +10819,8 @@ export const watchUstcPlusMsgInspectorSetEvent = /*#__PURE__*/ createWatchContra
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ustcPlusAbi}__ and `eventName` set to `"OFTReceived"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const watchUstcPlusOftReceivedEvent = /*#__PURE__*/ createWatchContractEvent({
   abi: ustcPlusAbi,
@@ -10712,7 +10831,8 @@ export const watchUstcPlusOftReceivedEvent = /*#__PURE__*/ createWatchContractEv
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ustcPlusAbi}__ and `eventName` set to `"OFTSent"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const watchUstcPlusOftSentEvent = /*#__PURE__*/ createWatchContractEvent({
   abi: ustcPlusAbi,
@@ -10723,7 +10843,8 @@ export const watchUstcPlusOftSentEvent = /*#__PURE__*/ createWatchContractEvent(
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ustcPlusAbi}__ and `eventName` set to `"OwnershipTransferred"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const watchUstcPlusOwnershipTransferredEvent = /*#__PURE__*/ createWatchContractEvent({
   abi: ustcPlusAbi,
@@ -10734,7 +10855,8 @@ export const watchUstcPlusOwnershipTransferredEvent = /*#__PURE__*/ createWatchC
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ustcPlusAbi}__ and `eventName` set to `"PeerSet"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const watchUstcPlusPeerSetEvent = /*#__PURE__*/ createWatchContractEvent({
   abi: ustcPlusAbi,
@@ -10745,7 +10867,8 @@ export const watchUstcPlusPeerSetEvent = /*#__PURE__*/ createWatchContractEvent(
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ustcPlusAbi}__ and `eventName` set to `"PreCrimeSet"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const watchUstcPlusPreCrimeSetEvent = /*#__PURE__*/ createWatchContractEvent({
   abi: ustcPlusAbi,
@@ -10756,7 +10879,8 @@ export const watchUstcPlusPreCrimeSetEvent = /*#__PURE__*/ createWatchContractEv
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ustcPlusAbi}__ and `eventName` set to `"Transfer"`
  *
- * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const watchUstcPlusTransferEvent = /*#__PURE__*/ createWatchContractEvent({
   abi: ustcPlusAbi,

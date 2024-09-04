@@ -124,6 +124,7 @@ On Lp NFT
 - call `setLpManager` on Etherscan
 - call `setUsdc` on Etherscan
 - call `setUstcPlus` on Etherscan
+- call `setupReflect` on Etherscan
 
 On Lp Manager:
 

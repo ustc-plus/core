@@ -10,10 +10,22 @@ _For devs, this project uses the [Nexth](https://github.com/wslyvh/nexth) templa
 
 ### Sepolia
 
-- TestERC20 &ndash; a fake USDC stable coin on Testnets. [View on Etherscan](https://sepolia.etherscan.io/token/0x32e5c809663f371ec25c7a21953647b448394aa3).
-- LpNft &ndash; a USDC and USTC+ pair liquidity pool kept as an NFT. [View on Etherscan](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+- StableCoin &ndash; a fake TestErc20 stable coin on Testnets. [View on Etherscan](https://sepolia.etherscan.io/token/0x32e5c809663f371ec25c7a21953647b448394aa3).
+- LpNft &ndash; a stable coin and USTC+ pair liquidity pool kept as an NFT. [View on Etherscan](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
 - LpManager &ndash; A USTC+ and Liquidity Pool NFTs minter. [View on Etherscan](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
 - USTC+ &ndash; A cross-chain Terra UST Classic implementation using Layerzero technology. [View on Etherscan](https://sepolia.etherscan.io/token/0x05df326185A182274058a42cBe613c628f1506B4)
+
+### Polygon
+
+- StableCoin &ndash; USDT used to for Liquidity pool pair with USTC+. [View on Polygonscan](https://polygonscan.com/token/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
+- LpNft &ndash; a stable coin and USTC+ pair liquidity pool kept as an NFT. [View on Polygonscan](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+- LpManager &ndash; a USTC+ and LpNft minter and burner. [View on Polygonscan](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+- USTC+ &ndash; A cross-chain Terra USTC Classic implementation using Layerzero technology. [View on Polygonscan](https://polygonscan.com/token/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
+
+The Binance addresses on Polygon:
+
+- USTC+ buyer &ndash; [0x21e5f3db8f14ac5c0d2171b81dfbe5a0047ba6bb](https://polygonscan.com/address/0x21e5f3db8f14ac5c0d2171b81dfbe5a0047ba6bb)
+- Server's signer address `0x0864F2FdCa3730818c009354DD6874A3Cf207046`. **Off-chain and never will have a transaction**.
 
 ## Packages 📦
 

@@ -13,6 +13,8 @@ export const CONFIG = {
   BASESCAN_API_KEY: process.env.BASESCAN_KEY ?? '',
   LINEASCAN_API_KEY: process.env.LINEASCAN_KEY ?? '',
   OPTIMISTIC_API_KEY: process.env.OPTIMISTICSCAN_KEY ?? process.env.ETHERSCAN_KEY ?? '',
+  BNBSCAN_API_KEY: process.env.BNBSCAN_KEY ?? '',
+  POLYGONSCAN_API_KEY: process.env.POLYGONSCAN_KEY ?? '',
 }
 ;(() => {
   if (!process.env.DEPLOYER_KEY) {
@@ -24,8 +26,14 @@ export const CONFIG = {
   if (!process.env.BASESCAN_KEY) {
     console.warn('BASESCAN_KEY not found in .env file. Etherscan verification might fail')
   }
+  if (!process.env.BNBSCAN_KEY) {
+    console.warn('BNBSCAN_KEY not found in .env file. Bscscan verification might fail')
+  }
   if (!process.env.LINEASCAN_KEY) {
     console.warn('LINEASCAN_KEY not found in .env file. Etherscan verification might fail')
+  }
+  if (!process.env.POLYGONSCAN_KEY) {
+    console.warn('POLYGONSCAN_KEY not found in .env file. Polygonscan verification might fail')
   }
   const OPTIMISTIC_API_KEY = process.env.OPTIMISTICSCAN_KEY ?? process.env.ETHERSCAN_KEY ?? ''
   if (!OPTIMISTIC_API_KEY) {

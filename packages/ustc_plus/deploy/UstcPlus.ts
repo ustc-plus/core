@@ -7,8 +7,9 @@ const contractName = 'UstcPlus'
 const deploy: DeployFunction = async (hre) => {
     const { getNamedAccounts, deployments } = hre
 
-    const { deploy } = deployments
+    const { deploy, getNetworkName } = deployments
     const { deployer } = await getNamedAccounts()
+    const networkName = getNetworkName()
 
     assert(deployer, 'Missing named deployer account')
 
@@ -17,18 +18,28 @@ const deploy: DeployFunction = async (hre) => {
 
     const endpointV2Deployment = await hre.deployments.get('EndpointV2')
 
-    // Sepolia
-    const lpNft = "0x9885055bEb85A0D35B1fFb982Acfeaf61f340877";
-    const lpManager = "0xC72C2e40574C1279fC3D3aDC54C7e055D9727348";
+    let lpNft = ''
+    let lpManager = ''
+    if (networkName === 'polygon') {
+        lpNft = '0xF53dc83E9cE56612dd47cA24e7439C204B602A22'
+        lpManager = '0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6'
+    } else if (networkName == 'sepolia') {
+        lpNft = '0x9885055bEb85A0D35B1fFb982Acfeaf61f340877'
+        lpManager = '0xC72C2e40574C1279fC3D3aDC54C7e055D9727348'
+    }
+
+    if (lpNft.length === 0) {
+        throw `Unsupported network or network parameters for LpNft and LpManager were not set`
+    }
 
     const constructorArgs = [
         lpNft,
         lpManager,
         endpointV2Deployment.address, // LayerZero's EndpointV2 address
         deployer, // owner
-    ];
-    console.log(`Constructor args:`);
-    console.log(constructorArgs);
+    ]
+    console.log(`Constructor args:`)
+    console.log(constructorArgs)
 
     const { address } = await deploy(contractName, {
         from: deployer,

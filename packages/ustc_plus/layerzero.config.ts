@@ -16,6 +16,16 @@ const baseTestnetContract: OmniPointHardhat = {
     contractName: 'UstcPlus',
 }
 
+const polygonContract: OmniPointHardhat = {
+    eid: EndpointId.POLYGON_V2_MAINNET,
+    contractName: 'UstcPlus',
+}
+
+const bnbContract: OmniPointHardhat = {
+    eid: EndpointId.BSC_V2_MAINNET,
+    contractName: 'UstcPlus',
+}
+
 const config: OAppOmniGraphHardhat = {
     contracts: [
         {
@@ -25,7 +35,13 @@ const config: OAppOmniGraphHardhat = {
             contract: baseTestnetContract,
         },
         {
-            contract: sepoliaContract
+            contract: sepoliaContract,
+        },
+        {
+            contract: polygonContract,
+        },
+        {
+            contract: bnbContract,
         },
     ],
     connections: [
@@ -56,6 +72,14 @@ const config: OAppOmniGraphHardhat = {
         //////////////////////////////////////
         // Mainnet
         /////////////////////////////////////
+        {
+            from: polygonContract,
+            to: bnbContract,
+        },
+        {
+            from: bnbContract,
+            to: polygonContract,
+        },
     ],
 }
 
