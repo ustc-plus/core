@@ -68,3 +68,23 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
 During project setup, don't forget to set the environment variables that you set on `app/.env`.
+
+## Adding a support of a new network
+
+### Frontend
+
+First, update the abis on frontend by calling
+
+`yarn run wagmi` and `yarn run wagmi --config ./ustc_wagmi.config.ts`
+
+Then, copy the values of `packages/app/src/abis.ts` to `packages/backend/src/abis.ts`.
+In the `packages/backend/src/abis.ts` and remove wagmi import in the top and everything after `ACTION` comment.
+
+Finally, add the support of the networks on `packages/app/src/utils/networks.ts`
+
+### Backend
+
+On backend, create `RPC_URL_<chain_id>` environment variable and put the RPC node.
+create `SIGNER_KEY_<chain_id>` environment variable and set the private key of the signer.
+
+Then, open the `packages/backend/src/services/Blockchain.ts` and add the supported providers, ethers clients.
