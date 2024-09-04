@@ -21,8 +21,9 @@ import { RouteError } from '@src/common/classes'
 import { NodeEnvs } from '@src/common/misc'
 
 import { Cron } from 'croner'
-import { txToStartMinting } from '@src/services/Blockchain'
+import { Signature, endMintingSignature, txToStartMinting } from '@src/services/Blockchain'
 import { Info, getInfo, trade, getOrderInfo, getDepositStatus } from '@src/services/Binance'
+import { formatEther, parseEther } from 'ethers'
 
 // **** Variables **** //
 
@@ -121,6 +122,22 @@ if (process.env.NODE_ENV! === 'development') {
 
     return res.json(tradeRes)
   })
+
+  app.get('/signature/', async (req: Request, res: Response) => {
+    const owner = '0x80Cbc1f7fd60B7026C0088e5eD58Fc6Ce1180141'
+    const nftId = 1
+    const ustcAmount = parseEther('317')
+    const chainId = 137
+    const signature = await endMintingSignature(owner, chainId, nftId, ustcAmount)
+
+    return res.json({
+      owner,
+      nftId,
+      ustcAmount: ustcAmount.toString(),
+      chainId,
+      signature,
+    })
+  })
 }
 
 app.get('/start-minting/:chainId/:txid', async (req: Request, res: Response) => {
@@ -140,10 +157,12 @@ app.get('/start-minting/:chainId/:txid', async (req: Request, res: Response) => 
     return res.json({ message: `Binance information was reset` })
   }
 
-  txid = '0x22521ce04050d09c7de21f52895e4d65d1a8fe1fc36a69b4360346f07fc07cd3'
-  console.log(`Initially was given ${req.params.txid} but we will use ${txid} instead`)
-
   const depositStatus = await getDepositStatus(txid)
+  let emptySignature: Signature = {
+    v: '',
+    r: '',
+    s: '',
+  }
 
   const responseData = {
     status: depositStatus?.status,
@@ -154,6 +173,7 @@ app.get('/start-minting/:chainId/:txid', async (req: Request, res: Response) => 
     orderId: 0,
     ustcPlusAmount: '0',
     message: '',
+    signature: emptySignature,
   }
 
   if (depositStatus?.status == 1) {
@@ -167,6 +187,24 @@ app.get('/start-minting/:chainId/:txid', async (req: Request, res: Response) => 
       responseData.orderId = order.orderId
       responseData.orderCompleted = order.completed
       responseData.ustcPlusAmount = order.qty!
+
+      if (responseData.ustcPlusAmount === '0' || responseData.ustcPlusAmount === undefined) {
+        responseData.message = `Unable to get order quantity!`
+        return res.json(responseData)
+      }
+
+      const ustcPlusAmount = parseEther(responseData.ustcPlusAmount)
+      const signature = await endMintingSignature(
+        startMinting.creator,
+        chainId,
+        parseInt(startMinting.depositId),
+        ustcPlusAmount
+      )
+      if (typeof signature === 'string') {
+        responseData.message = `Signature error: ${signature}`
+      } else {
+        responseData.signature = signature
+      }
     }
   } else if (depositStatus == undefined) {
     console.log(`No deposit`)

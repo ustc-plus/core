@@ -7,6 +7,10 @@ import {
   Block,
   parseUnits,
   formatUnits,
+  Wallet,
+  keccak256,
+  AbiCoder,
+  getBytes,
 } from 'ethers'
 import { lpManagerAbi, lpManagerAddress } from '@src/abis'
 
@@ -17,12 +21,33 @@ export type StartMintingEvent = {
   usdcAmount: number
 }
 
+export type Signature = {
+  r: string
+  s: string
+  v: string
+}
+
 const providers: { [key: number]: JsonRpcProvider } = {
   11155111: new JsonRpcProvider(process.env.RPC_URL_11155111!),
+  137: new JsonRpcProvider(process.env.RPC_URL_137!),
+}
+
+const signers: { [key: number]: Wallet } = {
+  11155111: new Wallet(process.env.PRIVATE_KEY_11155111!),
+  137: new Wallet(process.env.PRIVATE_KEY_137!),
 }
 
 const lpManager: { [key: number]: Contract } = {
   11155111: new Contract(lpManagerAddress[11155111], lpManagerAbi, providers[11155111]),
+  137: new Contract(lpManagerAddress[137], lpManagerAbi, providers[137]),
+}
+
+const stableCoinDecimals = (chainId: number) => {
+  if (chainId === 11155111) {
+    return 18
+  } else {
+    return 6
+  }
 }
 
 export const txToStartMinting = async (chainId: number, tx: string): Promise<StartMintingEvent | string> => {
@@ -78,7 +103,45 @@ export const txToStartMinting = async (chainId: number, tx: string): Promise<Sta
     creator: parsedLog.args[0] as string,
     timestamp: block.timestamp,
     depositId: (parsedLog.args[1] as bigint).toString(),
-    usdcAmount: parseFloat(formatUnits(parsedLog.args[2] as bigint, parseInt(process.env.USDT_DECIMALS!))),
+    usdcAmount: parseFloat(formatUnits(parsedLog.args[2] as bigint, stableCoinDecimals(chainId))),
   }
   return event
+}
+
+export const endMintingSignature = async (
+  _owner: string,
+  chainId: number,
+  _nftId: number,
+  _ustcPlusAmount: bigint
+): Promise<string | Signature> => {
+  if (providers[chainId] === undefined) {
+    return `unsupported network`
+  }
+
+  const _contract = await lpManager[chainId].getAddress()
+
+  const _hash = messageHash(_owner, _contract, chainId, _nftId, _ustcPlusAmount)
+
+  const signature = signers[chainId].signMessageSync(getBytes(_hash))
+
+  return {
+    r: signature.slice(0, 66),
+    s: '0x' + signature.slice(66, 130),
+    v: '0x' + signature.slice(130, 132),
+  }
+}
+
+export const messageHash = (
+  _owner: string,
+  _contract: string,
+  _chainId: number,
+  _nftId: number,
+  _ustcPlusAmount: bigint
+) => {
+  const encoded = AbiCoder.defaultAbiCoder().encode(
+    ['address', 'uint256', 'uint256', 'address', 'uint256'],
+    [_owner, _nftId, _ustcPlusAmount, _contract, _chainId]
+  )
+
+  return keccak256(encoded)
 }
