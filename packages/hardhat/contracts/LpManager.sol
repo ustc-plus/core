@@ -21,6 +21,7 @@ contract LpManager is OwnableUpgradeable {
     ILpNft public lpNft;
     IERC20 public usdc;
     uint256 private depositId;
+    address public signer;
 
     mapping(uint256 => Deposit) public deposits;
 
@@ -29,6 +30,11 @@ contract LpManager is OwnableUpgradeable {
 
     function initialize() public initializer {
         __Ownable_init(msg.sender);
+        signer = msg.sender;
+    }
+
+    function setSigner(address _signer) external onlyOwner {
+        signer = _signer;
     }
 
     function setUstcPlus(address _ustcPlus) external onlyOwner {
@@ -69,10 +75,13 @@ contract LpManager is OwnableUpgradeable {
         emit StartMinting(msg.sender, depositId, half);
     }
 
-    function endMinting(uint256 _depositId, uint256 _ustcPlusAmount, uint8, bytes32, bytes32) external {
+    function endMinting(uint256 _depositId, uint256 _ustcPlusAmount, uint8 v, bytes32 r, bytes32 s) external {
+        // The two lines below prevents reentrancy.
         require(deposits[_depositId].activated, "not activated");
         require(deposits[_depositId].ustcPlusAmount == 0, "already activated");
+
         require(deposits[_depositId].owner == msg.sender, "not yours");
+        require(mintingValid(msg.sender, _depositId, _ustcPlusAmount, v, r, s));
 
         // Todo verify that _ustcPlus is valid
         ustcPlus.mintByLpManager(address(lpNft), _ustcPlusAmount);
@@ -82,5 +91,33 @@ contract LpManager is OwnableUpgradeable {
         deposits[_depositId].ustcPlusAmount = _ustcPlusAmount;
 
         emit EndMinting(msg.sender, depositId, _ustcPlusAmount);
+    }
+
+    function mintingValid(address _owner, uint256 _depositId, uint256 _ustcPlusAmount,
+        uint8 v, bytes32 r, bytes32 s) public view returns (bool){
+
+        bytes32 hash = encodeMintingParams(_owner, _depositId, _ustcPlusAmount);
+
+        address recover = ecrecover(hash, v, r, s);
+        require(recover == signer,  "Verification failed");
+
+        return true;
+    }
+
+    function encodeMintingParams(
+        address _owner,
+        uint256 _nftId,
+        uint256 _ustcPlusAmount
+    )
+        public
+        pure
+        returns (bytes32 message)
+    {
+        bytes memory prefix = "\x19Ethereum Signed Message:\n32";
+        bytes32 messageNoPrefix = keccak256(abi
+            .encode(_owner, _nftId, _ustcPlusAmount));
+        bytes32 hash = keccak256(abi.encodePacked(prefix, messageNoPrefix));
+
+        return hash;
     }
 }
