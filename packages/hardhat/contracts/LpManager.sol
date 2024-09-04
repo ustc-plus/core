@@ -27,6 +27,8 @@ contract LpManager is OwnableUpgradeable {
 
     event StartMinting(address indexed creator, uint256 indexed depositId, uint256 usdcAmount);
     event EndMinting(address indexed creator, uint256 indexed depositIdIsTokenId, uint256 _ustcPlusAmount);
+    event Wrap(address indexed creator, bytes32 indexed _terraAddress, uint256 _ustcPlusAmount);
+    event Unwrap(address indexed creator, bytes32 indexed _terraAddress, uint256 _ustcPlusAmount);
 
     function initialize() public initializer {
         __Ownable_init(msg.sender);
@@ -119,5 +121,20 @@ contract LpManager is OwnableUpgradeable {
         bytes32 hash = keccak256(abi.encodePacked(prefix, messageNoPrefix));
 
         return hash;
+    }
+
+    // Not implemented yet
+    function wrap(bytes32 _terraAddress, uint256 _ustcPlusAmount, uint8, bytes32, bytes32) external {
+        revert("Not implemented yet");
+
+        ustcPlus.mintByLpManager(msg.sender, _ustcPlusAmount);
+
+        emit Wrap(msg.sender, _terraAddress, _ustcPlusAmount);
+    }
+
+    function unwrap(bytes32 _terraAddress, uint256 _ustcPlusAmount) external {
+        require(ustcPlus.burnByLpManager(msg.sender, _ustcPlusAmount), "failed to burn");
+
+        emit Unwrap(msg.sender, _terraAddress, _ustcPlusAmount);
     }
 }

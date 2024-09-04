@@ -8,4 +8,5 @@ interface IUstcPlus is IERC20 {
     function lpNft() external returns(address);
     function transferByLpNft(address to, uint256 value) external returns(bool);
     function mintByLpManager(address to, uint256 value) external returns(uint256);
+    function burnByLpManager(address to, uint256 value) external returns(bool);
 }

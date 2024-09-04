@@ -52,6 +52,8 @@ contract UstcPlus is OFT, IUstcPlus {
         return true;
     }
 
+    // Lp Manager mints tokens either to create Liquidity Pool NFTs or
+    // to wrap user's USTC on Terra Luna Classic network.
     function mintByLpManager(address to, uint256 value) external onlyLpManager returns(uint256) {
         _mint(to, value);
         return value;
