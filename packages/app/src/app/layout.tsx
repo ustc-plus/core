@@ -4,10 +4,13 @@ import { SITE_DESCRIPTION, SITE_EMOJI, SITE_INFO, SITE_NAME, SITE_URL, SOCIAL_TW
 import { Layout } from '@/components/Layout'
 import { Web3Provider } from '@/context/Web3'
 import { NotificationProvider } from '@/context/Notifications'
+import { LiquidityProcessProvider } from '@/context/LiquidityProcesses'
 import { cookieToInitialState } from 'wagmi'
 import { WALLETCONNECT_CONFIG } from '@/utils/web3'
 import { headers } from 'next/headers'
 import '../assets/globals.css'
+
+console.log(process.env.NODE_ENV)
 
 export const metadata: Metadata = {
   applicationName: SITE_NAME,
@@ -67,7 +70,9 @@ export default function RootLayout(props: PropsWithChildren) {
         }}>
         <Web3Provider initialState={initialState}>
           <NotificationProvider>
-            <Layout>{props.children}</Layout>
+            <LiquidityProcessProvider>
+              <Layout>{props.children}</Layout>
+            </LiquidityProcessProvider>
           </NotificationProvider>
         </Web3Provider>
       </body>

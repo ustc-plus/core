@@ -13,3 +13,15 @@ export interface Notification {
   from?: string
   href?: string
 }
+
+export interface LiquidityProcess {
+  href?: string
+  timestamp?: number
+  from: string
+  networkId: number
+  networkName: string
+  txid: string
+  usdtAmount: number
+  nftId: number
+  onContinue: (txid: string, networkId: number, owner: string) => void
+}

@@ -12,8 +12,10 @@ import { useEffect, useState } from 'react'
 import { erc20Abi, formatEther, formatUnits, parseEther, parseUnits } from 'viem'
 import useInterval from 'use-interval'
 import { useNotifications } from '@/context/Notifications'
-import { isSupportedNetwork, ETH_CHAIN_NAMES } from '@/utils/network'
+import { isSupportedNetwork, ETH_CHAIN_NAMES, stableCoinDecimals } from '@/utils/network'
 import { GetAbi, GetAddr } from '@/utils/web3'
+import LiquidityProcessList from './LiquidityProcessList'
+import { useLiquidityProcesses } from '@/context/LiquidityProcesses'
 
 function timeout(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms))
@@ -29,6 +31,12 @@ type Info = {
 
 type BinanceOrderStatus = -1 | 0 | 6 | 1
 
+type Signature = {
+  v: string
+  r: string
+  s: string
+}
+
 type StartMinting = {
   status?: BinanceOrderStatus
   timestamp?: number
@@ -38,6 +46,7 @@ type StartMinting = {
   orderId?: number
   ustcPlusAmount?: string
   message?: string
+  signature?: Signature
 }
 
 // export const Liquidity = ({ address, tokenAddress, toFixed, onBalanceChange, className }: TokenBalanceProps) => {
@@ -68,6 +77,9 @@ export const Liquidity = () => {
   const [ustcAmount, setUstcAmount] = useState<number>()
   const [nftId, setNftId] = useState<number>()
   const [amountAttempt, setAmountAttempt] = useState<number>(0)
+  const [signature, setSignature] = useState<Signature>()
+  const [startMintingTxid, setStartMintingTxid] = useState<string>()
+  const { liquidityProcesses, Add: AddLiquidityProcess, Complete } = useLiquidityProcesses()
 
   // Set the Smartcontract addresses.
   // Depends on:
@@ -86,6 +98,20 @@ export const Liquidity = () => {
       setLpManagerAddress(GetAddr('lpManagerAddress', account.chainId!))
       setUsdtAddress(GetAddr('testErc20Address', account.chainId!))
       setUtcPlusAddress(GetAddr('ustcPlusAddress', account.chainId!))
+
+      if (liquidityProcesses.length == 0) {
+        AddLiquidityProcess({
+          href: 'https://polygonscan.com/tx/0x5cf28323c28276b2e2179ce177b5fe741530849647bed285f1647effa80a2a75',
+          timestamp: 1725450942000,
+          from: '0x80Cbc1f7fd60B7026C0088e5eD58Fc6Ce1180141',
+          networkId: 137,
+          networkName: 'Polygon',
+          txid: '0x5cf28323c28276b2e2179ce177b5fe741530849647bed285f1647effa80a2a75',
+          usdtAmount: 5.5,
+          nftId: 1,
+          onContinue: onContinueMinting,
+        })
+      }
     }
   }, [connected])
 
@@ -117,12 +143,13 @@ export const Liquidity = () => {
     abi: GetAbi('lpManagerAbi'),
     address: lpManagerAddress,
     functionName: 'startMinting',
-    args: [parseUnits(depositAmount.toString(), parseInt(process.env.NEXT_PUBLIC_USDT_DECIMALS!))],
+    args: [parseUnits(depositAmount.toString(), stableCoinDecimals(account.chainId!))],
   })
 
   const { error: endMintingEstimateError } = useSimulateContract({
     query: {
       enabled:
+        signature !== undefined &&
         mintingStarted &&
         processing &&
         approved &&
@@ -133,7 +160,13 @@ export const Liquidity = () => {
     abi: GetAbi('lpManagerAbi'),
     address: lpManagerAddress,
     functionName: 'endMinting',
-    args: [nftId!, parseEther(ustcAmount!.toString())],
+    args: [
+      nftId!,
+      ustcAmount ? parseEther(ustcAmount!.toString()) : 0,
+      signature ? signature!.v : '0x00',
+      signature ? signature!.r : '0x00',
+      signature ? signature!.s : '0x00',
+    ],
   })
 
   // Prepare approve transaction and it's result
@@ -175,7 +208,7 @@ export const Liquidity = () => {
           : undefined,
       })
       setApproved(true)
-      onMint()
+      onMint(1)
     } else if (approveTxError) {
       setProcessing(false)
       Add(`Approve error: ${approveTxError.cause}`, {
@@ -198,6 +231,21 @@ export const Liquidity = () => {
           ? `${account.chain.blockExplorers.default.url}/tx/${startMintingData}`
           : undefined,
       })
+
+      AddLiquidityProcess({
+        href: account.chain?.blockExplorers?.default.url
+          ? `${account.chain.blockExplorers.default.url}/tx/${startMintingData}`
+          : undefined,
+        timestamp: Date.now(),
+        from: account?.address ? account.address : '',
+        networkId: account?.chain ? account.chain.id : 0,
+        networkName: account?.chain ? account.chain.name : 'Jean Kwon van Do touched it',
+        txid: startMintingData ? startMintingData : 'Where is Terra money, Jean Kwon van Do?',
+        usdtAmount: ustcAmount ? ustcAmount : 0,
+        nftId: 1,
+        onContinue: onContinueMinting,
+      })
+
       setMintingStarted(true)
       onStartMinting(startMintingData!)
     } else if (startMintingTxError) {
@@ -219,8 +267,13 @@ export const Liquidity = () => {
       setMintingStarted(false)
       setProcessing(false)
       setNftId(undefined)
+      setSignature(undefined)
       setOrderId(undefined)
       setOrderStatus(-1)
+      if (startMintingTxid) {
+        setStartMintingTxid(undefined)
+        Complete(startMintingTxid)
+      }
     } else if (endMintingTxError) {
       setProcessing(false)
       Add(`Approve error: ${endMintingTxError.cause}`, {
@@ -254,7 +307,7 @@ export const Liquidity = () => {
     args: [account.address!, lpManagerAddress!],
   })
 
-  // Once the allowance returned, set the status
+  // Once the allowance returned, set the allowance amount in the state
   useEffect(() => {
     if (account.status !== 'connected' || info === undefined) {
       setApproved(false)
@@ -266,6 +319,7 @@ export const Liquidity = () => {
     }
   }, [allowance])
 
+  // Once the allowance state is set, compare it to the deposit
   useEffect(() => {
     if (allowanceAmount == 0) {
       setApproved(false)
@@ -274,7 +328,31 @@ export const Liquidity = () => {
     }
   }, [allowanceAmount, depositAmount])
 
+  const onContinueMinting = async (txid: string, networkId: number, owner: string) => {
+    if (processing || mintingStarted) {
+      Add(`Transaction already going on, please refresh the page and try again`, { type: 'warning' })
+      return
+    }
+    if (account === undefined) {
+      Add(`Connect wallet first`, { type: 'error' })
+      return
+    }
+    if (account.address?.toLowerCase() !== owner.toLowerCase()) {
+      Add(`Switch your account to ${owner}`, { type: 'error' })
+      return
+    }
+    if (account.chainId !== networkId) {
+      Add(`Switch to Network with id ${networkId} first`, { type: 'error' })
+      return
+    }
+
+    setProcessing(true)
+    setMintingStarted(true)
+    onStartMinting(txid)
+  }
+
   const onStartMinting = async (txid: string) => {
+    setStartMintingTxid(txid)
     if (amountAttempt > 3) {
       Add(`Server error: 3 attempts, but still no result. contact us on telegram :(`, { type: 'error' })
       setAmountAttempt(0)
@@ -297,11 +375,14 @@ export const Liquidity = () => {
     }
 
     let startMinting = data as StartMinting
+    console.log(`Start minting: `)
+    console.log(startMinting)
     // Everything is ready, and order is completed.
     if (startMinting.orderCompleted) {
       Add(`${startMinting.ustcPlusAmount} were minted successfully. Let's mint LP`, { type: 'success' })
       setUstcAmount(parseInt(startMinting.ustcPlusAmount!))
       setNftId(startMinting.nftId!)
+      setSignature(startMinting.signature!)
       onMint()
     } else {
       // Order was not completed, let's first check the deposit stats
@@ -320,7 +401,7 @@ export const Liquidity = () => {
     }
   }
 
-  const onMint = () => {
+  const onMint = (step: number = 0) => {
     console.log(`On: ${account.status} ${account.chainId} ${account.address}`)
     if (account.status !== 'connected') {
       Add(`Wallet error: Please connect your wallet`, {
@@ -336,8 +417,8 @@ export const Liquidity = () => {
       Add(`Server error: didn't get the information about pricing, wait and try again later...`, { type: 'error' })
       return
     }
-    if (depositAmount < info.minUsdt) {
-      Add(`Minimum ${info.minUsdt} USDT must be entered`, { type: 'error' })
+    if (depositAmount < info.minUsdt * 2) {
+      Add(`Minimum ${info.minUsdt * 2} USDT must be entered`, { type: 'error' })
       return
     } else if (depositAmount > info.maxUsdt) {
       Add(`Maximum ${info.maxUsdt} USDT must be entered`, { type: 'error' })
@@ -348,7 +429,7 @@ export const Liquidity = () => {
       setProcessing(true)
     }
 
-    if (!approved) {
+    if (step == 0 && !approved) {
       if (approveEstimateError) {
         setProcessing(false)
         Add(`Approve simulation failed: ${approveEstimateError.cause}`, {
@@ -377,68 +458,72 @@ export const Liquidity = () => {
         abi: GetAbi('lpManagerAbi'),
         address: lpManagerAddress!,
         functionName: 'startMinting',
-        args: [parseUnits(depositAmount.toString(), parseInt(process.env.NEXT_PUBLIC_USDT_DECIMALS!))],
+        args: [parseUnits(depositAmount.toString(), stableCoinDecimals(account.chainId!))],
       })
       return
-    }
+    } else {
+      if (endMintingEstimateError) {
+        setProcessing(false)
+        Add(`Mint ending failed: ${endMintingEstimateError.cause}`, {
+          type: 'error',
+        })
+      }
 
-    if (endMintingEstimateError) {
-      setProcessing(false)
-      Add(`Mint ending failed: ${endMintingEstimateError.cause}`, {
-        type: 'error',
+      writeEndMinting({
+        abi: GetAbi('lpManagerAbi'),
+        address: lpManagerAddress!,
+        functionName: 'endMinting',
+        args: [nftId!, parseEther(ustcAmount!.toString()), signature!.v, signature!.r, signature!.s],
       })
     }
-
-    writeEndMinting({
-      abi: GetAbi('lpManagerAbi'),
-      address: lpManagerAddress!,
-      functionName: 'endMinting',
-      args: [nftId!, parseEther(ustcAmount!.toString())],
-    })
-
-    //setProcessing(false);
   }
 
   return (
     <div>
-      <h3 className='text-xl mb-2'>Create USTC+ and Ustc+ Liquidity</h3>
-      <div className='flex my-10'>
-        <label className='input input-bordered flex-1 flex items-center gap-2 max-w-xs'>
-          <input
-            type='number'
-            placeholder={info !== undefined ? info.minUsdt.toString() : '0.0'}
-            min={info !== undefined ? info.minUsdt : 0.0}
-            max={info !== undefined ? info.maxUsdt : 0.0}
-            className='grow'
-            onChange={(e) => setDepositAmount(parseFloat(e.target.value))}
-            disabled={processing}
-          />
-          <span className={'badge ' + processing ? 'badge-neutral-content' : 'badge-info'}>USDT</span>
-        </label>
-        <div
-          className={processing ? 'tooltip tooltip-open tooltip-secondary' : ''}
-          data-tip="Don't refresh the browser">
-          <button className='mx-5 btn btn-primary flex-none' onClick={() => onMint()} disabled={processing}>
-            {processing ? <span className='loading loading-spinner text-warning'></span> : ''} Mint
-          </button>
+      <div className='bg-base-100 border-base-300 rounded-box p-6'>
+        <h3 className='text-xl mb-2'>Create USTC+ and Ustc+ Liquidity</h3>
+        <div className='flex my-10'>
+          <label className='input input-bordered flex-1 flex items-center gap-2 max-w-xs'>
+            <input
+              type='number'
+              placeholder={info !== undefined ? (info.minUsdt * 2).toString() : '0.0'}
+              min={info !== undefined ? info.minUsdt * 2 : 0.0}
+              max={info !== undefined ? info.maxUsdt : 0.0}
+              className='grow'
+              onChange={(e) => setDepositAmount(parseFloat(e.target.value))}
+              disabled={processing}
+            />
+            <span className={'badge ' + processing ? 'badge-neutral-content' : 'badge-info'}>USDT</span>
+          </label>
+          <div
+            className={processing ? 'tooltip tooltip-open tooltip-secondary' : ''}
+            data-tip="Don't refresh the browser">
+            <button className='mx-5 btn btn-primary flex-none' onClick={() => onMint()} disabled={processing}>
+              {processing ? <span className='loading loading-spinner text-warning'></span> : ''} Mint
+            </button>
+          </div>
+        </div>
+        <ul className='content-center steps flex'>
+          <li className='flex-1 step step-primary'>Approve USDT</li>
+          <li className={'flex-1 step' + (approved ? ' step-primary' : '')}>Buy USTC+</li>
+          <li className={'flex-1 step' + (mintingStarted ? ' step-primary' : '')}>Mint Liquidity NFT</li>
+        </ul>
+        <div className='divider'></div>
+        <div className='card bg-base-300 rounded-box grid h-30'>
+          Minimum USDT = {info !== undefined ? info.minUsdt * 2 : 0.0}
+          <br />
+          Estimated Liquidity Pool amount:{' '}
+          {info !== undefined && depositAmount > 0
+            ? (depositAmount / 2).toFixed(4) + ' USDT'
+            : 'calculating USDT...'}{' '}
+          and{' '}
+          {info !== undefined && depositAmount > 0
+            ? (depositAmount / 2 / info.ustcPrice).toFixed(4) + ' USTC+'
+            : 'calculating USDT...'}
         </div>
       </div>
-      <ul className='content-center steps flex'>
-        <li className='flex-1 step step-primary'>Approve USDT</li>
-        <li className={'flex-1 step' + (approved ? ' step-primary' : '')}>Buy USTC+</li>
-        <li className={'flex-1 step' + (mintingStarted ? ' step-primary' : '')}>Mint Liquidity NFT</li>
-      </ul>
-      <div className='divider'></div>
-      <div className='card bg-base-300 rounded-box grid h-30'>
-        Minimum USDT = {info !== undefined ? info.minUsdt : 0.0}
-        <br />
-        Estimated Liquidity Pool amount:{' '}
-        {info !== undefined && depositAmount > 0
-          ? (depositAmount / 2).toFixed(4) + ' USDT'
-          : 'calculating USDT...'} and{' '}
-        {info !== undefined && depositAmount > 0
-          ? (depositAmount / 2 / info.ustcPrice).toFixed(4) + ' USTC+'
-          : 'calculating USDT...'}
+      <div className='bg-base-100 border-base-300 rounded-box p-6 mt-10'>
+        <LiquidityProcessList onContinue={onContinueMinting}></LiquidityProcessList>
       </div>
     </div>
   )

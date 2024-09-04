@@ -11,12 +11,19 @@ export default function Home() {
       <h2 className='text-2xl mb-2'>{SITE_NAME}</h2>
       <p>{SITE_DESCRIPTION}</p>
       <div role='tablist' className='mt-4 tabs tabs-lifted'>
-        <input type='radio' name='main_tabs' role='tab' className='tab' aria-label='Liquidity' defaultChecked={true} />
-        <div role='tabpanel' className='tab-content bg-base-100 border-base-300 rounded-box p-6'>
+        <input
+          type='radio'
+          name='main_tabs'
+          role='tab'
+          className='tab ml-5'
+          aria-label='Liquidity'
+          defaultChecked={true}
+        />
+        <div role='tabpanel' className='tab-content rounded-box'>
           <Liquidity></Liquidity>
         </div>
 
-        <input type='radio' name='main_tabs' role='tab' className='tab' aria-label='Redeem' />
+        <input type='radio' name='main_tabs' role='tab' className='tab ml-5' aria-label='Redeem' />
         <div role='tabpanel' className='tab-content bg-base-100 border-base-300 rounded-box p-6'>
           <h3 className='text-xl mb-2'>Redeem your USDC and USTC+</h3>
           <div>
@@ -44,7 +51,7 @@ export default function Home() {
           </div>
         </div>
 
-        <input type='radio' name='main_tabs' role='tab' className='tab' aria-label='Unwrap' />
+        <input type='radio' name='main_tabs' role='tab' className='tab ml-5' aria-label='Unwrap' />
         <div role='tabpanel' className='tab-content bg-base-100 border-base-300 rounded-box p-6'>
           <h3 className='text-xl mb-2'>Unwrap USTC+ to USTC</h3>
           <input
@@ -64,7 +71,7 @@ export default function Home() {
           </div>
         </div>
 
-        <input type='radio' name='main_tabs' role='tab' className='tab' aria-label='Bridge' />
+        <input type='radio' name='main_tabs' role='tab' className='tab ml-5' aria-label='Bridge' />
         <div role='tabpanel' className='tab-content bg-base-100 border-base-300 rounded-box p-6'>
           <h3 className='text-xl mb-2'>
             Bridge at most <span className='badge badge-md badge-accent'>231 USTC+ between networks</span>
@@ -82,7 +89,7 @@ export default function Home() {
           <button className='mx-5 btn btn-primary'>Unwrap</button>
         </div>
 
-        <input type='radio' name='main_tabs' role='tab' className='tab' aria-label='Faucet' />
+        <input type='radio' name='main_tabs' role='tab' className='tab ml-5' aria-label='Faucet' />
         <div role='tabpanel' className='tab-content bg-base-100 border-base-300 rounded-box p-6'>
           <h3 className='text-xl mb-2'>To test, get the fake tokens</h3>
           <select className='select w-full max-w-xs' value={1}>
