@@ -1,13 +1,5 @@
 # Smart Contracts
 
-First, deploy LP Nft smartcontract.
-Then deploy UstcPlus. UstcPlus requires LpNFT address.
-Once UstcPlus is deployed, set the USTC address on LP Nft.
-
----
-
-This project demonstrates how to add smart contracts to your project using [Hardhat](https://hardhat.org/docs). It provides a sample `Message` contract, a test and deployment scripts.
-
 Try running some of the following tasks:
 
 ```
@@ -21,7 +13,9 @@ yarn coverage
 
 ## Fake USDC
 
-First, to test out you need USDC stable coins. On the testnet we use a fake USDC called "TestERC20".
+> Only on Testnets.
+
+First, to test out you need some stable coins. On the testnet we use a fake stable coin called "TestERC20".
 So, head to the `hardhat` directory:
 
 ```bash
@@ -31,7 +25,7 @@ cd packages/hardhat
 Then, deploy the smartcontract:
 
 ```bash
-npx hardhat run ./src/deploy-usdc.js --network sepolia
+npx hardhat run ./src/deploy-usdc.ts --network sepolia
 ```
 
 > For the testing we use Sepolia Testnet, since i already have some ETH from the faucet. You may use any other networks.
@@ -44,7 +38,7 @@ npx hardhat verify --network sepolia 0x32e5c809663f371ec25c7a21953647b448394aa3
 
 ## Deploy LpNft
 
-Deploy LP NFT.
+Deploy Liquidity Pool NFT.
 
 ```bash
 npx hardhat run ./scripts/deploy-lp-nft.ts --network sepolia
@@ -72,9 +66,11 @@ npx hardhat verify --network sepolia <address>
 
 ## Deploy LpManager
 
-LP Manager mints USTC+ and LP NFTs that consists USTC+ and USDC.
+LP Manager mints USTC+ and LP NFTs that consists USTC+ and stable coin.
 
-Deploy LP NFT.
+> Set the Lp NFT address and USDT address in the `./scripts/deploy-lp-manager.ts`
+
+Deploy LP Manager.
 
 ```bash
 npx hardhat run ./scripts/deploy-lp-manager.ts --network sepolia
@@ -133,12 +129,12 @@ On Lp Manager:
 
 - call `setLpNft` on Etherscan
 - call `setUsdc` on Etherscan
-- call `setUstcBuyer` on Etherscan (exchanges USDC for USTC on Exchanges)
+- call `setUstcBuyer` on Etherscan (exchanges Stable Coin for USTC on Exchanges)
 - call `setUstcPlus` on Etherscan
 
 ## Testing
 
-Head to the USDC, and approve LP Manager to spend your tokens.
+Head to the Stable coin, and approve LP Manager to spend your tokens.
 
 Then, open LP Manager and call `startMinting`.
 
@@ -152,4 +148,7 @@ You need to run the following command from `packages/app`, which will generate t
 
 ```
 yarn wagmi
+yarn wagmi --config ./ustc_wagmi.config.ts
 ```
+
+Also, copy the first half part of the generated abis and set it on the backend code.
