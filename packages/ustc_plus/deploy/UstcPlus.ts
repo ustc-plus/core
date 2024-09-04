@@ -26,6 +26,9 @@ const deploy: DeployFunction = async (hre) => {
     } else if (networkName == 'sepolia') {
         lpNft = '0x9885055bEb85A0D35B1fFb982Acfeaf61f340877'
         lpManager = '0xC72C2e40574C1279fC3D3aDC54C7e055D9727348'
+    } else if (networkName == 'bnb') {
+        lpNft = '0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2'
+        lpManager = '0xCb3B96E8c57E90b8B74959c8475cD3245D02f053'
     }
 
     if (lpNft.length === 0) {

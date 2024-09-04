@@ -9,6 +9,7 @@ import helmet from 'helmet'
 import express, { Request, Response, NextFunction, response } from 'express'
 import logger from 'jet-logger'
 import cors from 'cors'
+import { addMinting, getMinting, updateMinting } from './services/MintingTracker'
 
 import 'express-async-errors'
 
@@ -24,6 +25,8 @@ import { Cron } from 'croner'
 import { Signature, endMintingSignature, txToStartMinting } from '@src/services/Blockchain'
 import { Info, getInfo, trade, getOrderInfo, getDepositStatus } from '@src/services/Binance'
 import { formatEther, parseEther } from 'ethers'
+import { WithId } from 'mongodb'
+import { Minting, MintingType } from './models/DbModels'
 
 // **** Variables **** //
 
@@ -148,16 +151,45 @@ app.get('/start-minting/:chainId/:txid', async (req: Request, res: Response) => 
 
   let txid = req.params.txid
 
-  const startMinting = await txToStartMinting(chainId, txid)
-  if (typeof startMinting === 'string') {
-    return res.json({ message: startMinting })
+  let cachedMinting = await getMinting(txid, chainId)
+  console.log(`Fetched result of minting on db: `)
+  console.log(cachedMinting)
+  if (cachedMinting === undefined) {
+    const startMinting = await txToStartMinting(chainId, txid)
+    if (typeof startMinting === 'string') {
+      return res.json({ message: startMinting })
+    }
+
+    let mintingToAdd = {
+      walletAddress: startMinting.creator, // a user
+      networkId: chainId,
+      txid: txid,
+      timestamp: startMinting.timestamp,
+      depositAmount: startMinting.usdcAmount, // 0 or 1
+      ustcAmount: 0,
+      orderCompleted: false,
+      orderId: 0,
+      nftId: parseInt(startMinting.depositId),
+      manual: false,
+      depositStatus: -1,
+    } as MintingType
+    let minting = await addMinting(mintingToAdd)
+    if (minting !== undefined) {
+      return res.json({ message: `Caching transaction state failed: ${minting}` })
+    }
+    cachedMinting = await getMinting(txid, chainId)
+    if (cachedMinting === undefined) {
+      return res.json({ message: 'Database error, its shut down' })
+    }
+  } else if (cachedMinting.manual) {
+    return res.json({ message: `Error, admins will do it manually, please visit later` })
   }
+  console.log(`Cached Minting: ${cachedMinting._id}`)
 
   if (info === undefined) {
-    return res.json({ message: `Binance information was reset` })
+    return res.json({ message: `Binance information was reset. Try again later` })
   }
 
-  const depositStatus = await getDepositStatus(txid)
   let emptySignature: Signature = {
     v: '',
     r: '',
@@ -165,51 +197,119 @@ app.get('/start-minting/:chainId/:txid', async (req: Request, res: Response) => 
   }
 
   const responseData = {
-    status: depositStatus?.status,
-    timestamp: startMinting.timestamp,
-    nftId: parseInt(startMinting.depositId),
-    orderCompleted: false,
-    orderCompletion: depositStatus?.confirmTimes,
-    orderId: 0,
-    ustcPlusAmount: '0',
+    status: cachedMinting.depositStatus,
+    timestamp: cachedMinting.timestamp,
+    nftId: cachedMinting.nftId,
+    orderCompleted: cachedMinting.orderCompleted,
+    orderCompletion: '',
+    orderId: cachedMinting.orderId,
+    ustcPlusAmount: cachedMinting.ustcAmount,
     message: '',
     signature: emptySignature,
   }
 
-  if (depositStatus?.status == 1) {
-    console.log(`Data was deposited, therefore we will trade it by buying ${startMinting.usdcAmount}...`)
+  if (cachedMinting.depositStatus !== 1) {
+    const depositStatus = await getDepositStatus(txid)
+    if (depositStatus === undefined) {
+      return res.json({ message: `failed to get deposit status for ${txid} on Binance` })
+    }
+    if (depositStatus.status !== 1) {
+      responseData.orderCompletion = depositStatus.confirmTimes
 
-    console.log(`Instead trading ${startMinting.usdcAmount} we will trade ${info.minUsdt}`)
-    const order = await trade(info.minUsdt)
-    if (typeof order === 'string') {
-      responseData.message = order
-    } else {
-      responseData.orderId = order.orderId
-      responseData.orderCompleted = order.completed
-      responseData.ustcPlusAmount = order.qty!
-
-      if (responseData.ustcPlusAmount === '0' || responseData.ustcPlusAmount === undefined) {
-        responseData.message = `Unable to get order quantity!`
+      if (depositStatus.status === cachedMinting.depositStatus) {
         return res.json(responseData)
       }
 
-      const ustcPlusAmount = parseEther(responseData.ustcPlusAmount)
-      const signature = await endMintingSignature(
-        startMinting.creator,
-        chainId,
-        parseInt(startMinting.depositId),
-        ustcPlusAmount
-      )
-      if (typeof signature === 'string') {
-        responseData.message = `Signature error: ${signature}`
-      } else {
-        responseData.signature = signature
+      cachedMinting.depositStatus = depositStatus.status
+      const updated = await updateMinting(cachedMinting)
+      if (!updated) {
+        return res.json({ message: 'Failed to update deposit status, please try again later!' })
       }
+      responseData.status = depositStatus.status
+
+      return res.json(responseData)
     }
-  } else if (depositStatus == undefined) {
-    console.log(`No deposit`)
+
+    cachedMinting.depositStatus = depositStatus.status
+    const updated = await updateMinting(cachedMinting)
+    if (!updated) {
+      return res.json({ message: 'Failed to update deposit status as succeed, please try again later!' })
+    }
+  }
+
+  if (!cachedMinting.orderCompleted) {
+    // Order started its trading, but not completed
+    if (cachedMinting.orderId > 0) {
+      const orderInfo = await getOrderInfo(cachedMinting.orderId)
+
+      if (typeof orderInfo === 'string') {
+        responseData.message = `Failed to get order status: ${orderInfo}`
+        return res.json(responseData)
+      }
+
+      responseData.orderCompleted = orderInfo.completed
+      responseData.ustcPlusAmount = parseFloat(orderInfo.qty!)
+
+      // Still not loaded, so update.
+      // Client will see: deposit = 1, orderCompleted = false, orderId = !null
+      if (!orderInfo.completed) {
+        return res.json(responseData)
+      }
+
+      cachedMinting.orderCompleted = orderInfo.completed
+      cachedMinting.ustcAmount = parseFloat(orderInfo.qty!)
+      const updated = await updateMinting(cachedMinting)
+      if (!updated) {
+        responseData.message = `Failed to update the order as completed: ${orderInfo}`
+      }
+
+      return res.json(responseData)
+    }
+
+    // Order not completed and order id not set, so let's trade
+    console.log(`Data was deposited, therefore we will trade it by buying ${cachedMinting.depositAmount}...`)
+
+    const order = await trade(cachedMinting.depositAmount)
+    // Shall we update here cachedMinting.manual?
+    if (typeof order === 'string') {
+      responseData.message = order
+      return res.json(responseData)
+    }
+
+    responseData.orderId = order.orderId
+    cachedMinting.orderId = order.orderId
+
+    responseData.orderCompleted = order.completed
+    cachedMinting.orderCompleted = order.completed
+    if (order.qty) {
+      responseData.ustcPlusAmount = parseFloat(order.qty!)
+      cachedMinting.ustcAmount = parseFloat(order.qty!)
+    } else {
+      responseData.ustcPlusAmount = 0.0
+      cachedMinting.ustcAmount = 0.0
+    }
+
+    const updated = await updateMinting(cachedMinting)
+    if (!updated) {
+      // DANGER, TODO, make sure that manual is updated
+      console.error(`Todo, update manually. Calling this function will trade again`)
+      console.log(order)
+      console.log(cachedMinting)
+      // responseData.message = `Failed to set order id in the cache. Please try again later`
+    }
+
+    // Order opened but not completed
+    if (!order.completed) {
+      return res.json(responseData)
+    }
+  }
+
+  const ustcPlusAmount = parseEther(cachedMinting.ustcAmount.toString())
+  const signature = await endMintingSignature(cachedMinting.walletAddress, chainId, cachedMinting.nftId, ustcPlusAmount)
+  if (typeof signature === 'string') {
+    responseData.message = `Signature error: ${signature}`
   } else {
-    console.log(`Waiting for confirmation`)
+    responseData.signature = signature
   }
 
   return res.json(responseData)

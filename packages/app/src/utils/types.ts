@@ -23,5 +23,5 @@ export interface LiquidityProcess {
   txid: string
   usdtAmount: number
   nftId: number
-  onContinue: (txid: string, networkId: number, owner: string) => void
+  onContinue: (txid: string, networkId: number, owner: string, usdtAmount: number) => void
 }

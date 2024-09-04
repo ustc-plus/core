@@ -1,6 +1,6 @@
-import { polygon, sepolia, Chain } from 'viem/chains'
+import { polygon, bsc, sepolia, Chain } from 'viem/chains'
 
-let chains = [polygon] as [Chain, ...Chain[]]
+let chains = [polygon, bsc] as [Chain, ...Chain[]]
 
 if (process.env.NODE_ENV !== 'production') chains.push(sepolia)
 
@@ -23,8 +23,20 @@ export const isSupportedNetwork = (chainId: number | undefined) => {
   return false
 }
 
+export const networkName = (chainId: number | undefined): string => {
+  if (isSupportedNetwork(chainId)) {
+    for (let chain of chains) {
+      if (chain.id === chainId) {
+        return chain.name
+      }
+    }
+  }
+
+  return `Jean Kwon van Do's network`
+}
+
 export const stableCoinDecimals = (chainId: number) => {
-  if (chainId == sepolia.id) {
+  if (chainId == sepolia.id || chainId == bsc.id) {
     return 18
   }
   return 6

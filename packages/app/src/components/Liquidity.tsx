@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react'
 import { erc20Abi, formatEther, formatUnits, parseEther, parseUnits } from 'viem'
 import useInterval from 'use-interval'
 import { useNotifications } from '@/context/Notifications'
-import { isSupportedNetwork, ETH_CHAIN_NAMES, stableCoinDecimals } from '@/utils/network'
+import { isSupportedNetwork, ETH_CHAIN_NAMES, stableCoinDecimals, networkName } from '@/utils/network'
 import { GetAbi, GetAddr } from '@/utils/web3'
 import LiquidityProcessList from './LiquidityProcessList'
 import { useLiquidityProcesses } from '@/context/LiquidityProcesses'
@@ -72,7 +72,6 @@ export const Liquidity = () => {
   const [approved, setApproved] = useState<boolean>(false)
   const [processing, setProcessing] = useState<boolean>(false)
   const [mintingStarted, setMintingStarted] = useState<boolean>(false)
-  const [orderStatus, setOrderStatus] = useState<BinanceOrderStatus>(-1)
   const [orderId, setOrderId] = useState<number>()
   const [ustcAmount, setUstcAmount] = useState<number>()
   const [nftId, setNftId] = useState<number>()
@@ -107,7 +106,7 @@ export const Liquidity = () => {
           networkId: 137,
           networkName: 'Polygon',
           txid: '0x5cf28323c28276b2e2179ce177b5fe741530849647bed285f1647effa80a2a75',
-          usdtAmount: 5.5,
+          usdtAmount: depositAmount,
           nftId: 1,
           onContinue: onContinueMinting,
         })
@@ -247,7 +246,7 @@ export const Liquidity = () => {
       })
 
       setMintingStarted(true)
-      onStartMinting(startMintingData!)
+      setStartMintingTxid(startMintingData!)
     } else if (startMintingTxError) {
       setProcessing(false)
       Add(`Approve error: ${startMintingTxError.cause}`, {
@@ -269,7 +268,6 @@ export const Liquidity = () => {
       setNftId(undefined)
       setSignature(undefined)
       setOrderId(undefined)
-      setOrderStatus(-1)
       if (startMintingTxid) {
         setStartMintingTxid(undefined)
         Complete(startMintingTxid)
@@ -328,7 +326,27 @@ export const Liquidity = () => {
     }
   }, [allowanceAmount, depositAmount])
 
-  const onContinueMinting = async (txid: string, networkId: number, owner: string) => {
+  useEffect(() => {
+    if (
+      depositAmount != undefined &&
+      depositAmount > 0 &&
+      processing &&
+      mintingStarted &&
+      startMintingTxid !== undefined &&
+      startMintingTxid.length > 0
+    ) {
+      console.log(`Start Minting`)
+      onStartMinting()
+    }
+  }, [depositAmount, processing, mintingStarted, startMintingTxid])
+
+  useEffect(() => {
+    if (ustcAmount !== undefined && ustcAmount > 0 && nftId != undefined && nftId > 0 && signature !== undefined) {
+      onMint(2)
+    }
+  }, [ustcAmount, nftId, signature])
+
+  const onContinueMinting = async (txid: string, networkId: number, owner: string, ustcAmount: number) => {
     if (processing || mintingStarted) {
       Add(`Transaction already going on, please refresh the page and try again`, { type: 'warning' })
       return
@@ -342,27 +360,29 @@ export const Liquidity = () => {
       return
     }
     if (account.chainId !== networkId) {
-      Add(`Switch to Network with id ${networkId} first`, { type: 'error' })
+      Add(`Switch to Network with id ${networkName(networkId)} first`, { type: 'error' })
       return
     }
 
+    console.log(`Set deposit amount: ${ustcAmount} and ${txid}`)
+    setDepositAmount(ustcAmount)
     setProcessing(true)
     setMintingStarted(true)
-    onStartMinting(txid)
+    setStartMintingTxid(txid)
   }
 
-  const onStartMinting = async (txid: string) => {
-    setStartMintingTxid(txid)
+  const onStartMinting = async () => {
     if (amountAttempt > 3) {
       Add(`Server error: 3 attempts, but still no result. contact us on telegram :(`, { type: 'error' })
       setAmountAttempt(0)
       setProcessing(false)
       setMintingStarted(false)
+      setStartMintingTxid(undefined)
       return
     }
     const url = process.env.NEXT_PUBLIC_BACKEND_URL!
 
-    const response = await fetch(`${url}/start-minting/${account.chainId}/${txid}`)
+    const response = await fetch(`${url}/start-minting/${account.chainId}/${startMintingTxid}`)
     const data = await response.json()
 
     if (data['message'] !== undefined && (data['message'] as string).length > 0) {
@@ -371,6 +391,7 @@ export const Liquidity = () => {
       })
       setProcessing(false)
       setMintingStarted(false)
+      setStartMintingTxid(undefined)
       return
     }
 
@@ -383,20 +404,24 @@ export const Liquidity = () => {
       setUstcAmount(parseInt(startMinting.ustcPlusAmount!))
       setNftId(startMinting.nftId!)
       setSignature(startMinting.signature!)
-      onMint()
     } else {
       // Order was not completed, let's first check the deposit stats
       if (startMinting.status === -1) {
         Add(`Deposit was not received by the server, tring again in 2 seconds`, { type: 'warning' })
         setAmountAttempt(amountAttempt + 1)
         await timeout(2000)
-        onStartMinting(txid)
+        onStartMinting()
         return
+      } else if (startMinting.status === 1) {
+        Add(`Deposit was confirmed, waiting for order status`, { type: 'success' })
+        await timeout(2000)
+        setAmountAttempt(amountAttempt + 1)
+        onStartMinting()
       } else {
         Add(`Deposit is in pending, ${startMinting.orderCompletion}`, { type: 'info' })
         await timeout(2000)
         setAmountAttempt(amountAttempt + 1)
-        onStartMinting(txid)
+        onStartMinting()
       }
     }
   }
@@ -418,7 +443,7 @@ export const Liquidity = () => {
       return
     }
     if (depositAmount < info.minUsdt * 2) {
-      Add(`Minimum ${info.minUsdt * 2} USDT must be entered`, { type: 'error' })
+      Add(`Minimum ${info.minUsdt * 2} USDT must be entered but given: ${depositAmount}`, { type: 'error' })
       return
     } else if (depositAmount > info.maxUsdt) {
       Add(`Maximum ${info.maxUsdt} USDT must be entered`, { type: 'error' })
@@ -490,7 +515,9 @@ export const Liquidity = () => {
               min={info !== undefined ? info.minUsdt * 2 : 0.0}
               max={info !== undefined ? info.maxUsdt : 0.0}
               className='grow'
-              onChange={(e) => setDepositAmount(parseFloat(e.target.value))}
+              onChange={(e) => {
+                isNaN(parseFloat(e.target.value)) ? setDepositAmount(0.0) : setDepositAmount(parseFloat(e.target.value))
+              }}
               disabled={processing}
             />
             <span className={'badge ' + processing ? 'badge-neutral-content' : 'badge-info'}>USDT</span>

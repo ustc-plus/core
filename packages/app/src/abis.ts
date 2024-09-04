@@ -1231,6 +1231,7 @@ export const initializableAbi = [
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -1467,15 +1468,18 @@ export const lpManagerAbi = [
 ] as const
 
 /**
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
 export const lpManagerAddress = {
+  56: '0xCb3B96E8c57E90b8B74959c8475cD3245D02f053',
   137: '0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6',
   11155111: '0xC72C2e40574C1279fC3D3aDC54C7e055D9727348',
 } as const
 
 /**
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -1486,6 +1490,7 @@ export const lpManagerConfig = { address: lpManagerAddress, abi: lpManagerAbi } 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -1907,15 +1912,18 @@ export const lpNftAbi = [
 ] as const
 
 /**
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
 export const lpNftAddress = {
+  56: '0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2',
   137: '0xF53dc83E9cE56612dd47cA24e7439C204B602A22',
   11155111: '0x9885055bEb85A0D35B1fFb982Acfeaf61f340877',
 } as const
 
 /**
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -2038,6 +2046,7 @@ export const stringsAbi = [
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
  */
@@ -2176,15 +2185,18 @@ export const testErc20Abi = [
 ] as const
 
 /**
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
  */
 export const testErc20Address = {
+  56: '0x55d398326f99059fF775485246999027B3197955',
   137: '0xc2132D05D31c914a87C6611C10748AEb04B58e8F',
   11155111: '0x32e5C809663F371ec25c7A21953647b448394aA3',
 } as const
 
 /**
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
  */
@@ -3307,6 +3319,7 @@ export const watchInitializableInitializedEvent = /*#__PURE__*/ createWatchContr
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link lpManagerAbi}__
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3315,6 +3328,7 @@ export const readLpManager = /*#__PURE__*/ createReadContract({ abi: lpManagerAb
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"deposits"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3327,6 +3341,7 @@ export const readLpManagerDeposits = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"encodeMintingParams"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3339,6 +3354,7 @@ export const readLpManagerEncodeMintingParams = /*#__PURE__*/ createReadContract
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"lpNft"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3351,6 +3367,7 @@ export const readLpManagerLpNft = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"mintingValid"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3363,6 +3380,7 @@ export const readLpManagerMintingValid = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"owner"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3375,6 +3393,7 @@ export const readLpManagerOwner = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"signer"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3387,6 +3406,7 @@ export const readLpManagerSigner = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"usdc"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3399,6 +3419,7 @@ export const readLpManagerUsdc = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"ustcPlus"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3411,6 +3432,7 @@ export const readLpManagerUstcPlus = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"ustcPlusBuyer"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3423,6 +3445,7 @@ export const readLpManagerUstcPlusBuyer = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link lpManagerAbi}__
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3431,6 +3454,7 @@ export const writeLpManager = /*#__PURE__*/ createWriteContract({ abi: lpManager
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"endMinting"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3443,6 +3467,7 @@ export const writeLpManagerEndMinting = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"initialize"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3455,6 +3480,7 @@ export const writeLpManagerInitialize = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"renounceOwnership"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3467,6 +3493,7 @@ export const writeLpManagerRenounceOwnership = /*#__PURE__*/ createWriteContract
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"setLpNft"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3479,6 +3506,7 @@ export const writeLpManagerSetLpNft = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"setSigner"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3491,6 +3519,7 @@ export const writeLpManagerSetSigner = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"setUsdc"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3503,6 +3532,7 @@ export const writeLpManagerSetUsdc = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"setUstcBuyer"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3515,6 +3545,7 @@ export const writeLpManagerSetUstcBuyer = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"setUstcPlus"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3527,6 +3558,7 @@ export const writeLpManagerSetUstcPlus = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"startMinting"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3539,6 +3571,7 @@ export const writeLpManagerStartMinting = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"transferOwnership"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3551,6 +3584,7 @@ export const writeLpManagerTransferOwnership = /*#__PURE__*/ createWriteContract
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"unwrap"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3563,6 +3597,7 @@ export const writeLpManagerUnwrap = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"wrap"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3575,6 +3610,7 @@ export const writeLpManagerWrap = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpManagerAbi}__
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3583,6 +3619,7 @@ export const simulateLpManager = /*#__PURE__*/ createSimulateContract({ abi: lpM
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"endMinting"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3595,6 +3632,7 @@ export const simulateLpManagerEndMinting = /*#__PURE__*/ createSimulateContract(
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"initialize"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3607,6 +3645,7 @@ export const simulateLpManagerInitialize = /*#__PURE__*/ createSimulateContract(
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"renounceOwnership"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3619,6 +3658,7 @@ export const simulateLpManagerRenounceOwnership = /*#__PURE__*/ createSimulateCo
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"setLpNft"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3631,6 +3671,7 @@ export const simulateLpManagerSetLpNft = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"setSigner"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3643,6 +3684,7 @@ export const simulateLpManagerSetSigner = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"setUsdc"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3655,6 +3697,7 @@ export const simulateLpManagerSetUsdc = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"setUstcBuyer"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3667,6 +3710,7 @@ export const simulateLpManagerSetUstcBuyer = /*#__PURE__*/ createSimulateContrac
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"setUstcPlus"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3679,6 +3723,7 @@ export const simulateLpManagerSetUstcPlus = /*#__PURE__*/ createSimulateContract
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"startMinting"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3691,6 +3736,7 @@ export const simulateLpManagerStartMinting = /*#__PURE__*/ createSimulateContrac
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"transferOwnership"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3703,6 +3749,7 @@ export const simulateLpManagerTransferOwnership = /*#__PURE__*/ createSimulateCo
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"unwrap"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3715,6 +3762,7 @@ export const simulateLpManagerUnwrap = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"wrap"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3727,6 +3775,7 @@ export const simulateLpManagerWrap = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lpManagerAbi}__
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3738,6 +3787,7 @@ export const watchLpManagerEvent = /*#__PURE__*/ createWatchContractEvent({
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lpManagerAbi}__ and `eventName` set to `"EndMinting"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3750,6 +3800,7 @@ export const watchLpManagerEndMintingEvent = /*#__PURE__*/ createWatchContractEv
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lpManagerAbi}__ and `eventName` set to `"Initialized"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3762,6 +3813,7 @@ export const watchLpManagerInitializedEvent = /*#__PURE__*/ createWatchContractE
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lpManagerAbi}__ and `eventName` set to `"OwnershipTransferred"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3774,6 +3826,7 @@ export const watchLpManagerOwnershipTransferredEvent = /*#__PURE__*/ createWatch
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lpManagerAbi}__ and `eventName` set to `"StartMinting"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3786,6 +3839,7 @@ export const watchLpManagerStartMintingEvent = /*#__PURE__*/ createWatchContract
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lpManagerAbi}__ and `eventName` set to `"Unwrap"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3798,6 +3852,7 @@ export const watchLpManagerUnwrapEvent = /*#__PURE__*/ createWatchContractEvent(
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lpManagerAbi}__ and `eventName` set to `"Wrap"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -3810,6 +3865,7 @@ export const watchLpManagerWrapEvent = /*#__PURE__*/ createWatchContractEvent({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -3818,6 +3874,7 @@ export const readLpNft = /*#__PURE__*/ createReadContract({ abi: lpNftAbi, addre
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"HODLER_ID"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -3830,6 +3887,7 @@ export const readLpNftHodlerId = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"_rTotal"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -3842,6 +3900,7 @@ export const readLpNftRTotal = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"_tFeeTotal"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -3854,6 +3913,7 @@ export const readLpNftTFeeTotal = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"_tTotal"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -3866,6 +3926,7 @@ export const readLpNftTTotal = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"balanceOf"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -3878,6 +3939,7 @@ export const readLpNftBalanceOf = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"dao"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -3890,6 +3952,7 @@ export const readLpNftDao = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"getApproved"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -3902,6 +3965,7 @@ export const readLpNftGetApproved = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"isApprovedForAll"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -3914,6 +3978,7 @@ export const readLpNftIsApprovedForAll = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"lpManager"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -3926,6 +3991,7 @@ export const readLpNftLpManager = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"name"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -3938,6 +4004,7 @@ export const readLpNftName = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"owner"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -3950,6 +4017,7 @@ export const readLpNftOwner = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"ownerOf"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -3962,6 +4030,7 @@ export const readLpNftOwnerOf = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"paramsOf"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -3974,6 +4043,7 @@ export const readLpNftParamsOf = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"reflectBalanceOf"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -3986,6 +4056,7 @@ export const readLpNftReflectBalanceOf = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"reflectionFromToken"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -3998,6 +4069,7 @@ export const readLpNftReflectionFromToken = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"slashCurrentAmount"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4010,6 +4082,7 @@ export const readLpNftSlashCurrentAmount = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"slashEndTime"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4022,6 +4095,7 @@ export const readLpNftSlashEndTime = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"supportsInterface"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4034,6 +4108,7 @@ export const readLpNftSupportsInterface = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"symbol"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4046,6 +4121,7 @@ export const readLpNftSymbol = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"tokenFromReflection"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4058,6 +4134,7 @@ export const readLpNftTokenFromReflection = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"tokenURI"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4070,6 +4147,7 @@ export const readLpNftTokenUri = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"usdc"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4082,6 +4160,7 @@ export const readLpNftUsdc = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"ustcPlus"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4094,6 +4173,7 @@ export const readLpNftUstcPlus = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link lpNftAbi}__
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4102,6 +4182,7 @@ export const writeLpNft = /*#__PURE__*/ createWriteContract({ abi: lpNftAbi, add
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"approve"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4114,6 +4195,7 @@ export const writeLpNftApprove = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"burn"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4126,6 +4208,7 @@ export const writeLpNftBurn = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"distribute"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4138,6 +4221,7 @@ export const writeLpNftDistribute = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"initialize"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4150,6 +4234,7 @@ export const writeLpNftInitialize = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"mint"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4162,6 +4247,7 @@ export const writeLpNftMint = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"redeem"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4174,6 +4260,7 @@ export const writeLpNftRedeem = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"reflect"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4186,6 +4273,7 @@ export const writeLpNftReflect = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"renounceOwnership"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4198,6 +4286,7 @@ export const writeLpNftRenounceOwnership = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"safeTransferFrom"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4210,6 +4299,7 @@ export const writeLpNftSafeTransferFrom = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"setApprovalForAll"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4222,6 +4312,7 @@ export const writeLpNftSetApprovalForAll = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"setDao"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4234,6 +4325,7 @@ export const writeLpNftSetDao = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"setLpManager"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4246,6 +4338,7 @@ export const writeLpNftSetLpManager = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"setUsdc"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4258,6 +4351,7 @@ export const writeLpNftSetUsdc = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"setUstcPlus"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4270,6 +4364,7 @@ export const writeLpNftSetUstcPlus = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"setupReflect"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4282,6 +4377,7 @@ export const writeLpNftSetupReflect = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"transferFrom"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4294,6 +4390,7 @@ export const writeLpNftTransferFrom = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"transferOwnership"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4306,6 +4403,7 @@ export const writeLpNftTransferOwnership = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpNftAbi}__
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4314,6 +4412,7 @@ export const simulateLpNft = /*#__PURE__*/ createSimulateContract({ abi: lpNftAb
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"approve"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4326,6 +4425,7 @@ export const simulateLpNftApprove = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"burn"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4338,6 +4438,7 @@ export const simulateLpNftBurn = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"distribute"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4350,6 +4451,7 @@ export const simulateLpNftDistribute = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"initialize"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4362,6 +4464,7 @@ export const simulateLpNftInitialize = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"mint"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4374,6 +4477,7 @@ export const simulateLpNftMint = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"redeem"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4386,6 +4490,7 @@ export const simulateLpNftRedeem = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"reflect"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4398,6 +4503,7 @@ export const simulateLpNftReflect = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"renounceOwnership"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4410,6 +4516,7 @@ export const simulateLpNftRenounceOwnership = /*#__PURE__*/ createSimulateContra
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"safeTransferFrom"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4422,6 +4529,7 @@ export const simulateLpNftSafeTransferFrom = /*#__PURE__*/ createSimulateContrac
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"setApprovalForAll"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4434,6 +4542,7 @@ export const simulateLpNftSetApprovalForAll = /*#__PURE__*/ createSimulateContra
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"setDao"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4446,6 +4555,7 @@ export const simulateLpNftSetDao = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"setLpManager"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4458,6 +4568,7 @@ export const simulateLpNftSetLpManager = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"setUsdc"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4470,6 +4581,7 @@ export const simulateLpNftSetUsdc = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"setUstcPlus"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4482,6 +4594,7 @@ export const simulateLpNftSetUstcPlus = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"setupReflect"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4494,6 +4607,7 @@ export const simulateLpNftSetupReflect = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"transferFrom"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4506,6 +4620,7 @@ export const simulateLpNftTransferFrom = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"transferOwnership"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4518,6 +4633,7 @@ export const simulateLpNftTransferOwnership = /*#__PURE__*/ createSimulateContra
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lpNftAbi}__
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4526,6 +4642,7 @@ export const watchLpNftEvent = /*#__PURE__*/ createWatchContractEvent({ abi: lpN
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lpNftAbi}__ and `eventName` set to `"Approval"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4538,6 +4655,7 @@ export const watchLpNftApprovalEvent = /*#__PURE__*/ createWatchContractEvent({
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lpNftAbi}__ and `eventName` set to `"ApprovalForAll"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4550,6 +4668,7 @@ export const watchLpNftApprovalForAllEvent = /*#__PURE__*/ createWatchContractEv
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lpNftAbi}__ and `eventName` set to `"Initialized"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4562,6 +4681,7 @@ export const watchLpNftInitializedEvent = /*#__PURE__*/ createWatchContractEvent
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lpNftAbi}__ and `eventName` set to `"OwnershipTransferred"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4574,6 +4694,7 @@ export const watchLpNftOwnershipTransferredEvent = /*#__PURE__*/ createWatchCont
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lpNftAbi}__ and `eventName` set to `"Redeem"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4586,6 +4707,7 @@ export const watchLpNftRedeemEvent = /*#__PURE__*/ createWatchContractEvent({
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lpNftAbi}__ and `eventName` set to `"Transfer"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -4746,6 +4868,7 @@ export const watchOwnableUpgradeableOwnershipTransferredEvent = /*#__PURE__*/ cr
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link testErc20Abi}__
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
  */
@@ -4754,6 +4877,7 @@ export const readTestErc20 = /*#__PURE__*/ createReadContract({ abi: testErc20Ab
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link testErc20Abi}__ and `functionName` set to `"allowance"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
  */
@@ -4766,6 +4890,7 @@ export const readTestErc20Allowance = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link testErc20Abi}__ and `functionName` set to `"balanceOf"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
  */
@@ -4778,6 +4903,7 @@ export const readTestErc20BalanceOf = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link testErc20Abi}__ and `functionName` set to `"decimals"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
  */
@@ -4790,6 +4916,7 @@ export const readTestErc20Decimals = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link testErc20Abi}__ and `functionName` set to `"name"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
  */
@@ -4802,6 +4929,7 @@ export const readTestErc20Name = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link testErc20Abi}__ and `functionName` set to `"symbol"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
  */
@@ -4814,6 +4942,7 @@ export const readTestErc20Symbol = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link testErc20Abi}__ and `functionName` set to `"totalSupply"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
  */
@@ -4826,6 +4955,7 @@ export const readTestErc20TotalSupply = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link testErc20Abi}__
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
  */
@@ -4834,6 +4964,7 @@ export const writeTestErc20 = /*#__PURE__*/ createWriteContract({ abi: testErc20
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link testErc20Abi}__ and `functionName` set to `"approve"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
  */
@@ -4846,6 +4977,7 @@ export const writeTestErc20Approve = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link testErc20Abi}__ and `functionName` set to `"transfer"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
  */
@@ -4858,6 +4990,7 @@ export const writeTestErc20Transfer = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link testErc20Abi}__ and `functionName` set to `"transferFrom"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
  */
@@ -4870,6 +5003,7 @@ export const writeTestErc20TransferFrom = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link testErc20Abi}__
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
  */
@@ -4878,6 +5012,7 @@ export const simulateTestErc20 = /*#__PURE__*/ createSimulateContract({ abi: tes
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link testErc20Abi}__ and `functionName` set to `"approve"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
  */
@@ -4890,6 +5025,7 @@ export const simulateTestErc20Approve = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link testErc20Abi}__ and `functionName` set to `"transfer"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
  */
@@ -4902,6 +5038,7 @@ export const simulateTestErc20Transfer = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link testErc20Abi}__ and `functionName` set to `"transferFrom"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
  */
@@ -4914,6 +5051,7 @@ export const simulateTestErc20TransferFrom = /*#__PURE__*/ createSimulateContrac
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link testErc20Abi}__
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
  */
@@ -4925,6 +5063,7 @@ export const watchTestErc20Event = /*#__PURE__*/ createWatchContractEvent({
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link testErc20Abi}__ and `eventName` set to `"Approval"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
  */
@@ -4937,6 +5076,7 @@ export const watchTestErc20ApprovalEvent = /*#__PURE__*/ createWatchContractEven
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link testErc20Abi}__ and `eventName` set to `"Transfer"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
  */

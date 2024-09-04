@@ -1224,6 +1224,7 @@ export const initializableAbi = [
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -1460,15 +1461,18 @@ export const lpManagerAbi = [
 ] as const
 
 /**
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
 export const lpManagerAddress = {
+  56: '0xCb3B96E8c57E90b8B74959c8475cD3245D02f053',
   137: '0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6',
   11155111: '0xC72C2e40574C1279fC3D3aDC54C7e055D9727348',
 } as const
 
 /**
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
  */
@@ -1479,6 +1483,7 @@ export const lpManagerConfig = { address: lpManagerAddress, abi: lpManagerAbi } 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -1900,15 +1905,18 @@ export const lpNftAbi = [
 ] as const
 
 /**
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
 export const lpNftAddress = {
+  56: '0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2',
   137: '0xF53dc83E9cE56612dd47cA24e7439C204B602A22',
   11155111: '0x9885055bEb85A0D35B1fFb982Acfeaf61f340877',
 } as const
 
 /**
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
  */
@@ -2031,6 +2039,7 @@ export const stringsAbi = [
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
  */
@@ -2169,15 +2178,18 @@ export const testErc20Abi = [
 ] as const
 
 /**
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
  */
 export const testErc20Address = {
+  56: '0x55d398326f99059fF775485246999027B3197955',
   137: '0xc2132D05D31c914a87C6611C10748AEb04B58e8F',
   11155111: '0x32e5C809663F371ec25c7A21953647b448394aA3',
 } as const
 
 /**
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
  */

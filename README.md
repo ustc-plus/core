@@ -27,6 +27,18 @@ The Binance addresses on Polygon:
 - USTC+ buyer &ndash; [0x21e5f3db8f14ac5c0d2171b81dfbe5a0047ba6bb](https://polygonscan.com/address/0x21e5f3db8f14ac5c0d2171b81dfbe5a0047ba6bb)
 - Server's signer address `0x0864F2FdCa3730818c009354DD6874A3Cf207046`. **Off-chain and never will have a transaction**.
 
+### Binance Smart Chain
+
+- StableCoin &ndash; BSC-USD used to for Liquidity pool pair with USTC+. [View on bscscan](https://bscscan.com/token/0x55d398326f99059fF775485246999027B3197955)
+- LpNft &ndash; a stable coin and USTC+ pair liquidity pool kept as an NFT. [View on bscscan](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+- LpManager &ndash; a USTC+ and LpNft minter and burner. [View on bscscan](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+- USTC+ &ndash; A cross-chain Terra USTC Classic implementation using Layerzero technology. [View on bscscan](https://bscscan.com/token/0x354043962ff73c9c5a0b25f467cdf78f2a20e74d)
+
+The Binance addresses on Polygon:
+
+- USTC+ buyer &ndash; [0x21e5f3db8f14ac5c0d2171b81dfbe5a0047ba6bb](https://bscscan.com/address/0x21e5f3db8f14ac5c0d2171b81dfbe5a0047ba6bb)
+- Server's signer address `0x0864F2FdCa3730818c009354DD6874A3Cf207046`. **Off-chain and never will have a transaction**.
+
 ## Packages 📦
 
 For the user, first, he deposits 50% to mint NFT.
@@ -70,6 +82,17 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 During project setup, don't forget to set the environment variables that you set on `app/.env`.
 
 ## Adding a support of a new network
+
+### Smartcontracts
+
+First, deploy smartcontract in `packages/hardhat` directory by following README file on there.
+Set in `packages/app/wagmi.config.ts` the deployed smartcontract addresses after each deploy, verification.
+
+Find the Stable coin you want to add, and set in the `packages/app/wagmi.config.ts` for `TestERC20` address.
+We use USDT instead USDC, as its supported on more chains. :)
+
+After setting the smartcontracts for Liquidity, deploy the USTC+ smartcontract by following `packages/ustc_plus` README instructions.
+Set in `packages/app/ustc_wagmit.config.ts` the deployed USTC+ address after deployment, verification.
 
 ### Frontend
 

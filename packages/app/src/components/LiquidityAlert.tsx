@@ -17,7 +17,7 @@ interface Props {
   txid: string
   usdtAmount: number
   nftId: number
-  onContinue: (txid: string, networkId: number, owner: string) => void
+  onContinue: (txid: string, networkId: number, owner: string, ustcAmount: number) => void
 }
 
 export function LiquidityAlert(props: Props) {
@@ -30,7 +30,7 @@ export function LiquidityAlert(props: Props) {
         <PlayPauseIcon
           className='h-6 w-6 stroke-info hover:stroke-accent cursor-pointer'
           onClick={() => {
-            props.onContinue(props.txid, props.networkId, props.from!)
+            props.onContinue(props.txid, props.networkId, props.from!, props.usdtAmount)
           }}
         />
       </div>

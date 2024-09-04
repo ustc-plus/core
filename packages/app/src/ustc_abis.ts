@@ -5059,6 +5059,7 @@ export const safeErc20Abi = [
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -5824,15 +5825,18 @@ export const ustcPlusAbi = [
 ] as const
 
 /**
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
 export const ustcPlusAddress = {
+  56: '0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D',
   137: '0x606689c20562aC06202B8AB2Ad9029c961C2E267',
   11155111: '0x05df326185A182274058a42cBe613c628f1506B4',
 } as const
 
 /**
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -9983,6 +9987,7 @@ export const watchOwnableOwnershipTransferredEvent = /*#__PURE__*/ createWatchCo
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -9991,6 +9996,7 @@ export const readUstcPlus = /*#__PURE__*/ createReadContract({ abi: ustcPlusAbi,
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"SEND"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10003,6 +10009,7 @@ export const readUstcPlusSend = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"SEND_AND_CALL"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10015,6 +10022,7 @@ export const readUstcPlusSendAndCall = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"allowInitializePath"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10027,6 +10035,7 @@ export const readUstcPlusAllowInitializePath = /*#__PURE__*/ createReadContract(
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"allowance"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10039,6 +10048,7 @@ export const readUstcPlusAllowance = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"approvalRequired"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10051,6 +10061,7 @@ export const readUstcPlusApprovalRequired = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"balanceOf"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10063,6 +10074,7 @@ export const readUstcPlusBalanceOf = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"combineOptions"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10075,6 +10087,7 @@ export const readUstcPlusCombineOptions = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"decimalConversionRate"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10087,6 +10100,7 @@ export const readUstcPlusDecimalConversionRate = /*#__PURE__*/ createReadContrac
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"decimals"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10099,6 +10113,7 @@ export const readUstcPlusDecimals = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"endpoint"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10111,6 +10126,7 @@ export const readUstcPlusEndpoint = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"enforcedOptions"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10123,6 +10139,7 @@ export const readUstcPlusEnforcedOptions = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"isComposeMsgSender"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10135,6 +10152,7 @@ export const readUstcPlusIsComposeMsgSender = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"isPeer"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10147,6 +10165,7 @@ export const readUstcPlusIsPeer = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"lpManager"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10159,6 +10178,7 @@ export const readUstcPlusLpManager = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"lpNft"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10171,6 +10191,7 @@ export const readUstcPlusLpNft = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"msgInspector"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10183,6 +10204,7 @@ export const readUstcPlusMsgInspector = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"name"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10195,6 +10217,7 @@ export const readUstcPlusName = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"nextNonce"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10207,6 +10230,7 @@ export const readUstcPlusNextNonce = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"oApp"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10219,6 +10243,7 @@ export const readUstcPlusOApp = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"oAppVersion"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10231,6 +10256,7 @@ export const readUstcPlusOAppVersion = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"oftVersion"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10243,6 +10269,7 @@ export const readUstcPlusOftVersion = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"owner"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10255,6 +10282,7 @@ export const readUstcPlusOwner = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"peers"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10267,6 +10295,7 @@ export const readUstcPlusPeers = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"preCrime"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10279,6 +10308,7 @@ export const readUstcPlusPreCrime = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"quoteOFT"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10291,6 +10321,7 @@ export const readUstcPlusQuoteOft = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"quoteSend"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10303,6 +10334,7 @@ export const readUstcPlusQuoteSend = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"sharedDecimals"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10315,6 +10347,7 @@ export const readUstcPlusSharedDecimals = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"symbol"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10327,6 +10360,7 @@ export const readUstcPlusSymbol = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"token"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10339,6 +10373,7 @@ export const readUstcPlusToken = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"totalSupply"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10351,6 +10386,7 @@ export const readUstcPlusTotalSupply = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ustcPlusAbi}__
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10359,6 +10395,7 @@ export const writeUstcPlus = /*#__PURE__*/ createWriteContract({ abi: ustcPlusAb
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"approve"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10371,6 +10408,7 @@ export const writeUstcPlusApprove = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"burnByLpManager"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10383,6 +10421,7 @@ export const writeUstcPlusBurnByLpManager = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"lzReceive"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10395,6 +10434,7 @@ export const writeUstcPlusLzReceive = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"lzReceiveAndRevert"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10407,6 +10447,7 @@ export const writeUstcPlusLzReceiveAndRevert = /*#__PURE__*/ createWriteContract
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"lzReceiveSimulate"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10419,6 +10460,7 @@ export const writeUstcPlusLzReceiveSimulate = /*#__PURE__*/ createWriteContract(
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"mintByLpManager"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10431,6 +10473,7 @@ export const writeUstcPlusMintByLpManager = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"renounceOwnership"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10443,6 +10486,7 @@ export const writeUstcPlusRenounceOwnership = /*#__PURE__*/ createWriteContract(
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"send"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10455,6 +10499,7 @@ export const writeUstcPlusSend = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"setDelegate"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10467,6 +10512,7 @@ export const writeUstcPlusSetDelegate = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"setEnforcedOptions"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10479,6 +10525,7 @@ export const writeUstcPlusSetEnforcedOptions = /*#__PURE__*/ createWriteContract
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"setMsgInspector"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10491,6 +10538,7 @@ export const writeUstcPlusSetMsgInspector = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"setPeer"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10503,6 +10551,7 @@ export const writeUstcPlusSetPeer = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"setPreCrime"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10515,6 +10564,7 @@ export const writeUstcPlusSetPreCrime = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"transfer"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10527,6 +10577,7 @@ export const writeUstcPlusTransfer = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"transferByLpNft"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10539,6 +10590,7 @@ export const writeUstcPlusTransferByLpNft = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"transferFrom"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10551,6 +10603,7 @@ export const writeUstcPlusTransferFrom = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"transferOwnership"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10563,6 +10616,7 @@ export const writeUstcPlusTransferOwnership = /*#__PURE__*/ createWriteContract(
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ustcPlusAbi}__
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10571,6 +10625,7 @@ export const simulateUstcPlus = /*#__PURE__*/ createSimulateContract({ abi: ustc
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"approve"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10583,6 +10638,7 @@ export const simulateUstcPlusApprove = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"burnByLpManager"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10595,6 +10651,7 @@ export const simulateUstcPlusBurnByLpManager = /*#__PURE__*/ createSimulateContr
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"lzReceive"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10607,6 +10664,7 @@ export const simulateUstcPlusLzReceive = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"lzReceiveAndRevert"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10619,6 +10677,7 @@ export const simulateUstcPlusLzReceiveAndRevert = /*#__PURE__*/ createSimulateCo
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"lzReceiveSimulate"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10631,6 +10690,7 @@ export const simulateUstcPlusLzReceiveSimulate = /*#__PURE__*/ createSimulateCon
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"mintByLpManager"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10643,6 +10703,7 @@ export const simulateUstcPlusMintByLpManager = /*#__PURE__*/ createSimulateContr
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"renounceOwnership"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10655,6 +10716,7 @@ export const simulateUstcPlusRenounceOwnership = /*#__PURE__*/ createSimulateCon
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"send"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10667,6 +10729,7 @@ export const simulateUstcPlusSend = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"setDelegate"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10679,6 +10742,7 @@ export const simulateUstcPlusSetDelegate = /*#__PURE__*/ createSimulateContract(
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"setEnforcedOptions"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10691,6 +10755,7 @@ export const simulateUstcPlusSetEnforcedOptions = /*#__PURE__*/ createSimulateCo
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"setMsgInspector"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10703,6 +10768,7 @@ export const simulateUstcPlusSetMsgInspector = /*#__PURE__*/ createSimulateContr
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"setPeer"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10715,6 +10781,7 @@ export const simulateUstcPlusSetPeer = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"setPreCrime"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10727,6 +10794,7 @@ export const simulateUstcPlusSetPreCrime = /*#__PURE__*/ createSimulateContract(
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"transfer"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10739,6 +10807,7 @@ export const simulateUstcPlusTransfer = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"transferByLpNft"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10751,6 +10820,7 @@ export const simulateUstcPlusTransferByLpNft = /*#__PURE__*/ createSimulateContr
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"transferFrom"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10763,6 +10833,7 @@ export const simulateUstcPlusTransferFrom = /*#__PURE__*/ createSimulateContract
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ustcPlusAbi}__ and `functionName` set to `"transferOwnership"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10775,6 +10846,7 @@ export const simulateUstcPlusTransferOwnership = /*#__PURE__*/ createSimulateCon
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ustcPlusAbi}__
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10783,6 +10855,7 @@ export const watchUstcPlusEvent = /*#__PURE__*/ createWatchContractEvent({ abi: 
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ustcPlusAbi}__ and `eventName` set to `"Approval"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10795,6 +10868,7 @@ export const watchUstcPlusApprovalEvent = /*#__PURE__*/ createWatchContractEvent
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ustcPlusAbi}__ and `eventName` set to `"EnforcedOptionSet"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10807,6 +10881,7 @@ export const watchUstcPlusEnforcedOptionSetEvent = /*#__PURE__*/ createWatchCont
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ustcPlusAbi}__ and `eventName` set to `"MsgInspectorSet"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10819,6 +10894,7 @@ export const watchUstcPlusMsgInspectorSetEvent = /*#__PURE__*/ createWatchContra
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ustcPlusAbi}__ and `eventName` set to `"OFTReceived"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10831,6 +10907,7 @@ export const watchUstcPlusOftReceivedEvent = /*#__PURE__*/ createWatchContractEv
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ustcPlusAbi}__ and `eventName` set to `"OFTSent"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10843,6 +10920,7 @@ export const watchUstcPlusOftSentEvent = /*#__PURE__*/ createWatchContractEvent(
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ustcPlusAbi}__ and `eventName` set to `"OwnershipTransferred"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10855,6 +10933,7 @@ export const watchUstcPlusOwnershipTransferredEvent = /*#__PURE__*/ createWatchC
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ustcPlusAbi}__ and `eventName` set to `"PeerSet"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10867,6 +10946,7 @@ export const watchUstcPlusPeerSetEvent = /*#__PURE__*/ createWatchContractEvent(
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ustcPlusAbi}__ and `eventName` set to `"PreCrimeSet"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */
@@ -10879,6 +10959,7 @@ export const watchUstcPlusPreCrimeSetEvent = /*#__PURE__*/ createWatchContractEv
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ustcPlusAbi}__ and `eventName` set to `"Transfer"`
  *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x354043962Ff73c9c5a0b25F467CdF78f2a20e74D)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x606689c20562aC06202B8AB2Ad9029c961C2E267)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x05df326185A182274058a42cBe613c628f1506B4)
  */

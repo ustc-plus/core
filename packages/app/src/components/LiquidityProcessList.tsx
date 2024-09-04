@@ -4,7 +4,7 @@ import { LiquidityAlert } from '@/components/LiquidityAlert'
 import { useLiquidityProcesses } from '@/context/LiquidityProcesses'
 
 type LiquidityProcessListProps = {
-  onContinue: (txid: string, networkId: number, owner: string) => void
+  onContinue: (txid: string, networkId: number, owner: string, ustcAmount: number) => void
 }
 
 export default function LiquidityProcessList(props: LiquidityProcessListProps) {
@@ -24,7 +24,7 @@ export default function LiquidityProcessList(props: LiquidityProcessListProps) {
                 networkName={liquidityProcess.networkName}
                 timestamp={liquidityProcess.timestamp!}
                 from={liquidityProcess.from}
-                usdtAmount={liquidityProcess.usdtAmount}
+                usdtAmount={liquidityProcess.usdtAmount ? liquidityProcess.usdtAmount : 11.0}
                 txid={liquidityProcess.txid}
                 nftId={liquidityProcess.nftId}
                 onContinue={props.onContinue}

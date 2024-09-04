@@ -104,7 +104,7 @@ const config = {
             ethereum: process.env.ETHERSCAN_KEY,
             mainnet: process.env.ETHERSCAN_KEY,
             linea: process.env.LINEASCAN_KEY,
-            bnb: process.env.BSCSCAN_KEY,
+            bnb: process.env.BNBSCAN_KEY,
             polygon: process.env.POLYGONSCAN_KEY,
         },
         customChains: [

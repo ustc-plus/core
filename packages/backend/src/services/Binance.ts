@@ -7,6 +7,7 @@ import {
   OrderType,
   RestWalletTypes,
 } from '@binance/connector-typescript'
+import { toFixed } from '@src/util/misc'
 
 const API_KEY = process.env.BINANCE_API_KEY!
 const API_SECRET = process.env.BINANCE_SECRET_KEY!
@@ -156,6 +157,11 @@ export const trade = async (usdt: number): Promise<string | Order> => {
   }
 
   const options = getOrderOption(usdt, ustcPlusPrice, exchangeInfo)
+  console.log(`New order with the following options:`)
+  console.log(options)
+  console.log(usdt)
+  console.log(ustcPlusPrice)
+  console.log(exchangeInfo)
 
   try {
     let binanceRes: RestTradeTypes.newOrderResponse = await binanceClient.newOrder(
@@ -233,12 +239,20 @@ const getExchangeInfo = async (ustcPrice: number): Promise<ExchangeInfo | string
 }
 
 const getOrderOption = (usdt: number, ustcPrice: number, info: ExchangeInfo): RestTradeTypes.newOrderOptions => {
+  let price = parseFloat(toFixed(ustcPrice, info.ustcPrecision))
+  let atom = '0.'
+  for (let i = 0; i < info.ustcPrecision - 1; i++) {
+    atom += '0'
+  }
+  atom += '1'
+  price += parseFloat(atom)
+
   return {
     timeInForce: TimeInForce.GTC,
     // Quantity precision depends on the stepSize parameter of LOT_SIZE filter
-    quantity: parseFloat(Math.ceil(usdt / ustcPrice).toFixed(info.usdtPrecision)),
+    quantity: parseFloat(toFixed(Math.floor(usdt / price), info.usdtPrecision)),
     // Price precision depends on the tickSize parameter of PRICE_FILTER filter
-    price: parseFloat(ustcPrice.toFixed(info.ustcPrecision)),
+    price,
     recvWindow: 5000,
   }
 }

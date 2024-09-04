@@ -30,20 +30,23 @@ export type Signature = {
 const providers: { [key: number]: JsonRpcProvider } = {
   11155111: new JsonRpcProvider(process.env.RPC_URL_11155111!),
   137: new JsonRpcProvider(process.env.RPC_URL_137!),
+  56: new JsonRpcProvider(process.env.RPC_URL_56!),
 }
 
 const signers: { [key: number]: Wallet } = {
   11155111: new Wallet(process.env.PRIVATE_KEY_11155111!),
   137: new Wallet(process.env.PRIVATE_KEY_137!),
+  56: new Wallet(process.env.PRIVATE_KEY_56!),
 }
 
 const lpManager: { [key: number]: Contract } = {
   11155111: new Contract(lpManagerAddress[11155111], lpManagerAbi, providers[11155111]),
   137: new Contract(lpManagerAddress[137], lpManagerAbi, providers[137]),
+  56: new Contract(lpManagerAddress[56], lpManagerAbi, providers[56]),
 }
 
 const stableCoinDecimals = (chainId: number) => {
-  if (chainId === 11155111) {
+  if (chainId === 11155111 || chainId === 56) {
     return 18
   } else {
     return 6
