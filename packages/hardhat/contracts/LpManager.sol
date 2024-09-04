@@ -112,12 +112,12 @@ contract LpManager is OwnableUpgradeable {
         uint256 _ustcPlusAmount
     )
         public
-        pure
+        view
         returns (bytes32 message)
     {
         bytes memory prefix = "\x19Ethereum Signed Message:\n32";
         bytes32 messageNoPrefix = keccak256(abi
-            .encode(_owner, _nftId, _ustcPlusAmount));
+            .encode(_owner, _nftId, _ustcPlusAmount, address(this), block.chainid));
         bytes32 hash = keccak256(abi.encodePacked(prefix, messageNoPrefix));
 
         return hash;
