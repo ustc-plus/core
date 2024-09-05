@@ -348,13 +348,12 @@ export const Liquidity = () => {
     const data = await response.json()
 
     if (data['message'] !== undefined && (data['message'] as string).length > 0) {
-      Add(`Server error: ${data['message']}`, {
-        type: 'error',
+      Add(`Server not received yet: ${data['message']}`, {
+        type: 'info',
       })
-      setDepositAmount(0)
-      setProcessing(false)
-      setMintingStarted(false)
-      setStartMintingTxid(undefined)
+      setAmountAttempt(amountAttempt + 1)
+      await timeout(2000)
+      onStartMinting()
       return
     }
 
@@ -421,7 +420,7 @@ export const Liquidity = () => {
   }
 
   const onMint = (step: number = 0) => {
-    if (account.status !== 'connected') {
+    if (!connected) {
       Add(`Wallet error: Please connect your wallet`, {
         type: 'error',
       })
@@ -445,6 +444,7 @@ export const Liquidity = () => {
     }
 
     if (step == 0 && !approved) {
+      console.log(`Check approval again`)
       if (approveEstimateError) {
         setProcessing(false)
         Add(`Approve simulation failed: ${approveEstimateError.cause}`, {
@@ -461,6 +461,8 @@ export const Liquidity = () => {
       return
     }
 
+    console.log(`Start minting in onMint`)
+
     if (!mintingStarted) {
       if (startMintingEstimateError) {
         setProcessing(false)
@@ -468,6 +470,7 @@ export const Liquidity = () => {
           type: 'error',
         })
       }
+      console.log(`Call start minting for ${depositAmount}`)
 
       writeStartMinting({
         abi: GetAbi('lpManagerAbi'),
@@ -480,52 +483,62 @@ export const Liquidity = () => {
 
   return (
     <div>
-      <div className={'bg-base-100 border-base-300 rounded-box p-6 ' + connected ? '' : 'skeleton'}>
-        <h3 className='text-xl mb-2'>Create USTC+ and Ustc+ Liquidity</h3>
-        <div className='flex my-10'>
-          <label className='input input-bordered flex-1 flex items-center gap-2 max-w-xs'>
-            <input
-              type='number'
-              placeholder={info !== undefined ? (info.minUsdt * 2).toString() : '0.0'}
-              min={info !== undefined ? info.minUsdt * 2 : 0.0}
-              max={info !== undefined ? info.maxUsdt : 0.0}
-              className='grow'
-              onChange={(e) => {
-                isNaN(parseFloat(e.target.value)) ? setDepositAmount(0.0) : setDepositAmount(parseFloat(e.target.value))
-              }}
-              disabled={processing}
-            />
-            <span className={'badge ' + processing ? 'badge-neutral-content' : 'badge-info'}>USDT</span>
-          </label>
-          <div
-            className={processing ? 'tooltip tooltip-open tooltip-secondary' : ''}
-            data-tip="Don't refresh the browser">
-            <button className='mx-5 btn btn-primary flex-none' onClick={() => onMint()} disabled={processing}>
-              {processing ? <span className='loading loading-spinner text-warning'></span> : ''} Mint
-            </button>
+      {connected ? (
+        <div className='bg-base-100 border-base-300 rounded-box p-6 '>
+          <h3 className='text-xl mb-2'>Create USTC+ and Ustc+ Liquidity</h3>
+          <div className='flex my-10'>
+            <label className='input input-bordered flex-1 flex items-center gap-2 max-w-xs'>
+              <input
+                type='number'
+                placeholder={info !== undefined ? (info.minUsdt * 2).toString() : '0.0'}
+                min={info !== undefined ? info.minUsdt * 2 : 0.0}
+                max={info !== undefined ? info.maxUsdt : 0.0}
+                className='grow'
+                onChange={(e) => {
+                  isNaN(parseFloat(e.target.value))
+                    ? setDepositAmount(0.0)
+                    : setDepositAmount(parseFloat(e.target.value))
+                }}
+                disabled={processing}
+              />
+              <span className={'badge ' + processing ? 'badge-neutral-content' : 'badge-info'}>USDT</span>
+            </label>
+            <div
+              className={processing ? 'tooltip tooltip-open tooltip-secondary' : ''}
+              data-tip="Don't refresh the browser">
+              <button className='mx-5 btn btn-primary flex-none' onClick={() => onMint()} disabled={processing}>
+                {processing ? <span className='loading loading-spinner text-warning'></span> : ''} Mint
+              </button>
+            </div>
+          </div>
+          <ul className='content-center steps flex'>
+            <li className='flex-1 step step-primary'>Approve USDT</li>
+            <li className={'flex-1 step' + (approved ? ' step-primary' : '')}>Buy USTC+</li>
+            <li className={'flex-1 step' + (mintingStarted ? ' step-primary' : '')}>Mint Liquidity NFT</li>
+          </ul>
+          <div className='divider'></div>
+          <div className='card bg-base-300 rounded-box grid h-30 p-6'>
+            Minimum USDT = {info !== undefined ? info.minUsdt * 2 : 0.0}
+            <br />
+            Estimated Liquidity Pool amount:{' '}
+            {info !== undefined && depositAmount > 0
+              ? (depositAmount / 2).toFixed(4) + ' USDT'
+              : 'calculating USDT...'}{' '}
+            and{' '}
+            {info !== undefined && depositAmount > 0
+              ? (depositAmount / 2 / info.ustcPrice).toFixed(4) + ' USTC+'
+              : 'calculating USDT...'}
           </div>
         </div>
-        <ul className='content-center steps flex'>
-          <li className='flex-1 step step-primary'>Approve USDT</li>
-          <li className={'flex-1 step' + (approved ? ' step-primary' : '')}>Buy USTC+</li>
-          <li className={'flex-1 step' + (mintingStarted ? ' step-primary' : '')}>Mint Liquidity NFT</li>
-        </ul>
-        <div className='divider'></div>
-        <div className='card bg-base-300 rounded-box grid h-30'>
-          Minimum USDT = {info !== undefined ? info.minUsdt * 2 : 0.0}
-          <br />
-          Estimated Liquidity Pool amount:{' '}
-          {info !== undefined && depositAmount > 0
-            ? (depositAmount / 2).toFixed(4) + ' USDT'
-            : 'calculating USDT...'}{' '}
-          and{' '}
-          {info !== undefined && depositAmount > 0
-            ? (depositAmount / 2 / info.ustcPrice).toFixed(4) + ' USTC+'
-            : 'calculating USDT...'}
-        </div>
-      </div>
+      ) : (
+        <div className='skeleton h-32 w-full'></div>
+      )}
       <div className='bg-base-100 border-base-300 rounded-box p-6 mt-10'>
-        <LiquidityProcessList onContinue={onContinueMinting}></LiquidityProcessList>
+        {connected ? (
+          <LiquidityProcessList onContinue={onContinueMinting}></LiquidityProcessList>
+        ) : (
+          <div className='skeleton h-32 w-full'></div>
+        )}
       </div>
     </div>
   )

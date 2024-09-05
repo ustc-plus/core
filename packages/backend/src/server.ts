@@ -22,7 +22,13 @@ import { RouteError } from '@src/common/classes'
 import { NodeEnvs } from '@src/common/misc'
 
 import { Cron } from 'croner'
-import { Signature, StartMintingEvent, endMintingSignature, txToStartMinting } from '@src/services/Blockchain'
+import {
+  Signature,
+  StartMintingEvent,
+  endMintingSignature,
+  stableCoinDecimals,
+  txToStartMinting,
+} from '@src/services/Blockchain'
 import { Info, getInfo, trade, getOrderInfo, getDepositStatus } from '@src/services/Binance'
 import { formatUnits, parseEther } from 'ethers'
 import { MintingType } from './models/DbModels'
@@ -196,8 +202,28 @@ app.get('/start-minting/:chainId/:txid', async (req: Request, res: Response) => 
         responseData.message = `Failed to update the order as completed: ${orderInfo}`
       }
 
-      return res.json(responseData)
+      if (!cachedMinting.orderCompleted) {
+        return res.json(responseData)
+      } else {
+        const ustcPlusAmount = parseEther(cachedMinting.ustcAmount.toString())
+        const signature = await endMintingSignature(
+          cachedMinting.walletAddress,
+          chainId,
+          cachedMinting.nftId,
+          ustcPlusAmount
+        )
+        if (typeof signature === 'string') {
+          responseData.message = `Signature error: ${signature}`
+        } else {
+          responseData.signature = signature
+        }
+        return res.json(responseData)
+      }
     }
+
+    ////////////////////////////////////////////////////////////////
+    // No Order ID means let's trade it.
+    ////////////////////////////////////////////////////////////////
 
     // Order not completed and order id not set, so let's trade
     console.log(`Data was deposited, therefore we will trade it by buying ${cachedMinting.depositAmount}...`)
@@ -382,7 +408,4 @@ app.post('/sync/nft-redeem', async (req: Request, res: Response) => {
 
 export default app
 
-function stableCoinDecimals(chainId: number): string | import('ethers').Numeric | undefined {
-  throw new Error('Function not implemented.')
-}
 ///////////////////////////////////

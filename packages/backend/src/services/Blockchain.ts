@@ -45,7 +45,7 @@ const lpManager: { [key: number]: Contract } = {
   56: new Contract(lpManagerAddress[56], lpManagerAbi, providers[56]),
 }
 
-const stableCoinDecimals = (chainId: number) => {
+export const stableCoinDecimals = (chainId: number) => {
   if (chainId === 11155111 || chainId === 56) {
     return 18
   } else {
