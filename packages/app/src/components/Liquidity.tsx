@@ -2,7 +2,6 @@
 import {
   useAccount,
   useAccountEffect,
-  useBalance,
   useReadContract,
   useSimulateContract,
   useWaitForTransactionReceipt,
@@ -12,7 +11,7 @@ import { useEffect, useState } from 'react'
 import { erc20Abi, formatEther, formatUnits, parseEther, parseUnits } from 'viem'
 import useInterval from 'use-interval'
 import { useNotifications } from '@/context/Notifications'
-import { isSupportedNetwork, ETH_CHAIN_NAMES, stableCoinDecimals, networkName } from '@/utils/network'
+import { stableCoinDecimals, networkName } from '@/utils/network'
 import { GetAbi, GetAddr } from '@/utils/web3'
 import LiquidityProcessList from './LiquidityProcessList'
 import { useLiquidityProcesses } from '@/context/LiquidityProcesses'

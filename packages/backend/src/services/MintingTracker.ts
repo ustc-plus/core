@@ -35,6 +35,25 @@ export const getMinting = async (txid: string, chainId: number): Promise<undefin
   }
 }
 
+export const getMintingByNftId = async (nftId: number, chainId: number): Promise<undefined | WithId<Minting>> => {
+  let query = {
+    nftId: nftId,
+    networkId: chainId,
+  }
+
+  try {
+    const found = await collections.mintings?.findOne(query)
+    // already exists
+    if (found === null || found === undefined) {
+      return undefined
+    } else {
+      return found as WithId<Minting>
+    }
+  } catch (error) {
+    return undefined
+  }
+}
+
 export const updateMinting = async (minting: WithId<Minting>): Promise<boolean> => {
   let query = {
     _id: minting._id,

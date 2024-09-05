@@ -9,7 +9,7 @@ import helmet from 'helmet'
 import express, { Request, Response, NextFunction, response } from 'express'
 import logger from 'jet-logger'
 import cors from 'cors'
-import { addMinting, getMinting, updateMinting } from './services/MintingTracker'
+import { addMinting, getMinting, getMintingByNftId, updateMinting } from './services/MintingTracker'
 
 import 'express-async-errors'
 
@@ -22,11 +22,19 @@ import { RouteError } from '@src/common/classes'
 import { NodeEnvs } from '@src/common/misc'
 
 import { Cron } from 'croner'
-import { Signature, endMintingSignature, txToStartMinting } from '@src/services/Blockchain'
+import { Signature, StartMintingEvent, endMintingSignature, txToStartMinting } from '@src/services/Blockchain'
 import { Info, getInfo, trade, getOrderInfo, getDepositStatus } from '@src/services/Binance'
-import { formatEther, parseEther } from 'ethers'
-import { WithId } from 'mongodb'
-import { Minting, MintingType } from './models/DbModels'
+import { formatUnits, parseEther } from 'ethers'
+import { MintingType } from './models/DbModels'
+import {
+  EndMintingPayload,
+  NftTransferPayload,
+  StartMintingPayload,
+  isNftBurn,
+  networkIdFromId,
+  nftModelFromTransfer,
+} from './services/Indexer'
+import { addNft, deleteNft, getNft, updateNft } from './services/NftTracker'
 
 // **** Variables **** //
 
@@ -88,22 +96,9 @@ app.use(
 
 // **** Front-End Content **** //
 
-// Set views directory (html)
-const viewsDir = path.join(__dirname, 'views')
-app.set('views', viewsDir)
-
-// Set static directory (js and css).
-const staticDir = path.join(__dirname, 'public')
-app.use(express.static(staticDir))
-
 // Nav to users pg by default
 app.get('/', (_: Request, res: Response) => {
-  return res.redirect('/users')
-})
-
-// Redirect to login if not logged in.
-app.get('/users', (_: Request, res: Response) => {
-  return res.sendFile('users.html', { root: viewsDir })
+  return res.redirect('/hello')
 })
 
 app.get('/hello', async (_: Request, res: Response) => {
@@ -113,88 +108,18 @@ app.get('/hello', async (_: Request, res: Response) => {
   return res.json(info)
 })
 
-if (process.env.NODE_ENV! === 'development') {
-  app.get('/trade/:usdt', async (req: Request, res: Response) => {
-    let usdt = parseFloat(req.params.usdt)
-
-    let tradeRes = await trade(usdt)
-
-    if (typeof tradeRes === 'string') {
-      return res.json({ message: tradeRes })
-    }
-
-    return res.json(tradeRes)
-  })
-
-  app.get('/signature/', async (req: Request, res: Response) => {
-    const owner = '0x80Cbc1f7fd60B7026C0088e5eD58Fc6Ce1180141'
-    const nftId = 1
-    const ustcAmount = parseEther('317')
-    const chainId = 137
-    const signature = await endMintingSignature(owner, chainId, nftId, ustcAmount)
-
-    return res.json({
-      owner,
-      nftId,
-      ustcAmount: ustcAmount.toString(),
-      chainId,
-      signature,
-    })
-  })
-}
-
 app.get('/start-minting/:chainId/:txid', async (req: Request, res: Response) => {
   let chainId = parseInt(req.params.chainId)
   if (isNaN(chainId) || chainId == 0) {
     return res.json({ message: `invalid chain id` })
   }
-
   let txid = req.params.txid
 
   let cachedMinting = await getMinting(txid, chainId)
-  console.log(`Fetched result of minting on db: `)
-  console.log(cachedMinting)
   if (cachedMinting === undefined) {
-    const startMinting = await txToStartMinting(chainId, txid)
-    if (typeof startMinting === 'string') {
-      return res.json({ message: startMinting })
-    }
-
-    let mintingToAdd = {
-      walletAddress: startMinting.creator, // a user
-      networkId: chainId,
-      txid: txid,
-      timestamp: startMinting.timestamp,
-      depositAmount: startMinting.usdcAmount, // 0 or 1
-      ustcAmount: 0,
-      orderCompleted: false,
-      orderId: 0,
-      nftId: parseInt(startMinting.depositId),
-      manual: false,
-      depositStatus: -1,
-    } as MintingType
-    let minting = await addMinting(mintingToAdd)
-    if (minting !== undefined) {
-      return res.json({ message: `Caching transaction state failed: ${minting}` })
-    }
-    cachedMinting = await getMinting(txid, chainId)
-    if (cachedMinting === undefined) {
-      return res.json({ message: 'Database error, its shut down' })
-    }
-  } else if (cachedMinting.manual) {
-    return res.json({ message: `Error, admins will do it manually, please visit later` })
+    return res.json({ message: 'Please try again later, its not indexed yet' })
   }
   console.log(`Cached Minting: ${cachedMinting._id}`)
-
-  if (info === undefined) {
-    return res.json({ message: `Binance information was reset. Try again later` })
-  }
-
-  let emptySignature: Signature = {
-    v: '',
-    r: '',
-    s: '',
-  }
 
   const responseData = {
     status: cachedMinting.depositStatus,
@@ -204,8 +129,16 @@ app.get('/start-minting/:chainId/:txid', async (req: Request, res: Response) => 
     orderCompletion: '',
     orderId: cachedMinting.orderId,
     ustcPlusAmount: cachedMinting.ustcAmount,
+    mintCompleted: cachedMinting.mintCompleted,
     message: '',
-    signature: emptySignature,
+    signature: {
+      v: '',
+      r: '',
+      s: '',
+    },
+  }
+  if (cachedMinting.mintCompleted) {
+    return res.json(responseData)
   }
 
   if (cachedMinting.depositStatus !== 1) {
@@ -315,20 +248,141 @@ app.get('/start-minting/:chainId/:txid', async (req: Request, res: Response) => 
   return res.json(responseData)
 })
 
-app.get('/status/:id', async (req: Request, res: Response) => {
-  let id = parseInt(req.params.id)
-
-  const orderInfo = await getOrderInfo(id)
-
-  if (typeof orderInfo === 'string') {
-    return res.json({ message: orderInfo })
+app.post('/sync/start-minting', async (req: Request, res: Response) => {
+  const secretKey = req.header('SECRET_KEY')
+  if (secretKey === undefined || secretKey !== process.env.INDEXER_SECRET_KEY) {
+    return res.status(500).json({ message: 'not authorized' })
+  }
+  const payload = req.body as StartMintingPayload
+  if (payload.event.data.new === null) {
+    return res.status(400).json({ message: 'no event.data.new' })
+  } else if (payload.event.op !== 'INSERT') {
+    console.error(`Received not INSERT operation for nft-transfer`)
+    return res.status(400).json({ message: 'only INSERT operation supported' })
   }
 
-  return res.json(orderInfo)
+  const startMinting = payload.event.data.new
+  const chainId = networkIdFromId(startMinting.id)
+  const txid = startMinting.txid
+
+  let cachedMinting = await getMinting(txid, chainId)
+  if (cachedMinting !== undefined) {
+    return res.status(400).json({ message: 'already added, no duplicates' })
+  }
+
+  let mintingToAdd: MintingType = {
+    walletAddress: startMinting.creator, // a user
+    networkId: chainId,
+    txid: txid,
+    timestamp: Math.floor(new Date(startMinting.db_write_timestamp).getTime() / 1000),
+    depositAmount: parseFloat(formatUnits(startMinting.usdcAmount, stableCoinDecimals(chainId))), // 0 or 1
+    ustcAmount: 0,
+    orderCompleted: false,
+    orderId: 0,
+    nftId: parseInt(startMinting.depositId),
+    manual: false,
+    depositStatus: -1,
+  }
+  let minting = await addMinting(mintingToAdd)
+  if (minting !== undefined) {
+    return res.status(500).json({ message: `Caching transaction state failed: ${minting}` })
+  }
+
+  return res.status(200).json({ status: 'ok' })
+})
+
+app.post('/sync/end-minting', async (req: Request, res: Response) => {
+  const secretKey = req.header('SECRET_KEY')
+  if (secretKey === undefined || secretKey !== process.env.INDEXER_SECRET_KEY) {
+    return res.status(500).json({ message: 'not authorized' })
+  }
+  const payload = req.body as EndMintingPayload
+  if (payload.event.data.new === null) {
+    return res.status(400).json({ message: 'no event.data.new' })
+  } else if (payload.event.op !== 'INSERT') {
+    console.error(`Received not INSERT operation for nft-transfer`)
+    return res.status(400).json({ message: 'only INSERT operation supported' })
+  }
+
+  const endMinting = payload.event.data.new
+  const chainId = networkIdFromId(endMinting.id)
+  const nftId = endMinting.depositIdIsTokenId
+
+  let cachedMinting = await getMintingByNftId(nftId, chainId)
+  if (cachedMinting === undefined) {
+    return res.status(400).json({ message: 'not added, no duplicates' })
+  } else if (cachedMinting.mintCompleted) {
+    return res.status(400).json({ message: 'already marked as complete' })
+  }
+
+  cachedMinting.mintCompleted = true
+  let updated = await updateMinting(cachedMinting)
+  if (!updated) {
+    return res.status(500).json({ message: `marking as completed failed` })
+  }
+
+  return res.status(200).json({ status: 'ok' })
+})
+
+app.post('/sync/nft-transfer', async (req: Request, res: Response) => {
+  const secretKey = req.header('SECRET_KEY')
+  if (secretKey === undefined || secretKey !== process.env.INDEXER_SECRET_KEY) {
+    return res.status(500).json({ message: 'not authorized' })
+  }
+  console.log(`Received nft transfer in POST`)
+  const payload = req.body as NftTransferPayload
+  if (payload.event.data.new === null) {
+    return res.status(400).json({ message: 'no event.data.new' })
+  } else if (payload.event.op !== 'INSERT') {
+    console.error(`Received not INSERT operation for nft-transfer`)
+    return res.status(400).json({ message: 'only INSERT operation supported' })
+  }
+
+  const transferEvent = payload.event.data.new
+  const nft = nftModelFromTransfer(transferEvent)
+  const foundNft = await getNft(nft.tokenId, nft.networkId)
+  if (foundNft === undefined) {
+    if (isNftBurn(transferEvent)) {
+      return res.status(200).json({ message: 'Not exist to delete' })
+    }
+    // get the nft parameters such as params on blockchain
+    const added = await addNft(nft)
+    if (added !== undefined) {
+      return res.status(500).json({ message: 'Internal database error: ' + added })
+    }
+    return res.status(200).json({ status: 'ok' })
+  } else {
+    if (isNftBurn(transferEvent)) {
+      await deleteNft(foundNft.tokenId, foundNft.networkId)
+    } else {
+      // we update the parameters of found nft
+      foundNft.owner = nft.owner
+      const updated = await updateNft(foundNft)
+      if (!updated) {
+        return res.status(500).json({ message: 'Internal database error to update nft parameter' })
+      }
+    }
+  }
+
+  return res.status(200).json({ status: 'ok' })
+})
+
+app.post('/sync/nft-redeem', async (req: Request, res: Response) => {
+  const secretKey = req.header('SECRET_KEY')
+  if (secretKey === undefined || secretKey !== process.env.INDEXER_SECRET_KEY) {
+    return res.status(500).json({ message: 'not authorized' })
+  }
+  console.log(`Received nft redeem in POST`)
+  console.log(req.body)
+
+  return res.status(500).json({ message: 'Not implemented yet' })
 })
 
 // **** Export default **** //
 
 export default app
 
+function stableCoinDecimals(chainId: number): string | import('ethers').Numeric | undefined {
+  throw new Error('Function not implemented.')
+}
 ///////////////////////////////////

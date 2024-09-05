@@ -1,10 +1,11 @@
 import * as mongoDB from 'mongodb'
 import dotenv from 'dotenv'
-import { Minting } from './models/DbModels'
+import { Minting, Nft } from './models/DbModels'
 dotenv.config()
 
 export const collections: {
   mintings?: mongoDB.Collection<Minting>
+  nfts?: mongoDB.Collection<Nft>
 } = {}
 
 export async function connectToDatabase() {
@@ -20,7 +21,10 @@ export async function connectToDatabase() {
   collections.mintings.createIndex({ walletAddress: 1 }, { unique: false })
   collections.mintings.createIndex({ txid: 1, networkId: 1 }, { unique: true })
 
-  console.log(
-    `Successfully connected to database: ${db.databaseName} and collection: ${mintingCollection.collectionName}`
-  )
+  const nftCollection: mongoDB.Collection<Nft> = db.collection('nft')
+  collections.nfts = nftCollection
+
+  collections.nfts.createIndex({ tokenId: 1, networkId: 1 }, { unique: true })
+
+  console.log(`Successfully connected to database: ${db.databaseName}`)
 }
