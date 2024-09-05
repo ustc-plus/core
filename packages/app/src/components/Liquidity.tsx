@@ -37,7 +37,7 @@ type Signature = {
   s: string
 }
 
-type StartMinting = {
+type MintingResult = {
   status?: BinanceOrderStatus
   timestamp?: number
   nftId?: number
@@ -56,7 +56,7 @@ export const Liquidity = () => {
   const [depositAmount, setDepositAmount] = useState<number>(0.0)
   const [connected, setConnected] = useState<boolean>(false)
   useAccountEffect({
-    onConnect(data) {
+    onConnect() {
       setConnected(true)
     },
     onDisconnect() {
@@ -65,52 +65,22 @@ export const Liquidity = () => {
   })
   const [allowanceAmount, setAllowanceAmount] = useState<number>(0)
   const [info, setInfo] = useState<Info>()
-  const [lpNftAddress, setLpNftAddress] = useState<`0x${string}`>()
   const [lpManagerAddress, setLpManagerAddress] = useState<`0x${string}`>()
   const [usdtAddress, setUsdtAddress] = useState<`0x${string}`>()
-  const [ustcPlusAddress, setUtcPlusAddress] = useState<`0x${string}`>()
   const [approved, setApproved] = useState<boolean>(false)
   const [processing, setProcessing] = useState<boolean>(false)
   const [mintingStarted, setMintingStarted] = useState<boolean>(false)
-  const [orderId, setOrderId] = useState<number>()
   const [ustcAmount, setUstcAmount] = useState<number>()
   const [nftId, setNftId] = useState<number>()
   const [amountAttempt, setAmountAttempt] = useState<number>(0)
   const [signature, setSignature] = useState<Signature>()
   const [startMintingTxid, setStartMintingTxid] = useState<string>()
-  const { liquidityProcesses, Add: AddLiquidityProcess, Complete } = useLiquidityProcesses()
+  const { Add: AddLiquidityProcess, Complete } = useLiquidityProcesses()
 
-  // Set the Smartcontract addresses.
-  // Depends on:
-  //  network change,
-  //  wallet connect,
-  //  wallet disconnect
   useEffect(() => {
-    if (!connected) {
-      setLpNftAddress(undefined)
-      setLpManagerAddress(undefined)
-      setUsdtAddress(undefined)
-      setUtcPlusAddress(undefined)
-    } else {
-      console.log(`Get LP Address`)
-      setLpNftAddress(GetAddr('lpNftAddress', account.chainId!))
+    if (connected) {
       setLpManagerAddress(GetAddr('lpManagerAddress', account.chainId!))
       setUsdtAddress(GetAddr('testErc20Address', account.chainId!))
-      setUtcPlusAddress(GetAddr('ustcPlusAddress', account.chainId!))
-
-      if (liquidityProcesses.length == 0) {
-        AddLiquidityProcess({
-          href: 'https://polygonscan.com/tx/0x5cf28323c28276b2e2179ce177b5fe741530849647bed285f1647effa80a2a75',
-          timestamp: 1725450942000,
-          from: '0x80Cbc1f7fd60B7026C0088e5eD58Fc6Ce1180141',
-          networkId: 137,
-          networkName: 'Polygon',
-          txid: '0x5cf28323c28276b2e2179ce177b5fe741530849647bed285f1647effa80a2a75',
-          usdtAmount: depositAmount,
-          nftId: 1,
-          onContinue: onContinueMinting,
-        })
-      }
     }
   }, [connected])
 
@@ -128,7 +98,7 @@ export const Liquidity = () => {
         info !== undefined &&
         lpManagerAddress !== undefined,
     },
-    abi: GetAbi('testErc20Abi'),
+    abi: erc20Abi,
     address: usdtAddress,
     functionName: 'approve',
     args: [lpManagerAddress!, parseEther('10000000')],
@@ -174,27 +144,15 @@ export const Liquidity = () => {
   const { data: endMintingData, writeContract: writeEndMinting } = useWriteContract()
 
   // Approve transaction status
-  const {
-    isLoading: approveIsLoading,
-    error: approveTxError,
-    isSuccess: approveTxSuccess,
-  } = useWaitForTransactionReceipt({
+  const { error: approveTxError, isSuccess: approveTxSuccess } = useWaitForTransactionReceipt({
     hash: approveData,
   })
 
-  const {
-    isLoading: startMintingIsLoading,
-    error: startMintingTxError,
-    isSuccess: startMintingTxSuccess,
-  } = useWaitForTransactionReceipt({
+  const { error: startMintingTxError, isSuccess: startMintingTxSuccess } = useWaitForTransactionReceipt({
     hash: startMintingData,
   })
 
-  const {
-    isLoading: endMintingIsLoading,
-    error: endMintingTxError,
-    isSuccess: endMintingTxSuccess,
-  } = useWaitForTransactionReceipt({
+  const { error: endMintingTxError, isSuccess: endMintingTxSuccess } = useWaitForTransactionReceipt({
     hash: endMintingData,
   })
 
@@ -267,7 +225,6 @@ export const Liquidity = () => {
       setProcessing(false)
       setNftId(undefined)
       setSignature(undefined)
-      setOrderId(undefined)
       if (startMintingTxid) {
         setStartMintingTxid(undefined)
         Complete(startMintingTxid)
@@ -295,11 +252,11 @@ export const Liquidity = () => {
   }, 1000)
 
   // Determine whether the user approved tokens or not
-  const { data: allowance } = useReadContract({
+  const { data: allowance, refetch: refetchAllowance } = useReadContract({
     query: {
-      enabled: account.status === 'connected' && usdtAddress !== undefined && lpManagerAddress !== undefined,
+      enabled: connected && usdtAddress !== undefined && lpManagerAddress !== undefined,
     },
-    abi: GetAbi('testErc20Abi'),
+    abi: erc20Abi,
     address: usdtAddress,
     functionName: 'allowance',
     args: [account.address!, lpManagerAddress!],
@@ -307,10 +264,6 @@ export const Liquidity = () => {
 
   // Once the allowance returned, set the allowance amount in the state
   useEffect(() => {
-    if (account.status !== 'connected' || info === undefined) {
-      setApproved(false)
-      return
-    }
     const parsed = allowance as bigint | undefined
     if (parsed !== undefined) {
       setAllowanceAmount(parseFloat(formatEther(parsed)))
@@ -319,14 +272,13 @@ export const Liquidity = () => {
 
   // Once the allowance state is set, compare it to the deposit
   useEffect(() => {
-    if (allowanceAmount == 0) {
-      setApproved(false)
-    } else {
-      setApproved(allowanceAmount >= depositAmount)
-    }
+    setApproved(allowanceAmount >= depositAmount)
   }, [allowanceAmount, depositAmount])
 
+  // Automatically invokes mint start if the state updated for the starting a mint
   useEffect(() => {
+    console.log(`DepositAmount, Processing, MintingStarted or StartMintingTxid was set`)
+    console.log(`Params: ${depositAmount} ${processing} ${mintingStarted} ${startMintingTxid}`)
     if (
       depositAmount != undefined &&
       depositAmount > 0 &&
@@ -335,18 +287,22 @@ export const Liquidity = () => {
       startMintingTxid !== undefined &&
       startMintingTxid.length > 0
     ) {
-      console.log(`Start Minting`)
+      console.log(`Start Minting as all parameters executed`)
       onStartMinting()
     }
   }, [depositAmount, processing, mintingStarted, startMintingTxid])
 
+  // Automatically call minting process ending
   useEffect(() => {
+    console.log(`OnEndMinting? DepositAmount, UstcAmount, NftId and Signature were given:`)
+    console.log(`OnEndMinting? UstcAmount: ${ustcAmount} NftId ${nftId} Sig: ${signature}`)
     if (ustcAmount !== undefined && ustcAmount > 0 && nftId != undefined && nftId > 0 && signature !== undefined) {
-      onMint(2)
+      onEndMinting()
     }
-  }, [ustcAmount, nftId, signature])
+  }, [depositAmount, ustcAmount, nftId, signature])
 
-  const onContinueMinting = async (txid: string, networkId: number, owner: string, ustcAmount: number) => {
+  // Call if the interrupted minting transactions exist on LiquidityProcesses
+  const onContinueMinting = async (txid: string, networkId: number, owner: string, _depositAmount: number) => {
     if (processing || mintingStarted) {
       Add(`Transaction already going on, please refresh the page and try again`, { type: 'warning' })
       return
@@ -364,8 +320,11 @@ export const Liquidity = () => {
       return
     }
 
-    console.log(`Set deposit amount: ${ustcAmount} and ${txid}`)
-    setDepositAmount(ustcAmount)
+    console.log(`continueMinting -> onStartMinting invoking by state update`)
+    console.log(
+      `continueMinting -> onStartMinting: depositAMount ${_depositAmount}, processing, mintingStarted, startMintingTxid: ${txid}`
+    )
+    setDepositAmount(_depositAmount)
     setProcessing(true)
     setMintingStarted(true)
     setStartMintingTxid(txid)
@@ -373,15 +332,18 @@ export const Liquidity = () => {
 
   const onStartMinting = async () => {
     if (amountAttempt > 3) {
-      Add(`Server error: 3 attempts, but still no result. contact us on telegram :(`, { type: 'error' })
+      Add(`Server error: 3 attempts, but still no result. Please try again later to continue:(`, { type: 'error' })
       setAmountAttempt(0)
       setProcessing(false)
       setMintingStarted(false)
       setStartMintingTxid(undefined)
       return
     }
+    if (!connected || account === undefined) {
+      Add(`Interrupted, as wallet disconnected, please connect wallet and try again`, { type: 'error' })
+      return
+    }
     const url = process.env.NEXT_PUBLIC_BACKEND_URL!
-
     const response = await fetch(`${url}/start-minting/${account.chainId}/${startMintingTxid}`)
     const data = await response.json()
 
@@ -389,18 +351,21 @@ export const Liquidity = () => {
       Add(`Server error: ${data['message']}`, {
         type: 'error',
       })
+      setDepositAmount(0)
       setProcessing(false)
       setMintingStarted(false)
       setStartMintingTxid(undefined)
       return
     }
 
-    let startMinting = data as StartMinting
-    console.log(`Start minting: `)
+    let startMinting = data as MintingResult
+    console.log(`Server Response about minting: `)
     console.log(startMinting)
     // Everything is ready, and order is completed.
     if (startMinting.orderCompleted) {
       Add(`${startMinting.ustcPlusAmount} were minted successfully. Let's mint LP`, { type: 'success' })
+
+      // Following three state update will invoke endMinting
       setUstcAmount(parseInt(startMinting.ustcPlusAmount!))
       setNftId(startMinting.nftId!)
       setSignature(startMinting.signature!)
@@ -426,22 +391,34 @@ export const Liquidity = () => {
     }
   }
 
+  const onEndMinting = () => {
+    if (endMintingEstimateError) {
+      setProcessing(false)
+      Add(`Mint ending failed: ${endMintingEstimateError.cause}`, {
+        type: 'error',
+      })
+    }
+
+    writeEndMinting({
+      abi: GetAbi('lpManagerAbi'),
+      address: lpManagerAddress!,
+      functionName: 'endMinting',
+      args: [nftId!, parseEther(ustcAmount!.toString()), signature!.v, signature!.r, signature!.s],
+    })
+  }
+
   const onMint = (step: number = 0) => {
-    console.log(`On: ${account.status} ${account.chainId} ${account.address}`)
     if (account.status !== 'connected') {
       Add(`Wallet error: Please connect your wallet`, {
         type: 'error',
       })
       return
     }
-    if (!isSupportedNetwork(account.chain?.id)) {
-      Add(`Wallet error: Unsupported network. Switch to one of ${ETH_CHAIN_NAMES}`, { type: 'error' })
-      return
-    }
     if (info === undefined) {
       Add(`Server error: didn't get the information about pricing, wait and try again later...`, { type: 'error' })
       return
     }
+
     if (depositAmount < info.minUsdt * 2) {
       Add(`Minimum ${info.minUsdt * 2} USDT must be entered but given: ${depositAmount}`, { type: 'error' })
       return
@@ -463,7 +440,7 @@ export const Liquidity = () => {
         return
       }
       writeApprove({
-        abi: GetAbi('testErc20Abi'),
+        abi: erc20Abi,
         address: usdtAddress!,
         functionName: 'approve',
         args: [lpManagerAddress!, parseEther('10000000')],
@@ -485,27 +462,12 @@ export const Liquidity = () => {
         functionName: 'startMinting',
         args: [parseUnits(depositAmount.toString(), stableCoinDecimals(account.chainId!))],
       })
-      return
-    } else {
-      if (endMintingEstimateError) {
-        setProcessing(false)
-        Add(`Mint ending failed: ${endMintingEstimateError.cause}`, {
-          type: 'error',
-        })
-      }
-
-      writeEndMinting({
-        abi: GetAbi('lpManagerAbi'),
-        address: lpManagerAddress!,
-        functionName: 'endMinting',
-        args: [nftId!, parseEther(ustcAmount!.toString()), signature!.v, signature!.r, signature!.s],
-      })
     }
   }
 
   return (
     <div>
-      <div className='bg-base-100 border-base-300 rounded-box p-6'>
+      <div className={'bg-base-100 border-base-300 rounded-box p-6 ' + connected ? '' : 'skeleton'}>
         <h3 className='text-xl mb-2'>Create USTC+ and Ustc+ Liquidity</h3>
         <div className='flex my-10'>
           <label className='input input-bordered flex-1 flex items-center gap-2 max-w-xs'>

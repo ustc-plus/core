@@ -17,8 +17,8 @@ export async function connectToDatabase() {
   const mintingCollection: mongoDB.Collection<Minting> = db.collection('minting')
   collections.mintings = mintingCollection
 
-  collections.mintings.createIndex({ walletAddress: 1 }, { unique: true })
-  collections.mintings.createIndex({ txid: 1, networkId: 1 })
+  collections.mintings.createIndex({ walletAddress: 1 }, { unique: false })
+  collections.mintings.createIndex({ txid: 1, networkId: 1 }, { unique: true })
 
   console.log(
     `Successfully connected to database: ${db.databaseName} and collection: ${mintingCollection.collectionName}`
