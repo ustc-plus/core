@@ -45,6 +45,7 @@ type MintingResult = {
   orderId?: number
   ustcPlusAmount?: string
   message?: string
+  mintCompleted?: boolean
   signature?: Signature
 }
 
@@ -360,8 +361,21 @@ export const Liquidity = () => {
     let startMinting = data as MintingResult
     console.log(`Server Response about minting: `)
     console.log(startMinting)
+    if (startMinting.mintCompleted) {
+      Add(`Already minted`, {
+        type: 'info',
+      })
+      if (startMintingTxid !== undefined) {
+        Complete(startMintingTxid)
+      }
+      setDepositAmount(0)
+      setProcessing(false)
+      setMintingStarted(false)
+      setStartMintingTxid(undefined)
+      return
+    }
     // Everything is ready, and order is completed.
-    if (startMinting.orderCompleted) {
+    else if (startMinting.orderCompleted) {
       Add(`${startMinting.ustcPlusAmount} were minted successfully. Let's mint LP`, { type: 'success' })
 
       // Following three state update will invoke endMinting
