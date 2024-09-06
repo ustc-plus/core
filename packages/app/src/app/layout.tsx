@@ -57,7 +57,7 @@ export default function RootLayout(props: PropsWithChildren) {
   return (
     <html lang='en'>
       <head>
-        <link rel='icon' href={`logo.png`} />
+        <link rel='icon' href={`/logo.png`} type='image/png' />
       </head>
 
       <body
