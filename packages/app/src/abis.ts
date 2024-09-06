@@ -1,15 +1,52 @@
 import {
+  createWatchContractEvent,
   createReadContract,
   createWriteContract,
   createSimulateContract,
-  createWatchContractEvent,
 } from 'wagmi/codegen'
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// ERC165
+// Address
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const erc165Abi = [
+export const addressAbi = [
+  { type: 'error', inputs: [{ name: 'target', internalType: 'address', type: 'address' }], name: 'AddressEmptyCode' },
+  {
+    type: 'error',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'AddressInsufficientBalance',
+  },
+  { type: 'error', inputs: [], name: 'FailedInnerCall' },
+] as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ContextUpgradeable
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const contextUpgradeableAbi = [
+  { type: 'error', inputs: [], name: 'InvalidInitialization' },
+  { type: 'error', inputs: [], name: 'NotInitializing' },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'version', internalType: 'uint64', type: 'uint64', indexed: false }],
+    name: 'Initialized',
+  },
+] as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ERC165Upgradeable
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const erc165UpgradeableAbi = [
+  { type: 'error', inputs: [], name: 'InvalidInitialization' },
+  { type: 'error', inputs: [], name: 'NotInitializing' },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'version', internalType: 'uint64', type: 'uint64', indexed: false }],
+    name: 'Initialized',
+  },
   {
     type: 'function',
     inputs: [{ name: 'interfaceId', internalType: 'bytes4', type: 'bytes4' }],
@@ -20,10 +57,147 @@ export const erc165Abi = [
 ] as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// ERC721
+// ERC20
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const erc721Abi = [
+export const erc20Abi = [
+  {
+    type: 'error',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'allowance', internalType: 'uint256', type: 'uint256' },
+      { name: 'needed', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'ERC20InsufficientAllowance',
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'sender', internalType: 'address', type: 'address' },
+      { name: 'balance', internalType: 'uint256', type: 'uint256' },
+      { name: 'needed', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'ERC20InsufficientBalance',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'approver', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidApprover',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'receiver', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidReceiver',
+  },
+  { type: 'error', inputs: [{ name: 'sender', internalType: 'address', type: 'address' }], name: 'ERC20InvalidSender' },
+  {
+    type: 'error',
+    inputs: [{ name: 'spender', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidSpender',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
+      { name: 'spender', internalType: 'address', type: 'address', indexed: true },
+      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false },
+    ],
+    name: 'Approval',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address', indexed: true },
+      { name: 'to', internalType: 'address', type: 'address', indexed: true },
+      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false },
+    ],
+    name: 'Transfer',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'spender', internalType: 'address', type: 'address' },
+    ],
+    name: 'allowance',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'approve',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'balanceOf',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'decimals',
+    outputs: [{ name: '', internalType: 'uint8', type: 'uint8' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'name',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'symbol',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'totalSupply',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'transfer',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'transferFrom',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+] as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ERC721Upgradeable
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const erc721UpgradeableAbi = [
   {
     type: 'error',
     inputs: [
@@ -67,6 +241,8 @@ export const erc721Abi = [
     inputs: [{ name: 'tokenId', internalType: 'uint256', type: 'uint256' }],
     name: 'ERC721NonexistentToken',
   },
+  { type: 'error', inputs: [], name: 'InvalidInitialization' },
+  { type: 'error', inputs: [], name: 'NotInitializing' },
   {
     type: 'event',
     anonymous: false,
@@ -86,6 +262,12 @@ export const erc721Abi = [
       { name: 'approved', internalType: 'bool', type: 'bool', indexed: false },
     ],
     name: 'ApprovalForAll',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'version', internalType: 'uint64', type: 'uint64', indexed: false }],
+    name: 'Initialized',
   },
   {
     type: 'event',
@@ -280,6 +462,88 @@ export const ierc165Abi = [
 ] as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// IERC20
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const ierc20Abi = [
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
+      { name: 'spender', internalType: 'address', type: 'address', indexed: true },
+      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false },
+    ],
+    name: 'Approval',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address', indexed: true },
+      { name: 'to', internalType: 'address', type: 'address', indexed: true },
+      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false },
+    ],
+    name: 'Transfer',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'spender', internalType: 'address', type: 'address' },
+    ],
+    name: 'allowance',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'approve',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'balanceOf',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'totalSupply',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'transfer',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'transferFrom',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+] as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // IERC20Errors
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -317,6 +581,109 @@ export const ierc20ErrorsAbi = [
     type: 'error',
     inputs: [{ name: 'spender', internalType: 'address', type: 'address' }],
     name: 'ERC20InvalidSpender',
+  },
+] as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// IERC20Metadata
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const ierc20MetadataAbi = [
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
+      { name: 'spender', internalType: 'address', type: 'address', indexed: true },
+      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false },
+    ],
+    name: 'Approval',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address', indexed: true },
+      { name: 'to', internalType: 'address', type: 'address', indexed: true },
+      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false },
+    ],
+    name: 'Transfer',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'spender', internalType: 'address', type: 'address' },
+    ],
+    name: 'allowance',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'approve',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'balanceOf',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'decimals',
+    outputs: [{ name: '', internalType: 'uint8', type: 'uint8' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'name',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'symbol',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'totalSupply',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'transfer',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'transferFrom',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
   },
 ] as const
 
@@ -669,6 +1036,900 @@ export const ierc721ReceiverAbi = [
 ] as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ILpNft
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const iLpNftAbi = [
+  {
+    type: 'function',
+    inputs: [{ name: 'tokenId', internalType: 'uint256', type: 'uint256' }],
+    name: 'burn',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '_amount', internalType: 'uint256', type: 'uint256' }],
+    name: 'distribute',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: '_to', internalType: 'address', type: 'address' },
+      { name: 'tokenId', internalType: 'uint256', type: 'uint256' },
+      { name: 'usdcAmount', internalType: 'uint256', type: 'uint256' },
+      { name: 'ustcPlusAmount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'mint',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'tokenId', internalType: 'uint256', type: 'uint256' },
+      { name: 'percents', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'redeem',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'tokenId', internalType: 'uint256', type: 'uint256' }],
+    name: 'slashCurrentAmount',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'tokenId', internalType: 'uint256', type: 'uint256' }],
+    name: 'slashEndTime',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+] as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// IUstcPlus
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const iUstcPlusAbi = [
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
+      { name: 'spender', internalType: 'address', type: 'address', indexed: true },
+      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false },
+    ],
+    name: 'Approval',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address', indexed: true },
+      { name: 'to', internalType: 'address', type: 'address', indexed: true },
+      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false },
+    ],
+    name: 'Transfer',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'spender', internalType: 'address', type: 'address' },
+    ],
+    name: 'allowance',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'approve',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'balanceOf',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'burnByLpManager',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'lpNft',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'mintByLpManager',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'totalSupply',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'transfer',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'transferByLpNft',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'transferFrom',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+] as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Initializable
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const initializableAbi = [
+  { type: 'error', inputs: [], name: 'InvalidInitialization' },
+  { type: 'error', inputs: [], name: 'NotInitializing' },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'version', internalType: 'uint64', type: 'uint64', indexed: false }],
+    name: 'Initialized',
+  },
+] as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// LpManager
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const lpManagerAbi = [
+  { type: 'error', inputs: [], name: 'InvalidInitialization' },
+  { type: 'error', inputs: [], name: 'NotInitializing' },
+  { type: 'error', inputs: [{ name: 'owner', internalType: 'address', type: 'address' }], name: 'OwnableInvalidOwner' },
+  {
+    type: 'error',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'OwnableUnauthorizedAccount',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'creator', internalType: 'address', type: 'address', indexed: true },
+      { name: 'depositIdIsTokenId', internalType: 'uint256', type: 'uint256', indexed: true },
+      { name: '_ustcPlusAmount', internalType: 'uint256', type: 'uint256', indexed: false },
+    ],
+    name: 'EndMinting',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'version', internalType: 'uint64', type: 'uint64', indexed: false }],
+    name: 'Initialized',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'previousOwner', internalType: 'address', type: 'address', indexed: true },
+      { name: 'newOwner', internalType: 'address', type: 'address', indexed: true },
+    ],
+    name: 'OwnershipTransferred',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'creator', internalType: 'address', type: 'address', indexed: true },
+      { name: 'depositId', internalType: 'uint256', type: 'uint256', indexed: true },
+      { name: 'usdcAmount', internalType: 'uint256', type: 'uint256', indexed: false },
+    ],
+    name: 'StartMinting',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'creator', internalType: 'address', type: 'address', indexed: true },
+      { name: '_terraAddress', internalType: 'bytes32', type: 'bytes32', indexed: true },
+      { name: '_ustcPlusAmount', internalType: 'uint256', type: 'uint256', indexed: false },
+    ],
+    name: 'Unwrap',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'creator', internalType: 'address', type: 'address', indexed: true },
+      { name: '_terraAddress', internalType: 'bytes32', type: 'bytes32', indexed: true },
+      { name: '_ustcPlusAmount', internalType: 'uint256', type: 'uint256', indexed: false },
+    ],
+    name: 'Wrap',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    name: 'deposits',
+    outputs: [
+      { name: 'activated', internalType: 'bool', type: 'bool' },
+      { name: 'usdcAmount', internalType: 'uint256', type: 'uint256' },
+      { name: 'ustcPlusAmount', internalType: 'uint256', type: 'uint256' },
+      { name: 'owner', internalType: 'address', type: 'address' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: '_owner', internalType: 'address', type: 'address' },
+      { name: '_nftId', internalType: 'uint256', type: 'uint256' },
+      { name: '_ustcPlusAmount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'encodeMintingParams',
+    outputs: [{ name: 'message', internalType: 'bytes32', type: 'bytes32' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: '_depositId', internalType: 'uint256', type: 'uint256' },
+      { name: '_ustcPlusAmount', internalType: 'uint256', type: 'uint256' },
+      { name: 'v', internalType: 'uint8', type: 'uint8' },
+      { name: 'r', internalType: 'bytes32', type: 'bytes32' },
+      { name: 's', internalType: 'bytes32', type: 'bytes32' },
+    ],
+    name: 'endMinting',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  { type: 'function', inputs: [], name: 'initialize', outputs: [], stateMutability: 'nonpayable' },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'lpNft',
+    outputs: [{ name: '', internalType: 'contract ILpNft', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: '_owner', internalType: 'address', type: 'address' },
+      { name: '_depositId', internalType: 'uint256', type: 'uint256' },
+      { name: '_ustcPlusAmount', internalType: 'uint256', type: 'uint256' },
+      { name: 'v', internalType: 'uint8', type: 'uint8' },
+      { name: 'r', internalType: 'bytes32', type: 'bytes32' },
+      { name: 's', internalType: 'bytes32', type: 'bytes32' },
+    ],
+    name: 'mintingValid',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'owner',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  { type: 'function', inputs: [], name: 'renounceOwnership', outputs: [], stateMutability: 'nonpayable' },
+  {
+    type: 'function',
+    inputs: [{ name: '_lpNft', internalType: 'address', type: 'address' }],
+    name: 'setLpNft',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '_signer', internalType: 'address', type: 'address' }],
+    name: 'setSigner',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '_usdc', internalType: 'address', type: 'address' }],
+    name: 'setUsdc',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '_buyer', internalType: 'address', type: 'address' }],
+    name: 'setUstcBuyer',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '_ustcPlus', internalType: 'address', type: 'address' }],
+    name: 'setUstcPlus',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'signer',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '_amount', internalType: 'uint256', type: 'uint256' }],
+    name: 'startMinting',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'newOwner', internalType: 'address', type: 'address' }],
+    name: 'transferOwnership',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: '_terraAddress', internalType: 'bytes32', type: 'bytes32' },
+      { name: '_ustcPlusAmount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'unwrap',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'usdc',
+    outputs: [{ name: '', internalType: 'contract IERC20', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'ustcPlus',
+    outputs: [{ name: '', internalType: 'contract IUstcPlus', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'ustcPlusBuyer',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: '_terraAddress', internalType: 'bytes32', type: 'bytes32' },
+      { name: '_ustcPlusAmount', internalType: 'uint256', type: 'uint256' },
+      { name: '', internalType: 'uint8', type: 'uint8' },
+      { name: '', internalType: 'bytes32', type: 'bytes32' },
+      { name: '', internalType: 'bytes32', type: 'bytes32' },
+    ],
+    name: 'wrap',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+] as const
+
+/**
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const lpManagerAddress = {
+  56: '0xCb3B96E8c57E90b8B74959c8475cD3245D02f053',
+  137: '0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6',
+  11155111: '0xC72C2e40574C1279fC3D3aDC54C7e055D9727348',
+} as const
+
+/**
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const lpManagerConfig = { address: lpManagerAddress, abi: lpManagerAbi } as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// LpNft
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const lpNftAbi = [
+  {
+    type: 'error',
+    inputs: [
+      { name: 'sender', internalType: 'address', type: 'address' },
+      { name: 'tokenId', internalType: 'uint256', type: 'uint256' },
+      { name: 'owner', internalType: 'address', type: 'address' },
+    ],
+    name: 'ERC721IncorrectOwner',
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'operator', internalType: 'address', type: 'address' },
+      { name: 'tokenId', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'ERC721InsufficientApproval',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'approver', internalType: 'address', type: 'address' }],
+    name: 'ERC721InvalidApprover',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'operator', internalType: 'address', type: 'address' }],
+    name: 'ERC721InvalidOperator',
+  },
+  { type: 'error', inputs: [{ name: 'owner', internalType: 'address', type: 'address' }], name: 'ERC721InvalidOwner' },
+  {
+    type: 'error',
+    inputs: [{ name: 'receiver', internalType: 'address', type: 'address' }],
+    name: 'ERC721InvalidReceiver',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'sender', internalType: 'address', type: 'address' }],
+    name: 'ERC721InvalidSender',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'tokenId', internalType: 'uint256', type: 'uint256' }],
+    name: 'ERC721NonexistentToken',
+  },
+  { type: 'error', inputs: [], name: 'InvalidInitialization' },
+  { type: 'error', inputs: [], name: 'NotInitializing' },
+  { type: 'error', inputs: [{ name: 'owner', internalType: 'address', type: 'address' }], name: 'OwnableInvalidOwner' },
+  {
+    type: 'error',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'OwnableUnauthorizedAccount',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
+      { name: 'approved', internalType: 'address', type: 'address', indexed: true },
+      { name: 'tokenId', internalType: 'uint256', type: 'uint256', indexed: true },
+    ],
+    name: 'Approval',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
+      { name: 'operator', internalType: 'address', type: 'address', indexed: true },
+      { name: 'approved', internalType: 'bool', type: 'bool', indexed: false },
+    ],
+    name: 'ApprovalForAll',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'version', internalType: 'uint64', type: 'uint64', indexed: false }],
+    name: 'Initialized',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'previousOwner', internalType: 'address', type: 'address', indexed: true },
+      { name: 'newOwner', internalType: 'address', type: 'address', indexed: true },
+    ],
+    name: 'OwnershipTransferred',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'tokenId', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'reflectAmount', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'tAmount', internalType: 'uint256', type: 'uint256', indexed: false },
+    ],
+    name: 'Redeem',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address', indexed: true },
+      { name: 'to', internalType: 'address', type: 'address', indexed: true },
+      { name: 'tokenId', internalType: 'uint256', type: 'uint256', indexed: true },
+    ],
+    name: 'Transfer',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'HODLER_ID',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: '_rTotal',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: '_tFeeTotal',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: '_tTotal',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'tokenId', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'approve',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'owner', internalType: 'address', type: 'address' }],
+    name: 'balanceOf',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'tokenId', internalType: 'uint256', type: 'uint256' }],
+    name: 'burn',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'dao',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '_amount', internalType: 'uint256', type: 'uint256' }],
+    name: 'distribute',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'tokenId', internalType: 'uint256', type: 'uint256' }],
+    name: 'getApproved',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  { type: 'function', inputs: [], name: 'initialize', outputs: [], stateMutability: 'nonpayable' },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'operator', internalType: 'address', type: 'address' },
+    ],
+    name: 'isApprovedForAll',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'lpManager',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: '_to', internalType: 'address', type: 'address' },
+      { name: 'tokenId', internalType: 'uint256', type: 'uint256' },
+      { name: '_usdcAmount', internalType: 'uint256', type: 'uint256' },
+      { name: '_ustcPlusAmount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'mint',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'name',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'owner',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'tokenId', internalType: 'uint256', type: 'uint256' }],
+    name: 'ownerOf',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    name: 'paramsOf',
+    outputs: [
+      { name: 'usdcAmount', internalType: 'uint256', type: 'uint256' },
+      { name: 'ustcPlusAmount', internalType: 'uint256', type: 'uint256' },
+      { name: 'usdcTaken', internalType: 'uint256', type: 'uint256' },
+      { name: 'ustcPlusTaken', internalType: 'uint256', type: 'uint256' },
+      { name: 'startTime', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'tokenId', internalType: 'uint256', type: 'uint256' },
+      { name: 'percent', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'redeem',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'tokenId', internalType: 'uint256', type: 'uint256' },
+      { name: 'tAmount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'reflect',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'tokenId', internalType: 'uint256', type: 'uint256' }],
+    name: 'reflectBalanceOf',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'tAmount', internalType: 'uint256', type: 'uint256' }],
+    name: 'reflectionFromToken',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  { type: 'function', inputs: [], name: 'renounceOwnership', outputs: [], stateMutability: 'nonpayable' },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'tokenId', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'safeTransferFrom',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'tokenId', internalType: 'uint256', type: 'uint256' },
+      { name: 'data', internalType: 'bytes', type: 'bytes' },
+    ],
+    name: 'safeTransferFrom',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'operator', internalType: 'address', type: 'address' },
+      { name: 'approved', internalType: 'bool', type: 'bool' },
+    ],
+    name: 'setApprovalForAll',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '_dao', internalType: 'address', type: 'address' }],
+    name: 'setDao',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '_lpManager', internalType: 'address', type: 'address' }],
+    name: 'setLpManager',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '_usdc', internalType: 'address', type: 'address' }],
+    name: 'setUsdc',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '_ustcPlus', internalType: 'address', type: 'address' }],
+    name: 'setUstcPlus',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  { type: 'function', inputs: [], name: 'setupReflect', outputs: [], stateMutability: 'nonpayable' },
+  {
+    type: 'function',
+    inputs: [{ name: 'tokenId', internalType: 'uint256', type: 'uint256' }],
+    name: 'slashCurrentAmount',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'tokenId', internalType: 'uint256', type: 'uint256' }],
+    name: 'slashEndTime',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'interfaceId', internalType: 'bytes4', type: 'bytes4' }],
+    name: 'supportsInterface',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'symbol',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'rAmount', internalType: 'uint256', type: 'uint256' }],
+    name: 'tokenFromReflection',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'tokenId', internalType: 'uint256', type: 'uint256' }],
+    name: 'tokenURI',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'tokenId', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'transferFrom',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'newOwner', internalType: 'address', type: 'address' }],
+    name: 'transferOwnership',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'usdc',
+    outputs: [{ name: '', internalType: 'contract IERC20', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'ustcPlus',
+    outputs: [{ name: '', internalType: 'contract IUstcPlus', type: 'address' }],
+    stateMutability: 'view',
+  },
+] as const
+
+/**
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const lpNftAddress = {
+  56: '0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2',
+  137: '0xF53dc83E9cE56612dd47cA24e7439C204B602A22',
+  11155111: '0x9885055bEb85A0D35B1fFb982Acfeaf61f340877',
+} as const
+
+/**
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const lpNftConfig = { address: lpNftAddress, abi: lpNftAbi } as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Math
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -721,54 +1982,12 @@ export const messageAddress = {
 export const messageConfig = { address: messageAddress, abi: messageAbi } as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// NexthFT
+// OwnableUpgradeable
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const nexthFtAbi = [
-  { type: 'constructor', inputs: [], stateMutability: 'nonpayable' },
-  {
-    type: 'error',
-    inputs: [
-      { name: 'sender', internalType: 'address', type: 'address' },
-      { name: 'tokenId', internalType: 'uint256', type: 'uint256' },
-      { name: 'owner', internalType: 'address', type: 'address' },
-    ],
-    name: 'ERC721IncorrectOwner',
-  },
-  {
-    type: 'error',
-    inputs: [
-      { name: 'operator', internalType: 'address', type: 'address' },
-      { name: 'tokenId', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'ERC721InsufficientApproval',
-  },
-  {
-    type: 'error',
-    inputs: [{ name: 'approver', internalType: 'address', type: 'address' }],
-    name: 'ERC721InvalidApprover',
-  },
-  {
-    type: 'error',
-    inputs: [{ name: 'operator', internalType: 'address', type: 'address' }],
-    name: 'ERC721InvalidOperator',
-  },
-  { type: 'error', inputs: [{ name: 'owner', internalType: 'address', type: 'address' }], name: 'ERC721InvalidOwner' },
-  {
-    type: 'error',
-    inputs: [{ name: 'receiver', internalType: 'address', type: 'address' }],
-    name: 'ERC721InvalidReceiver',
-  },
-  {
-    type: 'error',
-    inputs: [{ name: 'sender', internalType: 'address', type: 'address' }],
-    name: 'ERC721InvalidSender',
-  },
-  {
-    type: 'error',
-    inputs: [{ name: 'tokenId', internalType: 'uint256', type: 'uint256' }],
-    name: 'ERC721NonexistentToken',
-  },
+export const ownableUpgradeableAbi = [
+  { type: 'error', inputs: [], name: 'InvalidInitialization' },
+  { type: 'error', inputs: [], name: 'NotInitializing' },
   { type: 'error', inputs: [{ name: 'owner', internalType: 'address', type: 'address' }], name: 'OwnableInvalidOwner' },
   {
     type: 'error',
@@ -778,189 +1997,8 @@ export const nexthFtAbi = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [
-      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
-      { name: 'approved', internalType: 'address', type: 'address', indexed: true },
-      { name: 'tokenId', internalType: 'uint256', type: 'uint256', indexed: true },
-    ],
-    name: 'Approval',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
-      { name: 'operator', internalType: 'address', type: 'address', indexed: true },
-      { name: 'approved', internalType: 'bool', type: 'bool', indexed: false },
-    ],
-    name: 'ApprovalForAll',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      { name: 'previousOwner', internalType: 'address', type: 'address', indexed: true },
-      { name: 'newOwner', internalType: 'address', type: 'address', indexed: true },
-    ],
-    name: 'OwnershipTransferred',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      { name: 'from', internalType: 'address', type: 'address', indexed: true },
-      { name: 'to', internalType: 'address', type: 'address', indexed: true },
-      { name: 'tokenId', internalType: 'uint256', type: 'uint256', indexed: true },
-    ],
-    name: 'Transfer',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'to', internalType: 'address', type: 'address' },
-      { name: 'tokenId', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'approve',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'owner', internalType: 'address', type: 'address' }],
-    name: 'balanceOf',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'tokenId', internalType: 'uint256', type: 'uint256' }],
-    name: 'getApproved',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'owner', internalType: 'address', type: 'address' },
-      { name: 'operator', internalType: 'address', type: 'address' },
-    ],
-    name: 'isApprovedForAll',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'name',
-    outputs: [{ name: '', internalType: 'string', type: 'string' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'owner',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'tokenId', internalType: 'uint256', type: 'uint256' }],
-    name: 'ownerOf',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
-    stateMutability: 'view',
-  },
-  { type: 'function', inputs: [], name: 'renounceOwnership', outputs: [], stateMutability: 'nonpayable' },
-  {
-    type: 'function',
-    inputs: [{ name: 'to', internalType: 'address', type: 'address' }],
-    name: 'safeMint',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'from', internalType: 'address', type: 'address' },
-      { name: 'to', internalType: 'address', type: 'address' },
-      { name: 'tokenId', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'safeTransferFrom',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'from', internalType: 'address', type: 'address' },
-      { name: 'to', internalType: 'address', type: 'address' },
-      { name: 'tokenId', internalType: 'uint256', type: 'uint256' },
-      { name: 'data', internalType: 'bytes', type: 'bytes' },
-    ],
-    name: 'safeTransferFrom',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'operator', internalType: 'address', type: 'address' },
-      { name: 'approved', internalType: 'bool', type: 'bool' },
-    ],
-    name: 'setApprovalForAll',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'interfaceId', internalType: 'bytes4', type: 'bytes4' }],
-    name: 'supportsInterface',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'symbol',
-    outputs: [{ name: '', internalType: 'string', type: 'string' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'tokenId', internalType: 'uint256', type: 'uint256' }],
-    name: 'tokenURI',
-    outputs: [{ name: '', internalType: 'string', type: 'string' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'from', internalType: 'address', type: 'address' },
-      { name: 'to', internalType: 'address', type: 'address' },
-      { name: 'tokenId', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'transferFrom',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'newOwner', internalType: 'address', type: 'address' }],
-    name: 'transferOwnership',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-] as const
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Ownable
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-export const ownableAbi = [
-  { type: 'error', inputs: [{ name: 'owner', internalType: 'address', type: 'address' }], name: 'OwnableInvalidOwner' },
-  {
-    type: 'error',
-    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
-    name: 'OwnableUnauthorizedAccount',
+    inputs: [{ name: 'version', internalType: 'uint64', type: 'uint64', indexed: false }],
+    name: 'Initialized',
   },
   {
     type: 'event',
@@ -1004,167 +2042,479 @@ export const stringsAbi = [
 ] as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// TestErc20
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
+ */
+export const testErc20Abi = [
+  { type: 'constructor', inputs: [], stateMutability: 'nonpayable' },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'allowance', internalType: 'uint256', type: 'uint256' },
+      { name: 'needed', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'ERC20InsufficientAllowance',
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'sender', internalType: 'address', type: 'address' },
+      { name: 'balance', internalType: 'uint256', type: 'uint256' },
+      { name: 'needed', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'ERC20InsufficientBalance',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'approver', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidApprover',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'receiver', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidReceiver',
+  },
+  { type: 'error', inputs: [{ name: 'sender', internalType: 'address', type: 'address' }], name: 'ERC20InvalidSender' },
+  {
+    type: 'error',
+    inputs: [{ name: 'spender', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidSpender',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
+      { name: 'spender', internalType: 'address', type: 'address', indexed: true },
+      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false },
+    ],
+    name: 'Approval',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address', indexed: true },
+      { name: 'to', internalType: 'address', type: 'address', indexed: true },
+      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false },
+    ],
+    name: 'Transfer',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'spender', internalType: 'address', type: 'address' },
+    ],
+    name: 'allowance',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'approve',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'balanceOf',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'decimals',
+    outputs: [{ name: '', internalType: 'uint8', type: 'uint8' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'name',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'symbol',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'totalSupply',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'transfer',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'transferFrom',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+] as const
+
+/**
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
+ */
+export const testErc20Address = {
+  56: '0x55d398326f99059fF775485246999027B3197955',
+  137: '0xc2132D05D31c914a87C6611C10748AEb04B58e8F',
+  11155111: '0x32e5C809663F371ec25c7A21953647b448394aA3',
+} as const
+
+/**
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
+ */
+export const testErc20Config = { address: testErc20Address, abi: testErc20Abi } as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Action
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * Wraps __{@link readContract}__ with `abi` set to __{@link erc165Abi}__
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link contextUpgradeableAbi}__
  */
-export const readErc165 = /*#__PURE__*/ createReadContract({ abi: erc165Abi })
+export const watchContextUpgradeableEvent = /*#__PURE__*/ createWatchContractEvent({ abi: contextUpgradeableAbi })
 
 /**
- * Wraps __{@link readContract}__ with `abi` set to __{@link erc165Abi}__ and `functionName` set to `"supportsInterface"`
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link contextUpgradeableAbi}__ and `eventName` set to `"Initialized"`
  */
-export const readErc165SupportsInterface = /*#__PURE__*/ createReadContract({
-  abi: erc165Abi,
+export const watchContextUpgradeableInitializedEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: contextUpgradeableAbi,
+  eventName: 'Initialized',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link erc165UpgradeableAbi}__
+ */
+export const readErc165Upgradeable = /*#__PURE__*/ createReadContract({ abi: erc165UpgradeableAbi })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link erc165UpgradeableAbi}__ and `functionName` set to `"supportsInterface"`
+ */
+export const readErc165UpgradeableSupportsInterface = /*#__PURE__*/ createReadContract({
+  abi: erc165UpgradeableAbi,
   functionName: 'supportsInterface',
 })
 
 /**
- * Wraps __{@link readContract}__ with `abi` set to __{@link erc721Abi}__
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link erc165UpgradeableAbi}__
  */
-export const readErc721 = /*#__PURE__*/ createReadContract({ abi: erc721Abi })
+export const watchErc165UpgradeableEvent = /*#__PURE__*/ createWatchContractEvent({ abi: erc165UpgradeableAbi })
 
 /**
- * Wraps __{@link readContract}__ with `abi` set to __{@link erc721Abi}__ and `functionName` set to `"balanceOf"`
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link erc165UpgradeableAbi}__ and `eventName` set to `"Initialized"`
  */
-export const readErc721BalanceOf = /*#__PURE__*/ createReadContract({ abi: erc721Abi, functionName: 'balanceOf' })
+export const watchErc165UpgradeableInitializedEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: erc165UpgradeableAbi,
+  eventName: 'Initialized',
+})
 
 /**
- * Wraps __{@link readContract}__ with `abi` set to __{@link erc721Abi}__ and `functionName` set to `"getApproved"`
+ * Wraps __{@link readContract}__ with `abi` set to __{@link erc20Abi}__
  */
-export const readErc721GetApproved = /*#__PURE__*/ createReadContract({ abi: erc721Abi, functionName: 'getApproved' })
+export const readErc20 = /*#__PURE__*/ createReadContract({ abi: erc20Abi })
 
 /**
- * Wraps __{@link readContract}__ with `abi` set to __{@link erc721Abi}__ and `functionName` set to `"isApprovedForAll"`
+ * Wraps __{@link readContract}__ with `abi` set to __{@link erc20Abi}__ and `functionName` set to `"allowance"`
  */
-export const readErc721IsApprovedForAll = /*#__PURE__*/ createReadContract({
-  abi: erc721Abi,
+export const readErc20Allowance = /*#__PURE__*/ createReadContract({ abi: erc20Abi, functionName: 'allowance' })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link erc20Abi}__ and `functionName` set to `"balanceOf"`
+ */
+export const readErc20BalanceOf = /*#__PURE__*/ createReadContract({ abi: erc20Abi, functionName: 'balanceOf' })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link erc20Abi}__ and `functionName` set to `"decimals"`
+ */
+export const readErc20Decimals = /*#__PURE__*/ createReadContract({ abi: erc20Abi, functionName: 'decimals' })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link erc20Abi}__ and `functionName` set to `"name"`
+ */
+export const readErc20Name = /*#__PURE__*/ createReadContract({ abi: erc20Abi, functionName: 'name' })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link erc20Abi}__ and `functionName` set to `"symbol"`
+ */
+export const readErc20Symbol = /*#__PURE__*/ createReadContract({ abi: erc20Abi, functionName: 'symbol' })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link erc20Abi}__ and `functionName` set to `"totalSupply"`
+ */
+export const readErc20TotalSupply = /*#__PURE__*/ createReadContract({ abi: erc20Abi, functionName: 'totalSupply' })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link erc20Abi}__
+ */
+export const writeErc20 = /*#__PURE__*/ createWriteContract({ abi: erc20Abi })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link erc20Abi}__ and `functionName` set to `"approve"`
+ */
+export const writeErc20Approve = /*#__PURE__*/ createWriteContract({ abi: erc20Abi, functionName: 'approve' })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link erc20Abi}__ and `functionName` set to `"transfer"`
+ */
+export const writeErc20Transfer = /*#__PURE__*/ createWriteContract({ abi: erc20Abi, functionName: 'transfer' })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link erc20Abi}__ and `functionName` set to `"transferFrom"`
+ */
+export const writeErc20TransferFrom = /*#__PURE__*/ createWriteContract({ abi: erc20Abi, functionName: 'transferFrom' })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link erc20Abi}__
+ */
+export const simulateErc20 = /*#__PURE__*/ createSimulateContract({ abi: erc20Abi })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link erc20Abi}__ and `functionName` set to `"approve"`
+ */
+export const simulateErc20Approve = /*#__PURE__*/ createSimulateContract({ abi: erc20Abi, functionName: 'approve' })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link erc20Abi}__ and `functionName` set to `"transfer"`
+ */
+export const simulateErc20Transfer = /*#__PURE__*/ createSimulateContract({ abi: erc20Abi, functionName: 'transfer' })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link erc20Abi}__ and `functionName` set to `"transferFrom"`
+ */
+export const simulateErc20TransferFrom = /*#__PURE__*/ createSimulateContract({
+  abi: erc20Abi,
+  functionName: 'transferFrom',
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link erc20Abi}__
+ */
+export const watchErc20Event = /*#__PURE__*/ createWatchContractEvent({ abi: erc20Abi })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link erc20Abi}__ and `eventName` set to `"Approval"`
+ */
+export const watchErc20ApprovalEvent = /*#__PURE__*/ createWatchContractEvent({ abi: erc20Abi, eventName: 'Approval' })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link erc20Abi}__ and `eventName` set to `"Transfer"`
+ */
+export const watchErc20TransferEvent = /*#__PURE__*/ createWatchContractEvent({ abi: erc20Abi, eventName: 'Transfer' })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link erc721UpgradeableAbi}__
+ */
+export const readErc721Upgradeable = /*#__PURE__*/ createReadContract({ abi: erc721UpgradeableAbi })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link erc721UpgradeableAbi}__ and `functionName` set to `"balanceOf"`
+ */
+export const readErc721UpgradeableBalanceOf = /*#__PURE__*/ createReadContract({
+  abi: erc721UpgradeableAbi,
+  functionName: 'balanceOf',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link erc721UpgradeableAbi}__ and `functionName` set to `"getApproved"`
+ */
+export const readErc721UpgradeableGetApproved = /*#__PURE__*/ createReadContract({
+  abi: erc721UpgradeableAbi,
+  functionName: 'getApproved',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link erc721UpgradeableAbi}__ and `functionName` set to `"isApprovedForAll"`
+ */
+export const readErc721UpgradeableIsApprovedForAll = /*#__PURE__*/ createReadContract({
+  abi: erc721UpgradeableAbi,
   functionName: 'isApprovedForAll',
 })
 
 /**
- * Wraps __{@link readContract}__ with `abi` set to __{@link erc721Abi}__ and `functionName` set to `"name"`
+ * Wraps __{@link readContract}__ with `abi` set to __{@link erc721UpgradeableAbi}__ and `functionName` set to `"name"`
  */
-export const readErc721Name = /*#__PURE__*/ createReadContract({ abi: erc721Abi, functionName: 'name' })
+export const readErc721UpgradeableName = /*#__PURE__*/ createReadContract({
+  abi: erc721UpgradeableAbi,
+  functionName: 'name',
+})
 
 /**
- * Wraps __{@link readContract}__ with `abi` set to __{@link erc721Abi}__ and `functionName` set to `"ownerOf"`
+ * Wraps __{@link readContract}__ with `abi` set to __{@link erc721UpgradeableAbi}__ and `functionName` set to `"ownerOf"`
  */
-export const readErc721OwnerOf = /*#__PURE__*/ createReadContract({ abi: erc721Abi, functionName: 'ownerOf' })
+export const readErc721UpgradeableOwnerOf = /*#__PURE__*/ createReadContract({
+  abi: erc721UpgradeableAbi,
+  functionName: 'ownerOf',
+})
 
 /**
- * Wraps __{@link readContract}__ with `abi` set to __{@link erc721Abi}__ and `functionName` set to `"supportsInterface"`
+ * Wraps __{@link readContract}__ with `abi` set to __{@link erc721UpgradeableAbi}__ and `functionName` set to `"supportsInterface"`
  */
-export const readErc721SupportsInterface = /*#__PURE__*/ createReadContract({
-  abi: erc721Abi,
+export const readErc721UpgradeableSupportsInterface = /*#__PURE__*/ createReadContract({
+  abi: erc721UpgradeableAbi,
   functionName: 'supportsInterface',
 })
 
 /**
- * Wraps __{@link readContract}__ with `abi` set to __{@link erc721Abi}__ and `functionName` set to `"symbol"`
+ * Wraps __{@link readContract}__ with `abi` set to __{@link erc721UpgradeableAbi}__ and `functionName` set to `"symbol"`
  */
-export const readErc721Symbol = /*#__PURE__*/ createReadContract({ abi: erc721Abi, functionName: 'symbol' })
+export const readErc721UpgradeableSymbol = /*#__PURE__*/ createReadContract({
+  abi: erc721UpgradeableAbi,
+  functionName: 'symbol',
+})
 
 /**
- * Wraps __{@link readContract}__ with `abi` set to __{@link erc721Abi}__ and `functionName` set to `"tokenURI"`
+ * Wraps __{@link readContract}__ with `abi` set to __{@link erc721UpgradeableAbi}__ and `functionName` set to `"tokenURI"`
  */
-export const readErc721TokenUri = /*#__PURE__*/ createReadContract({ abi: erc721Abi, functionName: 'tokenURI' })
+export const readErc721UpgradeableTokenUri = /*#__PURE__*/ createReadContract({
+  abi: erc721UpgradeableAbi,
+  functionName: 'tokenURI',
+})
 
 /**
- * Wraps __{@link writeContract}__ with `abi` set to __{@link erc721Abi}__
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link erc721UpgradeableAbi}__
  */
-export const writeErc721 = /*#__PURE__*/ createWriteContract({ abi: erc721Abi })
+export const writeErc721Upgradeable = /*#__PURE__*/ createWriteContract({ abi: erc721UpgradeableAbi })
 
 /**
- * Wraps __{@link writeContract}__ with `abi` set to __{@link erc721Abi}__ and `functionName` set to `"approve"`
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link erc721UpgradeableAbi}__ and `functionName` set to `"approve"`
  */
-export const writeErc721Approve = /*#__PURE__*/ createWriteContract({ abi: erc721Abi, functionName: 'approve' })
+export const writeErc721UpgradeableApprove = /*#__PURE__*/ createWriteContract({
+  abi: erc721UpgradeableAbi,
+  functionName: 'approve',
+})
 
 /**
- * Wraps __{@link writeContract}__ with `abi` set to __{@link erc721Abi}__ and `functionName` set to `"safeTransferFrom"`
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link erc721UpgradeableAbi}__ and `functionName` set to `"safeTransferFrom"`
  */
-export const writeErc721SafeTransferFrom = /*#__PURE__*/ createWriteContract({
-  abi: erc721Abi,
+export const writeErc721UpgradeableSafeTransferFrom = /*#__PURE__*/ createWriteContract({
+  abi: erc721UpgradeableAbi,
   functionName: 'safeTransferFrom',
 })
 
 /**
- * Wraps __{@link writeContract}__ with `abi` set to __{@link erc721Abi}__ and `functionName` set to `"setApprovalForAll"`
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link erc721UpgradeableAbi}__ and `functionName` set to `"setApprovalForAll"`
  */
-export const writeErc721SetApprovalForAll = /*#__PURE__*/ createWriteContract({
-  abi: erc721Abi,
+export const writeErc721UpgradeableSetApprovalForAll = /*#__PURE__*/ createWriteContract({
+  abi: erc721UpgradeableAbi,
   functionName: 'setApprovalForAll',
 })
 
 /**
- * Wraps __{@link writeContract}__ with `abi` set to __{@link erc721Abi}__ and `functionName` set to `"transferFrom"`
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link erc721UpgradeableAbi}__ and `functionName` set to `"transferFrom"`
  */
-export const writeErc721TransferFrom = /*#__PURE__*/ createWriteContract({
-  abi: erc721Abi,
+export const writeErc721UpgradeableTransferFrom = /*#__PURE__*/ createWriteContract({
+  abi: erc721UpgradeableAbi,
   functionName: 'transferFrom',
 })
 
 /**
- * Wraps __{@link simulateContract}__ with `abi` set to __{@link erc721Abi}__
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link erc721UpgradeableAbi}__
  */
-export const simulateErc721 = /*#__PURE__*/ createSimulateContract({ abi: erc721Abi })
+export const simulateErc721Upgradeable = /*#__PURE__*/ createSimulateContract({ abi: erc721UpgradeableAbi })
 
 /**
- * Wraps __{@link simulateContract}__ with `abi` set to __{@link erc721Abi}__ and `functionName` set to `"approve"`
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link erc721UpgradeableAbi}__ and `functionName` set to `"approve"`
  */
-export const simulateErc721Approve = /*#__PURE__*/ createSimulateContract({ abi: erc721Abi, functionName: 'approve' })
+export const simulateErc721UpgradeableApprove = /*#__PURE__*/ createSimulateContract({
+  abi: erc721UpgradeableAbi,
+  functionName: 'approve',
+})
 
 /**
- * Wraps __{@link simulateContract}__ with `abi` set to __{@link erc721Abi}__ and `functionName` set to `"safeTransferFrom"`
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link erc721UpgradeableAbi}__ and `functionName` set to `"safeTransferFrom"`
  */
-export const simulateErc721SafeTransferFrom = /*#__PURE__*/ createSimulateContract({
-  abi: erc721Abi,
+export const simulateErc721UpgradeableSafeTransferFrom = /*#__PURE__*/ createSimulateContract({
+  abi: erc721UpgradeableAbi,
   functionName: 'safeTransferFrom',
 })
 
 /**
- * Wraps __{@link simulateContract}__ with `abi` set to __{@link erc721Abi}__ and `functionName` set to `"setApprovalForAll"`
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link erc721UpgradeableAbi}__ and `functionName` set to `"setApprovalForAll"`
  */
-export const simulateErc721SetApprovalForAll = /*#__PURE__*/ createSimulateContract({
-  abi: erc721Abi,
+export const simulateErc721UpgradeableSetApprovalForAll = /*#__PURE__*/ createSimulateContract({
+  abi: erc721UpgradeableAbi,
   functionName: 'setApprovalForAll',
 })
 
 /**
- * Wraps __{@link simulateContract}__ with `abi` set to __{@link erc721Abi}__ and `functionName` set to `"transferFrom"`
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link erc721UpgradeableAbi}__ and `functionName` set to `"transferFrom"`
  */
-export const simulateErc721TransferFrom = /*#__PURE__*/ createSimulateContract({
-  abi: erc721Abi,
+export const simulateErc721UpgradeableTransferFrom = /*#__PURE__*/ createSimulateContract({
+  abi: erc721UpgradeableAbi,
   functionName: 'transferFrom',
 })
 
 /**
- * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link erc721Abi}__
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link erc721UpgradeableAbi}__
  */
-export const watchErc721Event = /*#__PURE__*/ createWatchContractEvent({ abi: erc721Abi })
+export const watchErc721UpgradeableEvent = /*#__PURE__*/ createWatchContractEvent({ abi: erc721UpgradeableAbi })
 
 /**
- * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link erc721Abi}__ and `eventName` set to `"Approval"`
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link erc721UpgradeableAbi}__ and `eventName` set to `"Approval"`
  */
-export const watchErc721ApprovalEvent = /*#__PURE__*/ createWatchContractEvent({
-  abi: erc721Abi,
+export const watchErc721UpgradeableApprovalEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: erc721UpgradeableAbi,
   eventName: 'Approval',
 })
 
 /**
- * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link erc721Abi}__ and `eventName` set to `"ApprovalForAll"`
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link erc721UpgradeableAbi}__ and `eventName` set to `"ApprovalForAll"`
  */
-export const watchErc721ApprovalForAllEvent = /*#__PURE__*/ createWatchContractEvent({
-  abi: erc721Abi,
+export const watchErc721UpgradeableApprovalForAllEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: erc721UpgradeableAbi,
   eventName: 'ApprovalForAll',
 })
 
 /**
- * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link erc721Abi}__ and `eventName` set to `"Transfer"`
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link erc721UpgradeableAbi}__ and `eventName` set to `"Initialized"`
  */
-export const watchErc721TransferEvent = /*#__PURE__*/ createWatchContractEvent({
-  abi: erc721Abi,
+export const watchErc721UpgradeableInitializedEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: erc721UpgradeableAbi,
+  eventName: 'Initialized',
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link erc721UpgradeableAbi}__ and `eventName` set to `"Transfer"`
+ */
+export const watchErc721UpgradeableTransferEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: erc721UpgradeableAbi,
   eventName: 'Transfer',
 })
 
@@ -1179,6 +2529,222 @@ export const readIerc165 = /*#__PURE__*/ createReadContract({ abi: ierc165Abi })
 export const readIerc165SupportsInterface = /*#__PURE__*/ createReadContract({
   abi: ierc165Abi,
   functionName: 'supportsInterface',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ierc20Abi}__
+ */
+export const readIerc20 = /*#__PURE__*/ createReadContract({ abi: ierc20Abi })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ierc20Abi}__ and `functionName` set to `"allowance"`
+ */
+export const readIerc20Allowance = /*#__PURE__*/ createReadContract({ abi: ierc20Abi, functionName: 'allowance' })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ierc20Abi}__ and `functionName` set to `"balanceOf"`
+ */
+export const readIerc20BalanceOf = /*#__PURE__*/ createReadContract({ abi: ierc20Abi, functionName: 'balanceOf' })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ierc20Abi}__ and `functionName` set to `"totalSupply"`
+ */
+export const readIerc20TotalSupply = /*#__PURE__*/ createReadContract({ abi: ierc20Abi, functionName: 'totalSupply' })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ierc20Abi}__
+ */
+export const writeIerc20 = /*#__PURE__*/ createWriteContract({ abi: ierc20Abi })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ierc20Abi}__ and `functionName` set to `"approve"`
+ */
+export const writeIerc20Approve = /*#__PURE__*/ createWriteContract({ abi: ierc20Abi, functionName: 'approve' })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ierc20Abi}__ and `functionName` set to `"transfer"`
+ */
+export const writeIerc20Transfer = /*#__PURE__*/ createWriteContract({ abi: ierc20Abi, functionName: 'transfer' })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ierc20Abi}__ and `functionName` set to `"transferFrom"`
+ */
+export const writeIerc20TransferFrom = /*#__PURE__*/ createWriteContract({
+  abi: ierc20Abi,
+  functionName: 'transferFrom',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ierc20Abi}__
+ */
+export const simulateIerc20 = /*#__PURE__*/ createSimulateContract({ abi: ierc20Abi })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ierc20Abi}__ and `functionName` set to `"approve"`
+ */
+export const simulateIerc20Approve = /*#__PURE__*/ createSimulateContract({ abi: ierc20Abi, functionName: 'approve' })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ierc20Abi}__ and `functionName` set to `"transfer"`
+ */
+export const simulateIerc20Transfer = /*#__PURE__*/ createSimulateContract({ abi: ierc20Abi, functionName: 'transfer' })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ierc20Abi}__ and `functionName` set to `"transferFrom"`
+ */
+export const simulateIerc20TransferFrom = /*#__PURE__*/ createSimulateContract({
+  abi: ierc20Abi,
+  functionName: 'transferFrom',
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ierc20Abi}__
+ */
+export const watchIerc20Event = /*#__PURE__*/ createWatchContractEvent({ abi: ierc20Abi })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ierc20Abi}__ and `eventName` set to `"Approval"`
+ */
+export const watchIerc20ApprovalEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: ierc20Abi,
+  eventName: 'Approval',
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ierc20Abi}__ and `eventName` set to `"Transfer"`
+ */
+export const watchIerc20TransferEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: ierc20Abi,
+  eventName: 'Transfer',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ierc20MetadataAbi}__
+ */
+export const readIerc20Metadata = /*#__PURE__*/ createReadContract({ abi: ierc20MetadataAbi })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ierc20MetadataAbi}__ and `functionName` set to `"allowance"`
+ */
+export const readIerc20MetadataAllowance = /*#__PURE__*/ createReadContract({
+  abi: ierc20MetadataAbi,
+  functionName: 'allowance',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ierc20MetadataAbi}__ and `functionName` set to `"balanceOf"`
+ */
+export const readIerc20MetadataBalanceOf = /*#__PURE__*/ createReadContract({
+  abi: ierc20MetadataAbi,
+  functionName: 'balanceOf',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ierc20MetadataAbi}__ and `functionName` set to `"decimals"`
+ */
+export const readIerc20MetadataDecimals = /*#__PURE__*/ createReadContract({
+  abi: ierc20MetadataAbi,
+  functionName: 'decimals',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ierc20MetadataAbi}__ and `functionName` set to `"name"`
+ */
+export const readIerc20MetadataName = /*#__PURE__*/ createReadContract({ abi: ierc20MetadataAbi, functionName: 'name' })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ierc20MetadataAbi}__ and `functionName` set to `"symbol"`
+ */
+export const readIerc20MetadataSymbol = /*#__PURE__*/ createReadContract({
+  abi: ierc20MetadataAbi,
+  functionName: 'symbol',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ierc20MetadataAbi}__ and `functionName` set to `"totalSupply"`
+ */
+export const readIerc20MetadataTotalSupply = /*#__PURE__*/ createReadContract({
+  abi: ierc20MetadataAbi,
+  functionName: 'totalSupply',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ierc20MetadataAbi}__
+ */
+export const writeIerc20Metadata = /*#__PURE__*/ createWriteContract({ abi: ierc20MetadataAbi })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ierc20MetadataAbi}__ and `functionName` set to `"approve"`
+ */
+export const writeIerc20MetadataApprove = /*#__PURE__*/ createWriteContract({
+  abi: ierc20MetadataAbi,
+  functionName: 'approve',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ierc20MetadataAbi}__ and `functionName` set to `"transfer"`
+ */
+export const writeIerc20MetadataTransfer = /*#__PURE__*/ createWriteContract({
+  abi: ierc20MetadataAbi,
+  functionName: 'transfer',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ierc20MetadataAbi}__ and `functionName` set to `"transferFrom"`
+ */
+export const writeIerc20MetadataTransferFrom = /*#__PURE__*/ createWriteContract({
+  abi: ierc20MetadataAbi,
+  functionName: 'transferFrom',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ierc20MetadataAbi}__
+ */
+export const simulateIerc20Metadata = /*#__PURE__*/ createSimulateContract({ abi: ierc20MetadataAbi })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ierc20MetadataAbi}__ and `functionName` set to `"approve"`
+ */
+export const simulateIerc20MetadataApprove = /*#__PURE__*/ createSimulateContract({
+  abi: ierc20MetadataAbi,
+  functionName: 'approve',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ierc20MetadataAbi}__ and `functionName` set to `"transfer"`
+ */
+export const simulateIerc20MetadataTransfer = /*#__PURE__*/ createSimulateContract({
+  abi: ierc20MetadataAbi,
+  functionName: 'transfer',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ierc20MetadataAbi}__ and `functionName` set to `"transferFrom"`
+ */
+export const simulateIerc20MetadataTransferFrom = /*#__PURE__*/ createSimulateContract({
+  abi: ierc20MetadataAbi,
+  functionName: 'transferFrom',
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ierc20MetadataAbi}__
+ */
+export const watchIerc20MetadataEvent = /*#__PURE__*/ createWatchContractEvent({ abi: ierc20MetadataAbi })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ierc20MetadataAbi}__ and `eventName` set to `"Approval"`
+ */
+export const watchIerc20MetadataApprovalEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: ierc20MetadataAbi,
+  eventName: 'Approval',
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ierc20MetadataAbi}__ and `eventName` set to `"Transfer"`
+ */
+export const watchIerc20MetadataTransferEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: ierc20MetadataAbi,
+  eventName: 'Transfer',
 })
 
 /**
@@ -1513,6 +3079,1645 @@ export const simulateIerc721ReceiverOnErc721Received = /*#__PURE__*/ createSimul
 })
 
 /**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link iLpNftAbi}__
+ */
+export const readILpNft = /*#__PURE__*/ createReadContract({ abi: iLpNftAbi })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link iLpNftAbi}__ and `functionName` set to `"slashCurrentAmount"`
+ */
+export const readILpNftSlashCurrentAmount = /*#__PURE__*/ createReadContract({
+  abi: iLpNftAbi,
+  functionName: 'slashCurrentAmount',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link iLpNftAbi}__ and `functionName` set to `"slashEndTime"`
+ */
+export const readILpNftSlashEndTime = /*#__PURE__*/ createReadContract({ abi: iLpNftAbi, functionName: 'slashEndTime' })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link iLpNftAbi}__
+ */
+export const writeILpNft = /*#__PURE__*/ createWriteContract({ abi: iLpNftAbi })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link iLpNftAbi}__ and `functionName` set to `"burn"`
+ */
+export const writeILpNftBurn = /*#__PURE__*/ createWriteContract({ abi: iLpNftAbi, functionName: 'burn' })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link iLpNftAbi}__ and `functionName` set to `"distribute"`
+ */
+export const writeILpNftDistribute = /*#__PURE__*/ createWriteContract({ abi: iLpNftAbi, functionName: 'distribute' })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link iLpNftAbi}__ and `functionName` set to `"mint"`
+ */
+export const writeILpNftMint = /*#__PURE__*/ createWriteContract({ abi: iLpNftAbi, functionName: 'mint' })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link iLpNftAbi}__ and `functionName` set to `"redeem"`
+ */
+export const writeILpNftRedeem = /*#__PURE__*/ createWriteContract({ abi: iLpNftAbi, functionName: 'redeem' })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link iLpNftAbi}__
+ */
+export const simulateILpNft = /*#__PURE__*/ createSimulateContract({ abi: iLpNftAbi })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link iLpNftAbi}__ and `functionName` set to `"burn"`
+ */
+export const simulateILpNftBurn = /*#__PURE__*/ createSimulateContract({ abi: iLpNftAbi, functionName: 'burn' })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link iLpNftAbi}__ and `functionName` set to `"distribute"`
+ */
+export const simulateILpNftDistribute = /*#__PURE__*/ createSimulateContract({
+  abi: iLpNftAbi,
+  functionName: 'distribute',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link iLpNftAbi}__ and `functionName` set to `"mint"`
+ */
+export const simulateILpNftMint = /*#__PURE__*/ createSimulateContract({ abi: iLpNftAbi, functionName: 'mint' })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link iLpNftAbi}__ and `functionName` set to `"redeem"`
+ */
+export const simulateILpNftRedeem = /*#__PURE__*/ createSimulateContract({ abi: iLpNftAbi, functionName: 'redeem' })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link iUstcPlusAbi}__
+ */
+export const readIUstcPlus = /*#__PURE__*/ createReadContract({ abi: iUstcPlusAbi })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link iUstcPlusAbi}__ and `functionName` set to `"allowance"`
+ */
+export const readIUstcPlusAllowance = /*#__PURE__*/ createReadContract({ abi: iUstcPlusAbi, functionName: 'allowance' })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link iUstcPlusAbi}__ and `functionName` set to `"balanceOf"`
+ */
+export const readIUstcPlusBalanceOf = /*#__PURE__*/ createReadContract({ abi: iUstcPlusAbi, functionName: 'balanceOf' })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link iUstcPlusAbi}__ and `functionName` set to `"totalSupply"`
+ */
+export const readIUstcPlusTotalSupply = /*#__PURE__*/ createReadContract({
+  abi: iUstcPlusAbi,
+  functionName: 'totalSupply',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link iUstcPlusAbi}__
+ */
+export const writeIUstcPlus = /*#__PURE__*/ createWriteContract({ abi: iUstcPlusAbi })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link iUstcPlusAbi}__ and `functionName` set to `"approve"`
+ */
+export const writeIUstcPlusApprove = /*#__PURE__*/ createWriteContract({ abi: iUstcPlusAbi, functionName: 'approve' })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link iUstcPlusAbi}__ and `functionName` set to `"burnByLpManager"`
+ */
+export const writeIUstcPlusBurnByLpManager = /*#__PURE__*/ createWriteContract({
+  abi: iUstcPlusAbi,
+  functionName: 'burnByLpManager',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link iUstcPlusAbi}__ and `functionName` set to `"lpNft"`
+ */
+export const writeIUstcPlusLpNft = /*#__PURE__*/ createWriteContract({ abi: iUstcPlusAbi, functionName: 'lpNft' })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link iUstcPlusAbi}__ and `functionName` set to `"mintByLpManager"`
+ */
+export const writeIUstcPlusMintByLpManager = /*#__PURE__*/ createWriteContract({
+  abi: iUstcPlusAbi,
+  functionName: 'mintByLpManager',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link iUstcPlusAbi}__ and `functionName` set to `"transfer"`
+ */
+export const writeIUstcPlusTransfer = /*#__PURE__*/ createWriteContract({ abi: iUstcPlusAbi, functionName: 'transfer' })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link iUstcPlusAbi}__ and `functionName` set to `"transferByLpNft"`
+ */
+export const writeIUstcPlusTransferByLpNft = /*#__PURE__*/ createWriteContract({
+  abi: iUstcPlusAbi,
+  functionName: 'transferByLpNft',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link iUstcPlusAbi}__ and `functionName` set to `"transferFrom"`
+ */
+export const writeIUstcPlusTransferFrom = /*#__PURE__*/ createWriteContract({
+  abi: iUstcPlusAbi,
+  functionName: 'transferFrom',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link iUstcPlusAbi}__
+ */
+export const simulateIUstcPlus = /*#__PURE__*/ createSimulateContract({ abi: iUstcPlusAbi })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link iUstcPlusAbi}__ and `functionName` set to `"approve"`
+ */
+export const simulateIUstcPlusApprove = /*#__PURE__*/ createSimulateContract({
+  abi: iUstcPlusAbi,
+  functionName: 'approve',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link iUstcPlusAbi}__ and `functionName` set to `"burnByLpManager"`
+ */
+export const simulateIUstcPlusBurnByLpManager = /*#__PURE__*/ createSimulateContract({
+  abi: iUstcPlusAbi,
+  functionName: 'burnByLpManager',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link iUstcPlusAbi}__ and `functionName` set to `"lpNft"`
+ */
+export const simulateIUstcPlusLpNft = /*#__PURE__*/ createSimulateContract({ abi: iUstcPlusAbi, functionName: 'lpNft' })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link iUstcPlusAbi}__ and `functionName` set to `"mintByLpManager"`
+ */
+export const simulateIUstcPlusMintByLpManager = /*#__PURE__*/ createSimulateContract({
+  abi: iUstcPlusAbi,
+  functionName: 'mintByLpManager',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link iUstcPlusAbi}__ and `functionName` set to `"transfer"`
+ */
+export const simulateIUstcPlusTransfer = /*#__PURE__*/ createSimulateContract({
+  abi: iUstcPlusAbi,
+  functionName: 'transfer',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link iUstcPlusAbi}__ and `functionName` set to `"transferByLpNft"`
+ */
+export const simulateIUstcPlusTransferByLpNft = /*#__PURE__*/ createSimulateContract({
+  abi: iUstcPlusAbi,
+  functionName: 'transferByLpNft',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link iUstcPlusAbi}__ and `functionName` set to `"transferFrom"`
+ */
+export const simulateIUstcPlusTransferFrom = /*#__PURE__*/ createSimulateContract({
+  abi: iUstcPlusAbi,
+  functionName: 'transferFrom',
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link iUstcPlusAbi}__
+ */
+export const watchIUstcPlusEvent = /*#__PURE__*/ createWatchContractEvent({ abi: iUstcPlusAbi })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link iUstcPlusAbi}__ and `eventName` set to `"Approval"`
+ */
+export const watchIUstcPlusApprovalEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: iUstcPlusAbi,
+  eventName: 'Approval',
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link iUstcPlusAbi}__ and `eventName` set to `"Transfer"`
+ */
+export const watchIUstcPlusTransferEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: iUstcPlusAbi,
+  eventName: 'Transfer',
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link initializableAbi}__
+ */
+export const watchInitializableEvent = /*#__PURE__*/ createWatchContractEvent({ abi: initializableAbi })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link initializableAbi}__ and `eventName` set to `"Initialized"`
+ */
+export const watchInitializableInitializedEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: initializableAbi,
+  eventName: 'Initialized',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lpManagerAbi}__
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const readLpManager = /*#__PURE__*/ createReadContract({ abi: lpManagerAbi, address: lpManagerAddress })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"deposits"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const readLpManagerDeposits = /*#__PURE__*/ createReadContract({
+  abi: lpManagerAbi,
+  address: lpManagerAddress,
+  functionName: 'deposits',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"encodeMintingParams"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const readLpManagerEncodeMintingParams = /*#__PURE__*/ createReadContract({
+  abi: lpManagerAbi,
+  address: lpManagerAddress,
+  functionName: 'encodeMintingParams',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"lpNft"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const readLpManagerLpNft = /*#__PURE__*/ createReadContract({
+  abi: lpManagerAbi,
+  address: lpManagerAddress,
+  functionName: 'lpNft',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"mintingValid"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const readLpManagerMintingValid = /*#__PURE__*/ createReadContract({
+  abi: lpManagerAbi,
+  address: lpManagerAddress,
+  functionName: 'mintingValid',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"owner"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const readLpManagerOwner = /*#__PURE__*/ createReadContract({
+  abi: lpManagerAbi,
+  address: lpManagerAddress,
+  functionName: 'owner',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"signer"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const readLpManagerSigner = /*#__PURE__*/ createReadContract({
+  abi: lpManagerAbi,
+  address: lpManagerAddress,
+  functionName: 'signer',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"usdc"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const readLpManagerUsdc = /*#__PURE__*/ createReadContract({
+  abi: lpManagerAbi,
+  address: lpManagerAddress,
+  functionName: 'usdc',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"ustcPlus"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const readLpManagerUstcPlus = /*#__PURE__*/ createReadContract({
+  abi: lpManagerAbi,
+  address: lpManagerAddress,
+  functionName: 'ustcPlus',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"ustcPlusBuyer"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const readLpManagerUstcPlusBuyer = /*#__PURE__*/ createReadContract({
+  abi: lpManagerAbi,
+  address: lpManagerAddress,
+  functionName: 'ustcPlusBuyer',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lpManagerAbi}__
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const writeLpManager = /*#__PURE__*/ createWriteContract({ abi: lpManagerAbi, address: lpManagerAddress })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"endMinting"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const writeLpManagerEndMinting = /*#__PURE__*/ createWriteContract({
+  abi: lpManagerAbi,
+  address: lpManagerAddress,
+  functionName: 'endMinting',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"initialize"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const writeLpManagerInitialize = /*#__PURE__*/ createWriteContract({
+  abi: lpManagerAbi,
+  address: lpManagerAddress,
+  functionName: 'initialize',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"renounceOwnership"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const writeLpManagerRenounceOwnership = /*#__PURE__*/ createWriteContract({
+  abi: lpManagerAbi,
+  address: lpManagerAddress,
+  functionName: 'renounceOwnership',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"setLpNft"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const writeLpManagerSetLpNft = /*#__PURE__*/ createWriteContract({
+  abi: lpManagerAbi,
+  address: lpManagerAddress,
+  functionName: 'setLpNft',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"setSigner"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const writeLpManagerSetSigner = /*#__PURE__*/ createWriteContract({
+  abi: lpManagerAbi,
+  address: lpManagerAddress,
+  functionName: 'setSigner',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"setUsdc"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const writeLpManagerSetUsdc = /*#__PURE__*/ createWriteContract({
+  abi: lpManagerAbi,
+  address: lpManagerAddress,
+  functionName: 'setUsdc',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"setUstcBuyer"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const writeLpManagerSetUstcBuyer = /*#__PURE__*/ createWriteContract({
+  abi: lpManagerAbi,
+  address: lpManagerAddress,
+  functionName: 'setUstcBuyer',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"setUstcPlus"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const writeLpManagerSetUstcPlus = /*#__PURE__*/ createWriteContract({
+  abi: lpManagerAbi,
+  address: lpManagerAddress,
+  functionName: 'setUstcPlus',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"startMinting"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const writeLpManagerStartMinting = /*#__PURE__*/ createWriteContract({
+  abi: lpManagerAbi,
+  address: lpManagerAddress,
+  functionName: 'startMinting',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"transferOwnership"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const writeLpManagerTransferOwnership = /*#__PURE__*/ createWriteContract({
+  abi: lpManagerAbi,
+  address: lpManagerAddress,
+  functionName: 'transferOwnership',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"unwrap"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const writeLpManagerUnwrap = /*#__PURE__*/ createWriteContract({
+  abi: lpManagerAbi,
+  address: lpManagerAddress,
+  functionName: 'unwrap',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"wrap"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const writeLpManagerWrap = /*#__PURE__*/ createWriteContract({
+  abi: lpManagerAbi,
+  address: lpManagerAddress,
+  functionName: 'wrap',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpManagerAbi}__
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const simulateLpManager = /*#__PURE__*/ createSimulateContract({ abi: lpManagerAbi, address: lpManagerAddress })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"endMinting"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const simulateLpManagerEndMinting = /*#__PURE__*/ createSimulateContract({
+  abi: lpManagerAbi,
+  address: lpManagerAddress,
+  functionName: 'endMinting',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"initialize"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const simulateLpManagerInitialize = /*#__PURE__*/ createSimulateContract({
+  abi: lpManagerAbi,
+  address: lpManagerAddress,
+  functionName: 'initialize',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"renounceOwnership"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const simulateLpManagerRenounceOwnership = /*#__PURE__*/ createSimulateContract({
+  abi: lpManagerAbi,
+  address: lpManagerAddress,
+  functionName: 'renounceOwnership',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"setLpNft"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const simulateLpManagerSetLpNft = /*#__PURE__*/ createSimulateContract({
+  abi: lpManagerAbi,
+  address: lpManagerAddress,
+  functionName: 'setLpNft',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"setSigner"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const simulateLpManagerSetSigner = /*#__PURE__*/ createSimulateContract({
+  abi: lpManagerAbi,
+  address: lpManagerAddress,
+  functionName: 'setSigner',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"setUsdc"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const simulateLpManagerSetUsdc = /*#__PURE__*/ createSimulateContract({
+  abi: lpManagerAbi,
+  address: lpManagerAddress,
+  functionName: 'setUsdc',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"setUstcBuyer"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const simulateLpManagerSetUstcBuyer = /*#__PURE__*/ createSimulateContract({
+  abi: lpManagerAbi,
+  address: lpManagerAddress,
+  functionName: 'setUstcBuyer',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"setUstcPlus"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const simulateLpManagerSetUstcPlus = /*#__PURE__*/ createSimulateContract({
+  abi: lpManagerAbi,
+  address: lpManagerAddress,
+  functionName: 'setUstcPlus',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"startMinting"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const simulateLpManagerStartMinting = /*#__PURE__*/ createSimulateContract({
+  abi: lpManagerAbi,
+  address: lpManagerAddress,
+  functionName: 'startMinting',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"transferOwnership"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const simulateLpManagerTransferOwnership = /*#__PURE__*/ createSimulateContract({
+  abi: lpManagerAbi,
+  address: lpManagerAddress,
+  functionName: 'transferOwnership',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"unwrap"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const simulateLpManagerUnwrap = /*#__PURE__*/ createSimulateContract({
+  abi: lpManagerAbi,
+  address: lpManagerAddress,
+  functionName: 'unwrap',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpManagerAbi}__ and `functionName` set to `"wrap"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const simulateLpManagerWrap = /*#__PURE__*/ createSimulateContract({
+  abi: lpManagerAbi,
+  address: lpManagerAddress,
+  functionName: 'wrap',
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lpManagerAbi}__
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const watchLpManagerEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: lpManagerAbi,
+  address: lpManagerAddress,
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lpManagerAbi}__ and `eventName` set to `"EndMinting"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const watchLpManagerEndMintingEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: lpManagerAbi,
+  address: lpManagerAddress,
+  eventName: 'EndMinting',
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lpManagerAbi}__ and `eventName` set to `"Initialized"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const watchLpManagerInitializedEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: lpManagerAbi,
+  address: lpManagerAddress,
+  eventName: 'Initialized',
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lpManagerAbi}__ and `eventName` set to `"OwnershipTransferred"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const watchLpManagerOwnershipTransferredEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: lpManagerAbi,
+  address: lpManagerAddress,
+  eventName: 'OwnershipTransferred',
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lpManagerAbi}__ and `eventName` set to `"StartMinting"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const watchLpManagerStartMintingEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: lpManagerAbi,
+  address: lpManagerAddress,
+  eventName: 'StartMinting',
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lpManagerAbi}__ and `eventName` set to `"Unwrap"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const watchLpManagerUnwrapEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: lpManagerAbi,
+  address: lpManagerAddress,
+  eventName: 'Unwrap',
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lpManagerAbi}__ and `eventName` set to `"Wrap"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xCb3B96E8c57E90b8B74959c8475cD3245D02f053)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xD4D1bcDED5ADd4DC3EE975C0feEFce8F244D15b6)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xC72C2e40574C1279fC3D3aDC54C7e055D9727348)
+ */
+export const watchLpManagerWrapEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: lpManagerAbi,
+  address: lpManagerAddress,
+  eventName: 'Wrap',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const readLpNft = /*#__PURE__*/ createReadContract({ abi: lpNftAbi, address: lpNftAddress })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"HODLER_ID"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const readLpNftHodlerId = /*#__PURE__*/ createReadContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'HODLER_ID',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"_rTotal"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const readLpNftRTotal = /*#__PURE__*/ createReadContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: '_rTotal',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"_tFeeTotal"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const readLpNftTFeeTotal = /*#__PURE__*/ createReadContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: '_tFeeTotal',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"_tTotal"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const readLpNftTTotal = /*#__PURE__*/ createReadContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: '_tTotal',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"balanceOf"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const readLpNftBalanceOf = /*#__PURE__*/ createReadContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'balanceOf',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"dao"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const readLpNftDao = /*#__PURE__*/ createReadContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'dao',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"getApproved"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const readLpNftGetApproved = /*#__PURE__*/ createReadContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'getApproved',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"isApprovedForAll"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const readLpNftIsApprovedForAll = /*#__PURE__*/ createReadContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'isApprovedForAll',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"lpManager"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const readLpNftLpManager = /*#__PURE__*/ createReadContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'lpManager',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"name"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const readLpNftName = /*#__PURE__*/ createReadContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'name',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"owner"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const readLpNftOwner = /*#__PURE__*/ createReadContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'owner',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"ownerOf"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const readLpNftOwnerOf = /*#__PURE__*/ createReadContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'ownerOf',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"paramsOf"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const readLpNftParamsOf = /*#__PURE__*/ createReadContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'paramsOf',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"reflectBalanceOf"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const readLpNftReflectBalanceOf = /*#__PURE__*/ createReadContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'reflectBalanceOf',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"reflectionFromToken"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const readLpNftReflectionFromToken = /*#__PURE__*/ createReadContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'reflectionFromToken',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"slashCurrentAmount"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const readLpNftSlashCurrentAmount = /*#__PURE__*/ createReadContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'slashCurrentAmount',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"slashEndTime"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const readLpNftSlashEndTime = /*#__PURE__*/ createReadContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'slashEndTime',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"supportsInterface"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const readLpNftSupportsInterface = /*#__PURE__*/ createReadContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'supportsInterface',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"symbol"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const readLpNftSymbol = /*#__PURE__*/ createReadContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'symbol',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"tokenFromReflection"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const readLpNftTokenFromReflection = /*#__PURE__*/ createReadContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'tokenFromReflection',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"tokenURI"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const readLpNftTokenUri = /*#__PURE__*/ createReadContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'tokenURI',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"usdc"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const readLpNftUsdc = /*#__PURE__*/ createReadContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'usdc',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"ustcPlus"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const readLpNftUstcPlus = /*#__PURE__*/ createReadContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'ustcPlus',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lpNftAbi}__
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const writeLpNft = /*#__PURE__*/ createWriteContract({ abi: lpNftAbi, address: lpNftAddress })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"approve"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const writeLpNftApprove = /*#__PURE__*/ createWriteContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'approve',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"burn"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const writeLpNftBurn = /*#__PURE__*/ createWriteContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'burn',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"distribute"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const writeLpNftDistribute = /*#__PURE__*/ createWriteContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'distribute',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"initialize"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const writeLpNftInitialize = /*#__PURE__*/ createWriteContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'initialize',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"mint"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const writeLpNftMint = /*#__PURE__*/ createWriteContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'mint',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"redeem"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const writeLpNftRedeem = /*#__PURE__*/ createWriteContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'redeem',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"reflect"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const writeLpNftReflect = /*#__PURE__*/ createWriteContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'reflect',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"renounceOwnership"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const writeLpNftRenounceOwnership = /*#__PURE__*/ createWriteContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'renounceOwnership',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"safeTransferFrom"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const writeLpNftSafeTransferFrom = /*#__PURE__*/ createWriteContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'safeTransferFrom',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"setApprovalForAll"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const writeLpNftSetApprovalForAll = /*#__PURE__*/ createWriteContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'setApprovalForAll',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"setDao"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const writeLpNftSetDao = /*#__PURE__*/ createWriteContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'setDao',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"setLpManager"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const writeLpNftSetLpManager = /*#__PURE__*/ createWriteContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'setLpManager',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"setUsdc"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const writeLpNftSetUsdc = /*#__PURE__*/ createWriteContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'setUsdc',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"setUstcPlus"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const writeLpNftSetUstcPlus = /*#__PURE__*/ createWriteContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'setUstcPlus',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"setupReflect"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const writeLpNftSetupReflect = /*#__PURE__*/ createWriteContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'setupReflect',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"transferFrom"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const writeLpNftTransferFrom = /*#__PURE__*/ createWriteContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'transferFrom',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"transferOwnership"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const writeLpNftTransferOwnership = /*#__PURE__*/ createWriteContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'transferOwnership',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpNftAbi}__
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const simulateLpNft = /*#__PURE__*/ createSimulateContract({ abi: lpNftAbi, address: lpNftAddress })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"approve"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const simulateLpNftApprove = /*#__PURE__*/ createSimulateContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'approve',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"burn"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const simulateLpNftBurn = /*#__PURE__*/ createSimulateContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'burn',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"distribute"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const simulateLpNftDistribute = /*#__PURE__*/ createSimulateContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'distribute',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"initialize"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const simulateLpNftInitialize = /*#__PURE__*/ createSimulateContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'initialize',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"mint"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const simulateLpNftMint = /*#__PURE__*/ createSimulateContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'mint',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"redeem"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const simulateLpNftRedeem = /*#__PURE__*/ createSimulateContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'redeem',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"reflect"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const simulateLpNftReflect = /*#__PURE__*/ createSimulateContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'reflect',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"renounceOwnership"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const simulateLpNftRenounceOwnership = /*#__PURE__*/ createSimulateContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'renounceOwnership',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"safeTransferFrom"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const simulateLpNftSafeTransferFrom = /*#__PURE__*/ createSimulateContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'safeTransferFrom',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"setApprovalForAll"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const simulateLpNftSetApprovalForAll = /*#__PURE__*/ createSimulateContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'setApprovalForAll',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"setDao"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const simulateLpNftSetDao = /*#__PURE__*/ createSimulateContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'setDao',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"setLpManager"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const simulateLpNftSetLpManager = /*#__PURE__*/ createSimulateContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'setLpManager',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"setUsdc"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const simulateLpNftSetUsdc = /*#__PURE__*/ createSimulateContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'setUsdc',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"setUstcPlus"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const simulateLpNftSetUstcPlus = /*#__PURE__*/ createSimulateContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'setUstcPlus',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"setupReflect"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const simulateLpNftSetupReflect = /*#__PURE__*/ createSimulateContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'setupReflect',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"transferFrom"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const simulateLpNftTransferFrom = /*#__PURE__*/ createSimulateContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'transferFrom',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lpNftAbi}__ and `functionName` set to `"transferOwnership"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const simulateLpNftTransferOwnership = /*#__PURE__*/ createSimulateContract({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  functionName: 'transferOwnership',
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lpNftAbi}__
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const watchLpNftEvent = /*#__PURE__*/ createWatchContractEvent({ abi: lpNftAbi, address: lpNftAddress })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lpNftAbi}__ and `eventName` set to `"Approval"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const watchLpNftApprovalEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  eventName: 'Approval',
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lpNftAbi}__ and `eventName` set to `"ApprovalForAll"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const watchLpNftApprovalForAllEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  eventName: 'ApprovalForAll',
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lpNftAbi}__ and `eventName` set to `"Initialized"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const watchLpNftInitializedEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  eventName: 'Initialized',
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lpNftAbi}__ and `eventName` set to `"OwnershipTransferred"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const watchLpNftOwnershipTransferredEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  eventName: 'OwnershipTransferred',
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lpNftAbi}__ and `eventName` set to `"Redeem"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const watchLpNftRedeemEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  eventName: 'Redeem',
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lpNftAbi}__ and `eventName` set to `"Transfer"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0564C3e8Fe23c5A6220A300c303f41e43D9be9e2)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xF53dc83E9cE56612dd47cA24e7439C204B602A22)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9885055bEb85A0D35B1fFb982Acfeaf61f340877)
+ */
+export const watchLpNftTransferEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: lpNftAbi,
+  address: lpNftAddress,
+  eventName: 'Transfer',
+})
+
+/**
  * Wraps __{@link readContract}__ with `abi` set to __{@link messageAbi}__
  *
  * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xF11f180eE37dd6aa7dD08b8C1Cd670fC4DBE0e34)
@@ -1585,272 +4790,298 @@ export const watchMessageSetMessageEvent = /*#__PURE__*/ createWatchContractEven
 })
 
 /**
- * Wraps __{@link readContract}__ with `abi` set to __{@link nexthFtAbi}__
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ownableUpgradeableAbi}__
  */
-export const readNexthFt = /*#__PURE__*/ createReadContract({ abi: nexthFtAbi })
+export const readOwnableUpgradeable = /*#__PURE__*/ createReadContract({ abi: ownableUpgradeableAbi })
 
 /**
- * Wraps __{@link readContract}__ with `abi` set to __{@link nexthFtAbi}__ and `functionName` set to `"balanceOf"`
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ownableUpgradeableAbi}__ and `functionName` set to `"owner"`
  */
-export const readNexthFtBalanceOf = /*#__PURE__*/ createReadContract({ abi: nexthFtAbi, functionName: 'balanceOf' })
-
-/**
- * Wraps __{@link readContract}__ with `abi` set to __{@link nexthFtAbi}__ and `functionName` set to `"getApproved"`
- */
-export const readNexthFtGetApproved = /*#__PURE__*/ createReadContract({ abi: nexthFtAbi, functionName: 'getApproved' })
-
-/**
- * Wraps __{@link readContract}__ with `abi` set to __{@link nexthFtAbi}__ and `functionName` set to `"isApprovedForAll"`
- */
-export const readNexthFtIsApprovedForAll = /*#__PURE__*/ createReadContract({
-  abi: nexthFtAbi,
-  functionName: 'isApprovedForAll',
+export const readOwnableUpgradeableOwner = /*#__PURE__*/ createReadContract({
+  abi: ownableUpgradeableAbi,
+  functionName: 'owner',
 })
 
 /**
- * Wraps __{@link readContract}__ with `abi` set to __{@link nexthFtAbi}__ and `functionName` set to `"name"`
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ownableUpgradeableAbi}__
  */
-export const readNexthFtName = /*#__PURE__*/ createReadContract({ abi: nexthFtAbi, functionName: 'name' })
+export const writeOwnableUpgradeable = /*#__PURE__*/ createWriteContract({ abi: ownableUpgradeableAbi })
 
 /**
- * Wraps __{@link readContract}__ with `abi` set to __{@link nexthFtAbi}__ and `functionName` set to `"owner"`
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ownableUpgradeableAbi}__ and `functionName` set to `"renounceOwnership"`
  */
-export const readNexthFtOwner = /*#__PURE__*/ createReadContract({ abi: nexthFtAbi, functionName: 'owner' })
-
-/**
- * Wraps __{@link readContract}__ with `abi` set to __{@link nexthFtAbi}__ and `functionName` set to `"ownerOf"`
- */
-export const readNexthFtOwnerOf = /*#__PURE__*/ createReadContract({ abi: nexthFtAbi, functionName: 'ownerOf' })
-
-/**
- * Wraps __{@link readContract}__ with `abi` set to __{@link nexthFtAbi}__ and `functionName` set to `"supportsInterface"`
- */
-export const readNexthFtSupportsInterface = /*#__PURE__*/ createReadContract({
-  abi: nexthFtAbi,
-  functionName: 'supportsInterface',
-})
-
-/**
- * Wraps __{@link readContract}__ with `abi` set to __{@link nexthFtAbi}__ and `functionName` set to `"symbol"`
- */
-export const readNexthFtSymbol = /*#__PURE__*/ createReadContract({ abi: nexthFtAbi, functionName: 'symbol' })
-
-/**
- * Wraps __{@link readContract}__ with `abi` set to __{@link nexthFtAbi}__ and `functionName` set to `"tokenURI"`
- */
-export const readNexthFtTokenUri = /*#__PURE__*/ createReadContract({ abi: nexthFtAbi, functionName: 'tokenURI' })
-
-/**
- * Wraps __{@link writeContract}__ with `abi` set to __{@link nexthFtAbi}__
- */
-export const writeNexthFt = /*#__PURE__*/ createWriteContract({ abi: nexthFtAbi })
-
-/**
- * Wraps __{@link writeContract}__ with `abi` set to __{@link nexthFtAbi}__ and `functionName` set to `"approve"`
- */
-export const writeNexthFtApprove = /*#__PURE__*/ createWriteContract({ abi: nexthFtAbi, functionName: 'approve' })
-
-/**
- * Wraps __{@link writeContract}__ with `abi` set to __{@link nexthFtAbi}__ and `functionName` set to `"renounceOwnership"`
- */
-export const writeNexthFtRenounceOwnership = /*#__PURE__*/ createWriteContract({
-  abi: nexthFtAbi,
+export const writeOwnableUpgradeableRenounceOwnership = /*#__PURE__*/ createWriteContract({
+  abi: ownableUpgradeableAbi,
   functionName: 'renounceOwnership',
 })
 
 /**
- * Wraps __{@link writeContract}__ with `abi` set to __{@link nexthFtAbi}__ and `functionName` set to `"safeMint"`
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ownableUpgradeableAbi}__ and `functionName` set to `"transferOwnership"`
  */
-export const writeNexthFtSafeMint = /*#__PURE__*/ createWriteContract({ abi: nexthFtAbi, functionName: 'safeMint' })
-
-/**
- * Wraps __{@link writeContract}__ with `abi` set to __{@link nexthFtAbi}__ and `functionName` set to `"safeTransferFrom"`
- */
-export const writeNexthFtSafeTransferFrom = /*#__PURE__*/ createWriteContract({
-  abi: nexthFtAbi,
-  functionName: 'safeTransferFrom',
-})
-
-/**
- * Wraps __{@link writeContract}__ with `abi` set to __{@link nexthFtAbi}__ and `functionName` set to `"setApprovalForAll"`
- */
-export const writeNexthFtSetApprovalForAll = /*#__PURE__*/ createWriteContract({
-  abi: nexthFtAbi,
-  functionName: 'setApprovalForAll',
-})
-
-/**
- * Wraps __{@link writeContract}__ with `abi` set to __{@link nexthFtAbi}__ and `functionName` set to `"transferFrom"`
- */
-export const writeNexthFtTransferFrom = /*#__PURE__*/ createWriteContract({
-  abi: nexthFtAbi,
-  functionName: 'transferFrom',
-})
-
-/**
- * Wraps __{@link writeContract}__ with `abi` set to __{@link nexthFtAbi}__ and `functionName` set to `"transferOwnership"`
- */
-export const writeNexthFtTransferOwnership = /*#__PURE__*/ createWriteContract({
-  abi: nexthFtAbi,
+export const writeOwnableUpgradeableTransferOwnership = /*#__PURE__*/ createWriteContract({
+  abi: ownableUpgradeableAbi,
   functionName: 'transferOwnership',
 })
 
 /**
- * Wraps __{@link simulateContract}__ with `abi` set to __{@link nexthFtAbi}__
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ownableUpgradeableAbi}__
  */
-export const simulateNexthFt = /*#__PURE__*/ createSimulateContract({ abi: nexthFtAbi })
+export const simulateOwnableUpgradeable = /*#__PURE__*/ createSimulateContract({ abi: ownableUpgradeableAbi })
 
 /**
- * Wraps __{@link simulateContract}__ with `abi` set to __{@link nexthFtAbi}__ and `functionName` set to `"approve"`
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ownableUpgradeableAbi}__ and `functionName` set to `"renounceOwnership"`
  */
-export const simulateNexthFtApprove = /*#__PURE__*/ createSimulateContract({ abi: nexthFtAbi, functionName: 'approve' })
-
-/**
- * Wraps __{@link simulateContract}__ with `abi` set to __{@link nexthFtAbi}__ and `functionName` set to `"renounceOwnership"`
- */
-export const simulateNexthFtRenounceOwnership = /*#__PURE__*/ createSimulateContract({
-  abi: nexthFtAbi,
+export const simulateOwnableUpgradeableRenounceOwnership = /*#__PURE__*/ createSimulateContract({
+  abi: ownableUpgradeableAbi,
   functionName: 'renounceOwnership',
 })
 
 /**
- * Wraps __{@link simulateContract}__ with `abi` set to __{@link nexthFtAbi}__ and `functionName` set to `"safeMint"`
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ownableUpgradeableAbi}__ and `functionName` set to `"transferOwnership"`
  */
-export const simulateNexthFtSafeMint = /*#__PURE__*/ createSimulateContract({
-  abi: nexthFtAbi,
-  functionName: 'safeMint',
-})
-
-/**
- * Wraps __{@link simulateContract}__ with `abi` set to __{@link nexthFtAbi}__ and `functionName` set to `"safeTransferFrom"`
- */
-export const simulateNexthFtSafeTransferFrom = /*#__PURE__*/ createSimulateContract({
-  abi: nexthFtAbi,
-  functionName: 'safeTransferFrom',
-})
-
-/**
- * Wraps __{@link simulateContract}__ with `abi` set to __{@link nexthFtAbi}__ and `functionName` set to `"setApprovalForAll"`
- */
-export const simulateNexthFtSetApprovalForAll = /*#__PURE__*/ createSimulateContract({
-  abi: nexthFtAbi,
-  functionName: 'setApprovalForAll',
-})
-
-/**
- * Wraps __{@link simulateContract}__ with `abi` set to __{@link nexthFtAbi}__ and `functionName` set to `"transferFrom"`
- */
-export const simulateNexthFtTransferFrom = /*#__PURE__*/ createSimulateContract({
-  abi: nexthFtAbi,
-  functionName: 'transferFrom',
-})
-
-/**
- * Wraps __{@link simulateContract}__ with `abi` set to __{@link nexthFtAbi}__ and `functionName` set to `"transferOwnership"`
- */
-export const simulateNexthFtTransferOwnership = /*#__PURE__*/ createSimulateContract({
-  abi: nexthFtAbi,
+export const simulateOwnableUpgradeableTransferOwnership = /*#__PURE__*/ createSimulateContract({
+  abi: ownableUpgradeableAbi,
   functionName: 'transferOwnership',
 })
 
 /**
- * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link nexthFtAbi}__
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ownableUpgradeableAbi}__
  */
-export const watchNexthFtEvent = /*#__PURE__*/ createWatchContractEvent({ abi: nexthFtAbi })
+export const watchOwnableUpgradeableEvent = /*#__PURE__*/ createWatchContractEvent({ abi: ownableUpgradeableAbi })
 
 /**
- * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link nexthFtAbi}__ and `eventName` set to `"Approval"`
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ownableUpgradeableAbi}__ and `eventName` set to `"Initialized"`
  */
-export const watchNexthFtApprovalEvent = /*#__PURE__*/ createWatchContractEvent({
-  abi: nexthFtAbi,
+export const watchOwnableUpgradeableInitializedEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: ownableUpgradeableAbi,
+  eventName: 'Initialized',
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ownableUpgradeableAbi}__ and `eventName` set to `"OwnershipTransferred"`
+ */
+export const watchOwnableUpgradeableOwnershipTransferredEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: ownableUpgradeableAbi,
+  eventName: 'OwnershipTransferred',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link testErc20Abi}__
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
+ */
+export const readTestErc20 = /*#__PURE__*/ createReadContract({ abi: testErc20Abi, address: testErc20Address })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link testErc20Abi}__ and `functionName` set to `"allowance"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
+ */
+export const readTestErc20Allowance = /*#__PURE__*/ createReadContract({
+  abi: testErc20Abi,
+  address: testErc20Address,
+  functionName: 'allowance',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link testErc20Abi}__ and `functionName` set to `"balanceOf"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
+ */
+export const readTestErc20BalanceOf = /*#__PURE__*/ createReadContract({
+  abi: testErc20Abi,
+  address: testErc20Address,
+  functionName: 'balanceOf',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link testErc20Abi}__ and `functionName` set to `"decimals"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
+ */
+export const readTestErc20Decimals = /*#__PURE__*/ createReadContract({
+  abi: testErc20Abi,
+  address: testErc20Address,
+  functionName: 'decimals',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link testErc20Abi}__ and `functionName` set to `"name"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
+ */
+export const readTestErc20Name = /*#__PURE__*/ createReadContract({
+  abi: testErc20Abi,
+  address: testErc20Address,
+  functionName: 'name',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link testErc20Abi}__ and `functionName` set to `"symbol"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
+ */
+export const readTestErc20Symbol = /*#__PURE__*/ createReadContract({
+  abi: testErc20Abi,
+  address: testErc20Address,
+  functionName: 'symbol',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link testErc20Abi}__ and `functionName` set to `"totalSupply"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
+ */
+export const readTestErc20TotalSupply = /*#__PURE__*/ createReadContract({
+  abi: testErc20Abi,
+  address: testErc20Address,
+  functionName: 'totalSupply',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link testErc20Abi}__
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
+ */
+export const writeTestErc20 = /*#__PURE__*/ createWriteContract({ abi: testErc20Abi, address: testErc20Address })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link testErc20Abi}__ and `functionName` set to `"approve"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
+ */
+export const writeTestErc20Approve = /*#__PURE__*/ createWriteContract({
+  abi: testErc20Abi,
+  address: testErc20Address,
+  functionName: 'approve',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link testErc20Abi}__ and `functionName` set to `"transfer"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
+ */
+export const writeTestErc20Transfer = /*#__PURE__*/ createWriteContract({
+  abi: testErc20Abi,
+  address: testErc20Address,
+  functionName: 'transfer',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link testErc20Abi}__ and `functionName` set to `"transferFrom"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
+ */
+export const writeTestErc20TransferFrom = /*#__PURE__*/ createWriteContract({
+  abi: testErc20Abi,
+  address: testErc20Address,
+  functionName: 'transferFrom',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link testErc20Abi}__
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
+ */
+export const simulateTestErc20 = /*#__PURE__*/ createSimulateContract({ abi: testErc20Abi, address: testErc20Address })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link testErc20Abi}__ and `functionName` set to `"approve"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
+ */
+export const simulateTestErc20Approve = /*#__PURE__*/ createSimulateContract({
+  abi: testErc20Abi,
+  address: testErc20Address,
+  functionName: 'approve',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link testErc20Abi}__ and `functionName` set to `"transfer"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
+ */
+export const simulateTestErc20Transfer = /*#__PURE__*/ createSimulateContract({
+  abi: testErc20Abi,
+  address: testErc20Address,
+  functionName: 'transfer',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link testErc20Abi}__ and `functionName` set to `"transferFrom"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
+ */
+export const simulateTestErc20TransferFrom = /*#__PURE__*/ createSimulateContract({
+  abi: testErc20Abi,
+  address: testErc20Address,
+  functionName: 'transferFrom',
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link testErc20Abi}__
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
+ */
+export const watchTestErc20Event = /*#__PURE__*/ createWatchContractEvent({
+  abi: testErc20Abi,
+  address: testErc20Address,
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link testErc20Abi}__ and `eventName` set to `"Approval"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
+ */
+export const watchTestErc20ApprovalEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: testErc20Abi,
+  address: testErc20Address,
   eventName: 'Approval',
 })
 
 /**
- * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link nexthFtAbi}__ and `eventName` set to `"ApprovalForAll"`
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link testErc20Abi}__ and `eventName` set to `"Transfer"`
+ *
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x32e5c809663f371ec25c7a21953647b448394aa3)
  */
-export const watchNexthFtApprovalForAllEvent = /*#__PURE__*/ createWatchContractEvent({
-  abi: nexthFtAbi,
-  eventName: 'ApprovalForAll',
-})
-
-/**
- * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link nexthFtAbi}__ and `eventName` set to `"OwnershipTransferred"`
- */
-export const watchNexthFtOwnershipTransferredEvent = /*#__PURE__*/ createWatchContractEvent({
-  abi: nexthFtAbi,
-  eventName: 'OwnershipTransferred',
-})
-
-/**
- * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link nexthFtAbi}__ and `eventName` set to `"Transfer"`
- */
-export const watchNexthFtTransferEvent = /*#__PURE__*/ createWatchContractEvent({
-  abi: nexthFtAbi,
+export const watchTestErc20TransferEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: testErc20Abi,
+  address: testErc20Address,
   eventName: 'Transfer',
-})
-
-/**
- * Wraps __{@link readContract}__ with `abi` set to __{@link ownableAbi}__
- */
-export const readOwnable = /*#__PURE__*/ createReadContract({ abi: ownableAbi })
-
-/**
- * Wraps __{@link readContract}__ with `abi` set to __{@link ownableAbi}__ and `functionName` set to `"owner"`
- */
-export const readOwnableOwner = /*#__PURE__*/ createReadContract({ abi: ownableAbi, functionName: 'owner' })
-
-/**
- * Wraps __{@link writeContract}__ with `abi` set to __{@link ownableAbi}__
- */
-export const writeOwnable = /*#__PURE__*/ createWriteContract({ abi: ownableAbi })
-
-/**
- * Wraps __{@link writeContract}__ with `abi` set to __{@link ownableAbi}__ and `functionName` set to `"renounceOwnership"`
- */
-export const writeOwnableRenounceOwnership = /*#__PURE__*/ createWriteContract({
-  abi: ownableAbi,
-  functionName: 'renounceOwnership',
-})
-
-/**
- * Wraps __{@link writeContract}__ with `abi` set to __{@link ownableAbi}__ and `functionName` set to `"transferOwnership"`
- */
-export const writeOwnableTransferOwnership = /*#__PURE__*/ createWriteContract({
-  abi: ownableAbi,
-  functionName: 'transferOwnership',
-})
-
-/**
- * Wraps __{@link simulateContract}__ with `abi` set to __{@link ownableAbi}__
- */
-export const simulateOwnable = /*#__PURE__*/ createSimulateContract({ abi: ownableAbi })
-
-/**
- * Wraps __{@link simulateContract}__ with `abi` set to __{@link ownableAbi}__ and `functionName` set to `"renounceOwnership"`
- */
-export const simulateOwnableRenounceOwnership = /*#__PURE__*/ createSimulateContract({
-  abi: ownableAbi,
-  functionName: 'renounceOwnership',
-})
-
-/**
- * Wraps __{@link simulateContract}__ with `abi` set to __{@link ownableAbi}__ and `functionName` set to `"transferOwnership"`
- */
-export const simulateOwnableTransferOwnership = /*#__PURE__*/ createSimulateContract({
-  abi: ownableAbi,
-  functionName: 'transferOwnership',
-})
-
-/**
- * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ownableAbi}__
- */
-export const watchOwnableEvent = /*#__PURE__*/ createWatchContractEvent({ abi: ownableAbi })
-
-/**
- * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ownableAbi}__ and `eventName` set to `"OwnershipTransferred"`
- */
-export const watchOwnableOwnershipTransferredEvent = /*#__PURE__*/ createWatchContractEvent({
-  abi: ownableAbi,
-  eventName: 'OwnershipTransferred',
 })

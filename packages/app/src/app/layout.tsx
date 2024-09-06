@@ -1,13 +1,16 @@
 import type { Metadata, Viewport } from 'next'
 import { PropsWithChildren } from 'react'
-import { SITE_DESCRIPTION, SITE_EMOJI, SITE_INFO, SITE_NAME, SITE_URL, SOCIAL_TWITTER } from '@/utils/site'
+import { SITE_DESCRIPTION, SITE_INFO, SITE_NAME, SITE_URL, SOCIAL_TWITTER } from '@/utils/site'
 import { Layout } from '@/components/Layout'
 import { Web3Provider } from '@/context/Web3'
 import { NotificationProvider } from '@/context/Notifications'
+import { LiquidityProcessProvider } from '@/context/LiquidityProcesses'
 import { cookieToInitialState } from 'wagmi'
 import { WALLETCONNECT_CONFIG } from '@/utils/web3'
 import { headers } from 'next/headers'
 import '../assets/globals.css'
+
+console.log(process.env.NODE_ENV)
 
 export const metadata: Metadata = {
   applicationName: SITE_NAME,
@@ -29,14 +32,14 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     description: SITE_DESCRIPTION,
     url: SITE_URL,
-    images: '/opengraph-image',
+    images: '/logo.png',
   },
   twitter: {
     card: 'summary_large_image',
     site: SOCIAL_TWITTER,
     title: SITE_NAME,
     description: SITE_DESCRIPTION,
-    images: '/opengraph-image',
+    images: '/logo.png',
   },
 }
 
@@ -54,16 +57,19 @@ export default function RootLayout(props: PropsWithChildren) {
   return (
     <html lang='en'>
       <head>
-        <link
-          rel='icon'
-          href={`data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>${SITE_EMOJI}</text></svg>`}
-        />
+        <link rel='icon' href={`/logo.png`} type='image/png' />
       </head>
 
-      <body>
+      <body
+        style={{
+          background: 'url("bg.jpg")',
+          backgroundSize: 'cover',
+        }}>
         <Web3Provider initialState={initialState}>
           <NotificationProvider>
-            <Layout>{props.children}</Layout>
+            <LiquidityProcessProvider>
+              <Layout>{props.children}</Layout>
+            </LiquidityProcessProvider>
           </NotificationProvider>
         </Web3Provider>
       </body>

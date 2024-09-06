@@ -1,11 +1,56 @@
-import { mainnet, arbitrum, base, linea, polygon, optimism, scroll } from 'viem/chains'
-import { Chain, hardhat, sepolia } from 'viem/chains'
+import { polygon, bsc, sepolia, Chain } from 'viem/chains'
+import { EndpointId } from '@layerzerolabs/lz-definitions'
 
-let chains = [mainnet, arbitrum, base, linea, polygon, optimism, scroll] as [Chain, ...Chain[]]
+let chains = [polygon, bsc] as [Chain, ...Chain[]]
 
-if (process.env.NODE_ENV !== 'production') chains.push(sepolia, hardhat)
+if (process.env.NODE_ENV !== 'production') chains.push(sepolia)
 
 export const ETH_CHAINS = chains
+export const ETH_CHAIN_NAMES = chains
+  .map((chain) => {
+    chain.name
+  })
+  .join(', ')
+
+export const LAYERZERO_ENDPOINT: { [key: number]: number } = {
+  137: EndpointId.POLYGON_V2_MAINNET,
+  56: EndpointId.BSC_V2_MAINNET,
+}
+
+export const ReceiverGasLimit = (chainId: number | undefined) => {
+  return [70000, 0]
+}
+
+export const isSupportedNetwork = (chainId: number | undefined) => {
+  if (chainId === undefined) {
+    return false
+  }
+  for (let chain of chains) {
+    if (chain.id === chainId) {
+      return true
+    }
+  }
+  return false
+}
+
+export const networkName = (chainId: number | undefined): string => {
+  if (isSupportedNetwork(chainId)) {
+    for (let chain of chains) {
+      if (chain.id === chainId) {
+        return chain.name
+      }
+    }
+  }
+
+  return `Jean Kwon van Do's network`
+}
+
+export const stableCoinDecimals = (chainId: number) => {
+  if (chainId == sepolia.id || chainId == bsc.id) {
+    return 18
+  }
+  return 6
+}
 
 export const NETWORK_COLORS = {
   ethereum: {

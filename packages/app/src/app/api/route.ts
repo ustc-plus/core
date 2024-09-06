@@ -1,3 +1,5 @@
 export async function GET() {
-  return Response.json({ data: 'Hello World!' })
+  let data = JSON.stringify({ data: 'Hello World!' }) as BodyInit
+
+  return new Response(data)
 }
