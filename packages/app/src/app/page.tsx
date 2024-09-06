@@ -1,14 +1,12 @@
 'use client'
 
-import { CardList } from '@/components/CardList'
-import { SITE_DESCRIPTION, SITE_NAME } from '@/utils/site'
-import { EXAMPLE_ITEMS } from './examples/examples'
 import { Liquidity } from '@/components/Liquidity'
 import { Redeem } from '@/components/Redeem'
 import { useAccount } from 'wagmi'
 import { InformationCircleIcon } from '@heroicons/react/24/outline'
 import { Unwrap } from '@/components/Unwrap'
 import { Bridge } from '@/components/Bridge'
+import { Faucet } from '@/components/Faucet'
 
 export default function Home() {
   const account = useAccount()
@@ -62,13 +60,7 @@ export default function Home() {
 
         <input type='radio' name='main_tabs' role='tab' className='tab ml-5' aria-label='Faucet' />
         <div role='tabpanel' className='tab-content bg-base-100 border-base-300 rounded-box p-6'>
-          <h3 className='text-xl mb-2'>To test, get the fake tokens</h3>
-          <select className='select w-full max-w-xs' value={1}>
-            <option value={1}>Ethereum</option>
-          </select>
-          <div className='divider'></div>
-          <button className='mx-5 btn btn-primary'>Unwrap</button>
-          <p>You will get 100 Fake USDT on Sepolia Testnet</p>
+          <Faucet></Faucet>
         </div>
       </div>
     </>
