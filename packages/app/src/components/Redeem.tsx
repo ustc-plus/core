@@ -49,7 +49,9 @@ export const Redeem = () => {
     <div>
       {connected ? (
         nfts !== undefined && nfts.length > 0 ? (
-          nfts!.map((nft) => <RedeemCard lpNftAddress={lpNftAddress!} nft={nft}></RedeemCard>)
+          nfts!.map((nft) => (
+            <RedeemCard key={'redeem_nft_' + nft.tokenId} lpNftAddress={lpNftAddress!} nft={nft}></RedeemCard>
+          ))
         ) : (
           <div role='alert' className='alert alert-neutral'>
             You don't have any nft

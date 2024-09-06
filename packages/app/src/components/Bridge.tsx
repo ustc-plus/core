@@ -170,7 +170,9 @@ export const Bridge = () => {
                 formState.setDestinationChain(parseInt(e.target.value))
               }}>
               {destinationChains.map((chain) => (
-                <option value={chain.id}>{chain.name}</option>
+                <option key={'bridge_destination_' + chain.id} value={chain.id}>
+                  {chain.name}
+                </option>
               ))}
             </select>
           </label>
@@ -203,7 +205,6 @@ export const Bridge = () => {
               key='bridge_range'
               type='range'
               min={0}
-              defaultValue={0}
               value={formState.value}
               max={balanceAmount ? formatEther(balanceAmount.value) : '0'}
               className='range range-primary w-full'
