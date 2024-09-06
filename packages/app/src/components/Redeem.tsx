@@ -1,59 +1,16 @@
 'use client'
-import {
-  useAccount,
-  useAccountEffect,
-  useReadContract,
-  useSimulateContract,
-  useWaitForTransactionReceipt,
-  useWriteContract,
-} from 'wagmi'
+import { useAccount, useAccountEffect } from 'wagmi'
 import { useEffect, useState } from 'react'
-import { erc20Abi, formatEther, formatUnits, parseEther, parseUnits } from 'viem'
-import useInterval from 'use-interval'
 import { useNotifications } from '@/context/Notifications'
-import { stableCoinDecimals, networkName } from '@/utils/network'
-import { GetAbi, GetAddr } from '@/utils/web3'
-import LiquidityProcessList from './LiquidityProcessList'
-import { useLiquidityProcesses } from '@/context/LiquidityProcesses'
+import { GetAddr } from '@/utils/web3'
 import { RedeemCard } from './RedeemAlert'
 import { NftType } from '@/utils/types'
-
-type Info = {
-  unixtimestamp: number
-  depositAddress: string
-  ustcPrice: number
-  minUsdt: number
-  maxUsdt: number
-}
-
-type BinanceOrderStatus = -1 | 0 | 6 | 1
-
-type Signature = {
-  v: string
-  r: string
-  s: string
-}
-
-type MintingResult = {
-  status?: BinanceOrderStatus
-  timestamp?: number
-  nftId?: number
-  orderCompleted?: boolean
-  orderCompletion?: string
-  orderId?: number
-  ustcPlusAmount?: string
-  message?: string
-  mintCompleted?: boolean
-  signature?: Signature
-}
 
 export const Redeem = () => {
   const { Add } = useNotifications()
   const account = useAccount()
   const [connected, setConnected] = useState<boolean>(false)
   const [nfts, setNfts] = useState<NftType[]>()
-  const [nftId, setNftId] = useState<number>()
-  const [percent, setPercent] = useState<number>()
   const [lpNftAddress, setLpNftAddress] = useState<`0x${string}`>()
   useAccountEffect({
     onConnect() {
