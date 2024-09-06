@@ -32,14 +32,14 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     description: SITE_DESCRIPTION,
     url: SITE_URL,
-    images: '/opengraph-image',
+    images: '/logo.png',
   },
   twitter: {
     card: 'summary_large_image',
     site: SOCIAL_TWITTER,
     title: SITE_NAME,
     description: SITE_DESCRIPTION,
-    images: '/opengraph-image',
+    images: '/logo.png',
   },
 }
 
@@ -57,10 +57,7 @@ export default function RootLayout(props: PropsWithChildren) {
   return (
     <html lang='en'>
       <head>
-        <link
-          rel='icon'
-          href={`data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>${SITE_EMOJI}</text></svg>`}
-        />
+        <link rel='icon' href={`logo.png`} />
       </head>
 
       <body
