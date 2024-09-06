@@ -25,6 +25,7 @@
     "ethers": "^6.13.2",
     "hardhat": "^2.22.9",
     "hardhat-deploy": "^0.12.1",
+    "ts-node": "^10.9.2",
     "typechain": "^8.3.0"
   },
   "dependencies": {
