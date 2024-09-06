@@ -40,7 +40,7 @@ import {
   networkIdFromId,
   nftModelFromTransfer,
 } from './services/Indexer'
-import { addNft, deleteNft, getNft, updateNft } from './services/NftTracker'
+import { addNft, deleteNft, getByOwner, getNft, updateNft } from './services/NftTracker'
 
 // **** Variables **** //
 
@@ -114,6 +114,11 @@ app.get('/hello', async (_: Request, res: Response) => {
   return res.json(info)
 })
 
+/////////////////////////////////////////////////////////////////
+//
+// Liquidity Tab
+//
+/////////////////////////////////////////////////////////////////
 app.get('/start-minting/:chainId/:txid', async (req: Request, res: Response) => {
   let chainId = parseInt(req.params.chainId)
   if (isNaN(chainId) || chainId == 0) {
@@ -272,6 +277,32 @@ app.get('/start-minting/:chainId/:txid', async (req: Request, res: Response) => 
   }
 
   return res.json(responseData)
+})
+
+/////////////////////////////////////////////////////////////////
+//
+// Redeem Tab
+//
+/////////////////////////////////////////////////////////////////
+app.get('/nfts/:chainId/:walletAddress', async (req: Request, res: Response) => {
+  const chainIdRaw = req.params.chainId
+  const walletAddressRaw = req.params.walletAddress
+  if (
+    chainIdRaw === undefined ||
+    chainIdRaw.length === 0 ||
+    walletAddressRaw === undefined ||
+    walletAddressRaw.length === 0
+  ) {
+    return res.status(400).json({ message: 'invalid parameters' })
+  }
+
+  const chainId = parseInt(chainIdRaw)
+  if (isNaN(chainId) || chainId <= 0) {
+    return res.status(400).json({ message: 'invalid chainId GET parameter' })
+  }
+
+  const nfts = await getByOwner(chainId, walletAddressRaw)
+  return res.json(nfts)
 })
 
 app.post('/sync/start-minting', async (req: Request, res: Response) => {

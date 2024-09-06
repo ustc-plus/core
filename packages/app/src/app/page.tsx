@@ -4,12 +4,32 @@ import { CardList } from '@/components/CardList'
 import { SITE_DESCRIPTION, SITE_NAME } from '@/utils/site'
 import { EXAMPLE_ITEMS } from './examples/examples'
 import { Liquidity } from '@/components/Liquidity'
+import { Redeem } from '@/components/Redeem'
+import { useAccount } from 'wagmi'
+import { InformationCircleIcon } from '@heroicons/react/24/outline'
 
 export default function Home() {
+  const account = useAccount()
+
   return (
     <>
-      <h2 className='text-2xl mb-2'>{SITE_NAME}</h2>
-      <p>{SITE_DESCRIPTION}</p>
+      {account !== undefined && account.status === 'connected' ? (
+        <div></div>
+      ) : (
+        <div role='alert' className='alert alert-info'>
+          {account === undefined || account.isDisconnected ? (
+            <div role='alert' className='alert alert-warning'>
+              <InformationCircleIcon className='h-6 w-6 shrink-0 stroke-current'></InformationCircleIcon>
+              <span>Connect your wallet first</span>
+            </div>
+          ) : (
+            <div role='alert' className='alert alert-info'>
+              <span className='loading loading-ring loading-xs h-6 w-6 shrink-0 stroke-current'></span>
+              <span>Connecting wallet... Status: {account?.status}</span>
+            </div>
+          )}
+        </div>
+      )}
       <div role='tablist' className='mt-4 tabs tabs-lifted'>
         <input
           type='radio'
@@ -24,43 +44,20 @@ export default function Home() {
         </div>
 
         <input type='radio' name='main_tabs' role='tab' className='tab ml-5' aria-label='Redeem' />
-        <div role='tabpanel' className='tab-content bg-base-100 border-base-300 rounded-box p-6'>
-          <h3 className='text-xl mb-2'>Redeem your USDC and USTC+</h3>
-          <div>
-            <div className='card card-compact bg-accent text-accent-content w-96 shadow-xl'>
-              <figure>
-                <h2 className='card-title content-center'>Lp #1!</h2>
-              </figure>
-              <div className='card-body'>
-                <p>Liquidity balance</p>
-                <p>USDC: 100</p>
-                <p>
-                  USTC+: 1342 <span className='badge badge-md badge-secondary'>+343 fee</span>
-                </p>
-                <div className='card-actions justify-end'>
-                  <button
-                    className='btn btn-primary'
-                    onClick={() => (document.getElementById('my_modal_2') as HTMLDialogElement)?.showModal()}>
-                    redeem (Slash 23%)
-                  </button>
-                </div>
-                <div className='divider'></div>
-                <p>To get fully: 100 more days</p>
-              </div>
-            </div>
-          </div>
+        <div role='tabpanel' className='tab-content  rounded-box'>
+          <Redeem></Redeem>
         </div>
 
         <input type='radio' name='main_tabs' role='tab' className='tab ml-5' aria-label='Unwrap' />
         <div role='tabpanel' className='tab-content bg-base-100 border-base-300 rounded-box p-6'>
           <h3 className='text-xl mb-2'>Unwrap USTC+ to USTC</h3>
           <input
-            key='redeem_input'
+            key='redeem_amount'
             type='text'
             placeholder='Amount in Percent'
             className='input input-bordered w-full max-w-xs'
           />
-          <input key='redeem_range' type='range' min={0} max='100' className='range range-primary' />
+          <input key='redeem_amount_in_percent' type='range' min={0} max={100} className='range range-primary' />
           <button className='mx-5 btn btn-primary'>Redeem (23% slashing)</button>
           <input type='text' placeholder='Luna Classic Address' className='input input-bordered w-full max-w-xs' />
           <button className='mx-5 btn btn-primary'>Unwrap</button>
@@ -100,30 +97,6 @@ export default function Home() {
           <p>You will get 100 Fake USDT on Sepolia Testnet</p>
         </div>
       </div>
-
-      <dialog id='my_modal_2' className='modal modal-bottom sm:modal-middle'>
-        <div className='modal-box'>
-          <h3 className='font-bold text-lg'>
-            Redeem from Lp #1 for <span className='badge badge-md badge-accent'>34 USDC</span> and{' '}
-            <span className='badge badge-md badge-accent'>45 USTC+</span>
-          </h3>
-          <div className='py-4'>
-            <input
-              key='redeem_input'
-              type='text'
-              placeholder='Amount in Percent'
-              className='input input-bordered w-full max-w-xs'
-            />
-            <input key='redeem_range' type='range' min={0} max='100' className='range range-primary' />
-            <button className='mx-5 btn btn-primary'>Redeem (23% slashing)</button>
-            <div className='divider'></div>
-            <div>Redeeming 100% of tokens will burn this NFT permanently</div>
-          </div>
-        </div>
-        <form method='dialog' className='modal-backdrop'>
-          <button>close</button>
-        </form>
-      </dialog>
     </>
   )
 }

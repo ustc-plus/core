@@ -15,10 +15,7 @@ import { stableCoinDecimals, networkName } from '@/utils/network'
 import { GetAbi, GetAddr } from '@/utils/web3'
 import LiquidityProcessList from './LiquidityProcessList'
 import { useLiquidityProcesses } from '@/context/LiquidityProcesses'
-
-function timeout(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms))
-}
+import { timeout } from '@/utils/site'
 
 type Info = {
   unixtimestamp: number
