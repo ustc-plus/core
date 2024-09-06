@@ -1,4 +1,5 @@
 import { polygon, bsc, sepolia, Chain } from 'viem/chains'
+import { EndpointId } from '@layerzerolabs/lz-definitions'
 
 let chains = [polygon, bsc] as [Chain, ...Chain[]]
 
@@ -10,6 +11,15 @@ export const ETH_CHAIN_NAMES = chains
     chain.name
   })
   .join(', ')
+
+export const LAYERZERO_ENDPOINT: { [key: number]: number } = {
+  137: EndpointId.POLYGON_V2_MAINNET,
+  56: EndpointId.BSC_V2_MAINNET,
+}
+
+export const ReceiverGasLimit = (chainId: number | undefined) => {
+  return [70000, 0]
+}
 
 export const isSupportedNetwork = (chainId: number | undefined) => {
   if (chainId === undefined) {

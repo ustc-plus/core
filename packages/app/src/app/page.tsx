@@ -8,6 +8,7 @@ import { Redeem } from '@/components/Redeem'
 import { useAccount } from 'wagmi'
 import { InformationCircleIcon } from '@heroicons/react/24/outline'
 import { Unwrap } from '@/components/Unwrap'
+import { Bridge } from '@/components/Bridge'
 
 export default function Home() {
   const account = useAccount()
@@ -56,20 +57,7 @@ export default function Home() {
 
         <input type='radio' name='main_tabs' role='tab' className='tab ml-5' aria-label='Bridge' />
         <div role='tabpanel' className='tab-content bg-base-100 border-base-300 rounded-box p-6'>
-          <h3 className='text-xl mb-2'>
-            Bridge at most <span className='badge badge-md badge-accent'>231 USTC+ between networks</span>
-          </h3>
-          <select className='select w-full max-w-xs' value={1}>
-            <option value={1}>Ethereum</option>
-          </select>
-          <div className='divider divider-horizontal'>To</div>
-          <select className='select w-full max-w-xs' value={15421}>
-            <option value={15421}>Linea</option>
-          </select>
-          <br />
-          <input key='redeem_input' type='text' placeholder='' className='input input-bordered w-full max-w-xs' /> USTC+
-          <input key='redeem_range' type='range' min={0} max='100' className='range range-primary' />
-          <button className='mx-5 btn btn-primary'>Unwrap</button>
+          <Bridge></Bridge>
         </div>
 
         <input type='radio' name='main_tabs' role='tab' className='tab ml-5' aria-label='Faucet' />

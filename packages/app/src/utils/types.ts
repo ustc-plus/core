@@ -1,3 +1,4 @@
+import { Chain as WagmiChain } from 'wagmi/chains'
 export interface State<T> {
   loading: boolean
   data?: T
@@ -48,3 +49,9 @@ export type NftParams = {
   _remainingUsdt?: number
   _remainingUstcPlus: number
 }
+
+export interface ExtraChainData {
+  lzEndpointId: string
+}
+
+export interface Chain extends WagmiChain, ExtraChainData {}
