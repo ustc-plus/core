@@ -1,8 +1,6 @@
 // testing the leaderboard with the fake data
-import { ObjectId, WithId } from 'mongodb'
 import { collections } from '../db'
 import { NftType, Nft } from '../models/DbModels'
-import { query } from 'express'
 
 export const addNft = async (nftParams: NftType) => {
   // put the data

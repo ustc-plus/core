@@ -12,7 +12,7 @@ import {
   AbiCoder,
   getBytes,
 } from 'ethers'
-import { lpManagerAbi, lpManagerAddress } from '@src/abis'
+import { lpManagerAbi, lpManagerAddress } from '../abis'
 
 export type StartMintingEvent = {
   timestamp: number

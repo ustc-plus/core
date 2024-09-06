@@ -1,8 +1,8 @@
 import './pre-start' // Must be the first import
 import logger from 'jet-logger'
-import { collections, connectToDatabase } from './db'
+import { connectToDatabase } from './db'
 
-import EnvVars from '@src/common/EnvVars'
+import EnvVars from './common/EnvVars'
 import server from './server'
 
 // **** Run **** //

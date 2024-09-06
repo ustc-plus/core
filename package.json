@@ -8,8 +8,9 @@
   ],
   "scripts": {
     "dev": "yarn workspaces -pt run dev",
-    "build": "yarn workspaces -pt run build",
-    "test": "yarn workspaces -pt run test"
+    "build": "yarn workspace backend run build",
+    "test": "yarn workspaces -pt run test",
+    "start": "yarn workspace backend run start"
   },
   "dependencies": {
     "@layerzerolabs/lz-definitions": "^2.3.38",

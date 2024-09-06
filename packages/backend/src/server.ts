@@ -4,32 +4,25 @@
 
 import cookieParser from 'cookie-parser'
 import morgan from 'morgan'
-import path from 'path'
 import helmet from 'helmet'
-import express, { Request, Response, NextFunction, response } from 'express'
+import express, { Request, Response, NextFunction } from 'express'
 import logger from 'jet-logger'
 import cors from 'cors'
 import { addMinting, getMinting, getMintingByNftId, updateMinting } from './services/MintingTracker'
 
 import 'express-async-errors'
 
-import BaseRouter from '@src/routes'
+import BaseRouter from './routes'
 
-import Paths from '@src/common/Paths'
-import EnvVars from '@src/common/EnvVars'
-import HttpStatusCodes from '@src/common/HttpStatusCodes'
-import { RouteError } from '@src/common/classes'
-import { NodeEnvs } from '@src/common/misc'
+import Paths from './common/Paths'
+import EnvVars from './common/EnvVars'
+import HttpStatusCodes from './common/HttpStatusCodes'
+import { RouteError } from './common/classes'
+import { NodeEnvs } from './common/misc'
 
 import { Cron } from 'croner'
-import {
-  Signature,
-  StartMintingEvent,
-  endMintingSignature,
-  stableCoinDecimals,
-  txToStartMinting,
-} from '@src/services/Blockchain'
-import { Info, getInfo, trade, getOrderInfo, getDepositStatus } from '@src/services/Binance'
+import { endMintingSignature, stableCoinDecimals } from './services/Blockchain'
+import { Info, getInfo, trade, getOrderInfo, getDepositStatus } from './services/Binance'
 import { formatUnits, parseEther } from 'ethers'
 import { MintingType } from './models/DbModels'
 import {

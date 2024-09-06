@@ -7,7 +7,7 @@ import {
   OrderType,
   RestWalletTypes,
 } from '@binance/connector-typescript'
-import { toFixed } from '@src/util/misc'
+import { toFixed } from '../util/misc'
 
 const API_KEY = process.env.BINANCE_API_KEY!
 const API_SECRET = process.env.BINANCE_SECRET_KEY!
@@ -239,6 +239,7 @@ const getExchangeInfo = async (ustcPrice: number): Promise<ExchangeInfo | string
 }
 
 const getOrderOption = (usdt: number, ustcPrice: number, info: ExchangeInfo): RestTradeTypes.newOrderOptions => {
+  console.log(`Precise ${ustcPrice} to ${info.ustcPrecision} precision`)
   let price = parseFloat(toFixed(ustcPrice, info.ustcPrecision))
   let atom = '0.'
   for (let i = 0; i < info.ustcPrecision - 1; i++) {
