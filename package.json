@@ -10,7 +10,10 @@
     "dev": "yarn workspaces -pt run dev",
     "build": "yarn workspace backend run build",
     "test": "yarn workspaces -pt run test",
-    "start": "yarn workspace backend run start"
+    "start": "yarn workspace backend run start",
+    "startd": "yarn workspace backend run startd",
+    "stopd": "yarn workspace backend run stopd",
+    "restartd": "yarn workspace backend run restartd"
   },
   "dependencies": {
     "@layerzerolabs/lz-definitions": "^2.3.38",

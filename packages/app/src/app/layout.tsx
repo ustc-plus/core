@@ -10,8 +10,6 @@ import { WALLETCONNECT_CONFIG } from '@/utils/web3'
 import { headers } from 'next/headers'
 import '../assets/globals.css'
 
-console.log(process.env.NODE_ENV)
-
 export const metadata: Metadata = {
   applicationName: SITE_NAME,
   title: {
