@@ -37,6 +37,7 @@
     "react-icons": "^4.11.0",
     "react-toastify": "^10.0.5",
     "siwe": "^2.3.2",
+    "undici": "^6.19.8",
     "use-interval": "^1.4.0",
     "viem": "^2.16.3",
     "wagmi": "^2.10.8"
