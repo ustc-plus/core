@@ -111,3 +111,19 @@ On backend, create `RPC_URL_<chain_id>` environment variable and put the RPC nod
 create `SIGNER_KEY_<chain_id>` environment variable and set the private key of the signer.
 
 Then, open the `packages/backend/src/services/Blockchain.ts` and add the supported providers, ethers clients.
+
+### Running server on VPS
+
+The `packages/backend` must be working on the dedicated server with the static ip address, Instead of shared hosting or dynamic hostings where a cloud provider builds your project based on source code.
+
+This is needed for the USTC purchases as Binance accepts trading orders only from the whitelisted IP addresses.
+
+The mono-repo supports three scripts that you can use to run the server as a deamon.
+
+- `yarn build` &ndash; **for every update**, rebuild the javascript code from typescript code.
+- `yarn startd` &ndash; run backend as a deamon
+- `yarn stopd` &ndash; stop the backend as a deamon
+- `pm2 logs` &ndash; check the server logs
+
+The Ustc+ backend uses the `pm2` to run itself as a deamon.
+Therefore install it globally: `npm install pm2 --global`.
