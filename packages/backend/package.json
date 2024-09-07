@@ -6,6 +6,9 @@
     "lint": "npx eslint --ext .ts src/",
     "lint:tests": "npx eslint --ext .ts spec/",
     "start": "node ./dist --env=production",
+    "startd": "pm2 start ./dist --env=production",
+    "stopd": "pm2 stop ./dist --env=production",
+    "restartd": "pm2 restart ./dist --env=production",
     "dev": "nodemon",
     "test": "nodemon --config ./spec/nodemon.json",
     "test:no-reloading": "npx ts-node --files ./spec"
