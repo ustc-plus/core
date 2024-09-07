@@ -4,7 +4,6 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Connect } from './Connect'
 import { SITE_INFO } from '@/utils/site'
-import { NotificationsDrawer } from './NotificationsDrawer'
 
 export function Header() {
   return (
@@ -15,7 +14,6 @@ export function Header() {
 
       <div className='flex gap-2'>
         <Connect />
-        <NotificationsDrawer />
       </div>
     </header>
   )
