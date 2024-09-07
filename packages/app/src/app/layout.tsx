@@ -1,4 +1,3 @@
-import { Agent, setGlobalDispatcher } from 'undici'
 import type { Metadata, Viewport } from 'next'
 import { PropsWithChildren } from 'react'
 import { SITE_DESCRIPTION, SITE_INFO, SITE_NAME, SITE_URL, SOCIAL_TWITTER } from '@/utils/site'
@@ -10,14 +9,6 @@ import { cookieToInitialState } from 'wagmi'
 import { WALLETCONNECT_CONFIG } from '@/utils/web3'
 import { headers } from 'next/headers'
 import '../assets/globals.css'
-
-const agent = new Agent({
-  connect: {
-    rejectUnauthorized: false,
-  },
-})
-
-setGlobalDispatcher(agent)
 
 export const metadata: Metadata = {
   applicationName: SITE_NAME,
