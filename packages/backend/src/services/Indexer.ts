@@ -30,7 +30,7 @@ export type EndMintingEventData = {
   db_write_timestamp: string //"2024-09-05T12:04:42.132337",
   _ustcPlusAmount: string
   creator: string // "0x0000000000000000000000000000000000000000",
-  depositIdIsTokenId: number // "0x80Cbc1f7fd60B7026C0088e5eD58Fc6Ce1180141",
+  depositIdIsTokenId: string // "0x80Cbc1f7fd60B7026C0088e5eD58Fc6Ce1180141",
   id: string // "137_61425537_207",
   txid: string
 }

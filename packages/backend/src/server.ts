@@ -9,6 +9,7 @@ import express, { Request, Response, NextFunction } from 'express'
 import logger from 'jet-logger'
 import cors from 'cors'
 import { addMinting, getMinting, getMintingByNftId, updateMinting } from './services/MintingTracker'
+import { gql, Client, cacheExchange, fetchExchange } from '@urql/core'
 
 import 'express-async-errors'
 
@@ -28,6 +29,7 @@ import { MintingType } from './models/DbModels'
 import {
   EndMintingPayload,
   NftTransferPayload,
+  StartMintingEventData,
   StartMintingPayload,
   isNftBurn,
   networkIdFromId,
@@ -41,6 +43,11 @@ const app = express()
 let info: Info
 
 // **** Setup **** //
+
+const graphqlClient = new Client({
+  url: process.env.INDEXER_URL!,
+  exchanges: [cacheExchange, fetchExchange],
+})
 
 // Basic middleware
 app.use(express.json())
@@ -298,133 +305,7 @@ app.get('/nfts/:chainId/:walletAddress', async (req: Request, res: Response) => 
   return res.json(nfts)
 })
 
-app.post('/sync/start-minting', async (req: Request, res: Response) => {
-  const secretKey = req.header('SECRET_KEY')
-  if (secretKey === undefined || secretKey !== process.env.INDEXER_SECRET_KEY) {
-    return res.status(500).json({ message: 'not authorized' })
-  }
-  const payload = req.body as StartMintingPayload
-  if (payload.event.data.new === null) {
-    return res.status(400).json({ message: 'no event.data.new' })
-  } else if (payload.event.op !== 'INSERT') {
-    console.error(`Received not INSERT operation for nft-transfer`)
-    return res.status(400).json({ message: 'only INSERT operation supported' })
-  }
-
-  const startMinting = payload.event.data.new
-  const chainId = networkIdFromId(startMinting.id)
-  const txid = startMinting.txid
-
-  let cachedMinting = await getMinting(txid, chainId)
-  if (cachedMinting !== undefined) {
-    return res.status(400).json({ message: 'already added, no duplicates' })
-  }
-
-  let mintingToAdd: MintingType = {
-    walletAddress: startMinting.creator, // a user
-    networkId: chainId,
-    txid: txid,
-    timestamp: Math.floor(new Date(startMinting.db_write_timestamp).getTime() / 1000),
-    depositAmount: parseFloat(formatUnits(startMinting.usdcAmount, stableCoinDecimals(chainId))), // 0 or 1
-    ustcAmount: 0,
-    orderCompleted: false,
-    orderId: 0,
-    nftId: parseInt(startMinting.depositId),
-    manual: false,
-    depositStatus: -1,
-  }
-  let minting = await addMinting(mintingToAdd)
-  if (minting !== undefined) {
-    return res.status(500).json({ message: `Caching transaction state failed: ${minting}` })
-  }
-
-  return res.status(200).json({ status: 'ok' })
-})
-
-app.post('/sync/end-minting', async (req: Request, res: Response) => {
-  const secretKey = req.header('SECRET_KEY')
-  if (secretKey === undefined || secretKey !== process.env.INDEXER_SECRET_KEY) {
-    return res.status(500).json({ message: 'not authorized' })
-  }
-  const payload = req.body as EndMintingPayload
-  if (payload.event.data.new === null) {
-    return res.status(400).json({ message: 'no event.data.new' })
-  } else if (payload.event.op !== 'INSERT') {
-    console.error(`Received not INSERT operation for nft-transfer`)
-    return res.status(400).json({ message: 'only INSERT operation supported' })
-  }
-
-  const endMinting = payload.event.data.new
-  const chainId = networkIdFromId(endMinting.id)
-  const nftId = endMinting.depositIdIsTokenId
-
-  let cachedMinting = await getMintingByNftId(nftId, chainId)
-  if (cachedMinting === undefined) {
-    return res.status(400).json({ message: 'not added, no duplicates' })
-  } else if (cachedMinting.mintCompleted) {
-    return res.status(400).json({ message: 'already marked as complete' })
-  }
-
-  cachedMinting.mintCompleted = true
-  let updated = await updateMinting(cachedMinting)
-  if (!updated) {
-    return res.status(500).json({ message: `marking as completed failed` })
-  }
-
-  return res.status(200).json({ status: 'ok' })
-})
-
-app.post('/sync/nft-transfer', async (req: Request, res: Response) => {
-  const secretKey = req.header('SECRET_KEY')
-  if (secretKey === undefined || secretKey !== process.env.INDEXER_SECRET_KEY) {
-    return res.status(500).json({ message: 'not authorized' })
-  }
-  console.log(`Received nft transfer in POST`)
-  const payload = req.body as NftTransferPayload
-  if (payload.event.data.new === null) {
-    return res.status(400).json({ message: 'no event.data.new' })
-  } else if (payload.event.op !== 'INSERT') {
-    console.error(`Received not INSERT operation for nft-transfer`)
-    return res.status(400).json({ message: 'only INSERT operation supported' })
-  }
-
-  const transferEvent = payload.event.data.new
-  const nft = nftModelFromTransfer(transferEvent)
-  const foundNft = await getNft(nft.tokenId, nft.networkId)
-  if (foundNft === undefined) {
-    if (isNftBurn(transferEvent)) {
-      return res.status(200).json({ message: 'Not exist to delete' })
-    }
-    // get the nft parameters such as params on blockchain
-    const added = await addNft(nft)
-    if (added !== undefined) {
-      return res.status(500).json({ message: 'Internal database error: ' + added })
-    }
-    return res.status(200).json({ status: 'ok' })
-  } else {
-    if (isNftBurn(transferEvent)) {
-      await deleteNft(foundNft.tokenId, foundNft.networkId)
-    } else {
-      // we update the parameters of found nft
-      foundNft.owner = nft.owner
-      const updated = await updateNft(foundNft)
-      if (!updated) {
-        return res.status(500).json({ message: 'Internal database error to update nft parameter' })
-      }
-    }
-  }
-
-  return res.status(200).json({ status: 'ok' })
-})
-
 app.post('/sync/nft-redeem', async (req: Request, res: Response) => {
-  const secretKey = req.header('SECRET_KEY')
-  if (secretKey === undefined || secretKey !== process.env.INDEXER_SECRET_KEY) {
-    return res.status(500).json({ message: 'not authorized' })
-  }
-  console.log(`Received nft redeem in POST`)
-  console.log(req.body)
-
   return res.status(500).json({ message: 'Not implemented yet' })
 })
 

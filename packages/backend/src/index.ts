@@ -4,6 +4,7 @@ import { connectToDatabase } from './db'
 
 import EnvVars from './common/EnvVars'
 import server from './server'
+import { startTracking } from './indexer'
 
 // **** Run **** //
 
@@ -11,6 +12,7 @@ const SERVER_START_MSG = 'Express server started on port: ' + EnvVars.Port.toStr
 
 connectToDatabase()
   .then(async () => {
+    startTracking()
     server.listen(EnvVars.Port, () => logger.info(SERVER_START_MSG))
   })
   .catch((error: Error) => {

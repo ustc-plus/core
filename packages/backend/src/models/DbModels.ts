@@ -1,5 +1,19 @@
 import { ObjectId } from 'mongodb'
 
+export type IndexedEventType =
+  | 'LpManager_StartMinting'
+  | 'LpManager_EndMinting'
+  | 'LpNft_Transfer'
+  | 'LpNft_Redeem'
+  | 'LpNft_Mint'
+  | 'LpManager_Wrap'
+  | 'LpManager_Unwrap'
+
+export type LastIndexTimestampType = {
+  db_timestamp: string
+  event_type: IndexedEventType
+}
+
 export type MintingType = {
   manual: boolean
   walletAddress: string // a user
@@ -55,5 +69,12 @@ export class Nft {
     public ustcPlusAmount: bigint,
     public initialStableCoinAmount: bigint,
     public initialUstcPlusAmount: bigint
+  ) {}
+}
+
+export class LastIndexTimestamp {
+  constructor(
+    public db_timestamp: string,
+    public event_type: IndexedEventType
   ) {}
 }
