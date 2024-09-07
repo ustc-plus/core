@@ -2,7 +2,7 @@ import { useAccount, useWriteContract, useSimulateContract, useWaitForTransactio
 import { WaitForTransactionReceiptErrorType, parseEther } from 'viem'
 import { FormState } from '@/oft/useFormState'
 import oftAbi from './abi.json'
-import { SendParam, BYTES32_ZEROES } from './useEstimateSendFee'
+import { SendParam, addrToHex } from './useEstimateSendFee'
 import { Options } from '@layerzerolabs/lz-v2-utilities'
 import { LAYERZERO_ENDPOINT, ReceiverGasLimit } from '@/utils/network'
 import { WriteContractMutate } from 'wagmi/query'
@@ -42,7 +42,7 @@ export const useSendFrom = ({ formState, enabled, nativeFee }: IParams): IReturn
     args: [
       {
         dstEid: lzEndpoint,
-        to: BYTES32_ZEROES.substring(0, 13 * 2) + formState.recipient.substring(2),
+        to: addrToHex(formState.recipient),
         amountLD: parseEther(formState.value, 'wei'),
         minAmountLD: parseEther(formState.value, 'wei'),
         extraOptions: _options.toHex(),

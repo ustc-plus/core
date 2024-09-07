@@ -50,6 +50,8 @@ export const getMintingByNftId = async (nftId: number, chainId: number): Promise
       return found as WithId<Minting>
     }
   } catch (error) {
+    console.error(`error while fetching`)
+    console.error(error)
     return undefined
   }
 }
