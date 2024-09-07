@@ -125,8 +125,7 @@ const job = Cron(
     } else {
       console.error(`Occured error while fetching lp transfers`)
     }
-  },
-  { paused: true }
+  }
 )
 
 export const startTracking = async () => {
