@@ -50,7 +50,7 @@ const job = Cron(
 
     if (events.LpManager_StartMinting !== undefined) {
       if (events.LpManager_StartMinting.length > 0) {
-        console.log(`There are 10 start mintings...`)
+        console.log(`There are ${events.LpManager_StartMinting.length} start mintings...`)
 
         for (let startMinting of events.LpManager_StartMinting) {
           const processed = await processStartMinting(startMinting)
@@ -125,11 +125,12 @@ const job = Cron(
     } else {
       console.error(`Occured error while fetching lp transfers`)
     }
-  }
+  },
+  { paused: true }
 )
 
 export const startTracking = async () => {
-  console.log(`Track start minting`)
+  console.log(`Starting a cron jobs for indexing`)
   let fromDb = await getIndexTimestamps('LpManager_StartMinting')
   if (fromDb !== undefined) {
     lastStartMintingTimestamp = fromDb
@@ -204,7 +205,7 @@ const fetchFromGraphql = async (): Promise<Events | undefined> => {
       }
     }
 `
-  const result = await graphqlClient.query(QUERY, {}).toPromise()
+  const result = await graphqlClient.query(QUERY, {}, { requestPolicy: 'network-only' }).toPromise()
   if (result.error) {
     console.error(result.error)
     return
