@@ -23,8 +23,8 @@ export type SendParam = {
   oftCmd: string
 }
 
-const addrToHex = (addr: string): string => {
-  if (addr === undefined) {
+export const addrToHex = (addr: string): string => {
+  if (addr === undefined || addr.length <= 2) {
     return BYTES32_ZEROES
   }
   return BYTES32_ZEROES.substring(0, 13 * 2) + addr.substring(2)
