@@ -14,11 +14,12 @@ import {
   nftModelFromTransfer,
 } from './services/Indexer'
 import { addIndexTimestamps, getIndexTimestamps, updateIndexTimestamps } from './services/IndexTracker'
-import { IndexedEventType, LastIndexTimestamp, LastIndexTimestampType, MintingType } from './models/DbModels'
-import { addMinting, getMinting, getMintingByNftId, updateMinting } from './services/MintingTracker'
+import { LastIndexTimestamp, LastIndexTimestampType, MintingType } from './models/DbModels'
+import { addMinting, execBatch, getMinting, getMintingByNftId, markMintCompleted } from './services/MintingTracker'
 import { formatUnits } from 'ethers'
 import { stableCoinDecimals } from './services/Blockchain'
 import { addNft, deleteNft, getNft, updateNft } from './services/NftTracker'
+import { Statement } from '@tableland/sdk'
 
 // **** Setup **** //
 
@@ -42,11 +43,17 @@ const job = Cron(
   '*/5 * * * * *',
   /* Function (optional) */
   async () => {
+    job.pause()
     let events = await fetchFromGraphql()
     if (events === undefined) {
+      job.resume()
       console.error(`Fetching from graphql failed trying again later`)
       return
     }
+
+    const batchQueries: Statement<MintingType>[] = []
+    let newDbStartMintingTimestamp: string = lastStartMintingTimestamp.db_timestamp
+    let newDbEndMintingTimestamp: string = lastEndMintingTimestamp.db_timestamp
 
     if (events.LpManager_StartMinting !== undefined) {
       if (events.LpManager_StartMinting.length > 0) {
@@ -54,21 +61,18 @@ const job = Cron(
 
         for (let startMinting of events.LpManager_StartMinting) {
           const processed = await processStartMinting(startMinting)
-          if (!processed) {
+          if (typeof processed === 'string') {
             console.warn(`Minting was not parsed parse it yourself:`)
             console.log(startMinting)
+          } else if (processed === undefined) {
+            console.warn(`Minting was already added, skipping`)
+          } else {
+            batchQueries.push(processed)
           }
         }
 
-        let newDbLastTime = events.LpManager_StartMinting[events.LpManager_StartMinting.length - 1].db_write_timestamp
-        if (newDbLastTime !== lastStartMintingTimestamp.db_timestamp) {
-          lastStartMintingTimestamp.db_timestamp = newDbLastTime
-
-          const updated = await updateIndexTimestamps(lastStartMintingTimestamp)
-          if (!updated) {
-            console.error(`Failed to update timestamp for start minting`)
-          }
-        }
+        newDbStartMintingTimestamp =
+          events.LpManager_StartMinting[events.LpManager_StartMinting.length - 1].db_write_timestamp
       }
     } else {
       console.error(`Occured error while fetching start mintings`)
@@ -80,21 +84,16 @@ const job = Cron(
 
         for (let endMinting of events.LpManager_EndMinting) {
           const processed = await processEndMinting(endMinting)
-          if (!processed) {
+          if (processed == undefined) {
             console.warn(`End Minting was not parsed parse it yourself:`)
             console.log(endMinting)
+          } else {
+            batchQueries.push(processed)
           }
         }
 
-        let newDbLastTime = events.LpManager_EndMinting[events.LpManager_EndMinting.length - 1].db_write_timestamp
-        if (newDbLastTime !== lastEndMintingTimestamp.db_timestamp) {
-          lastEndMintingTimestamp.db_timestamp = newDbLastTime
-
-          const updated = await updateIndexTimestamps(lastEndMintingTimestamp)
-          if (!updated) {
-            console.error(`Failed to update timestamp for end minting`)
-          }
-        }
+        newDbEndMintingTimestamp =
+          events.LpManager_EndMinting[events.LpManager_EndMinting.length - 1].db_write_timestamp
       }
     } else {
       console.error(`Occured error while fetching end mintings`)
@@ -125,6 +124,31 @@ const job = Cron(
     } else {
       console.error(`Occured error while fetching lp transfers`)
     }
+
+    if (batchQueries.length) {
+      console.log(`Thera are ${batchQueries.length} queries to execute against Tableland`)
+
+      await execBatch(batchQueries)
+
+      if (newDbStartMintingTimestamp !== lastStartMintingTimestamp.db_timestamp) {
+        lastStartMintingTimestamp.db_timestamp = newDbStartMintingTimestamp
+        const updated = await updateIndexTimestamps(lastStartMintingTimestamp)
+        if (!updated) {
+          console.error(`Failed to update timestamp for start minting`)
+        }
+      }
+
+      if (newDbEndMintingTimestamp !== lastEndMintingTimestamp.db_timestamp) {
+        lastEndMintingTimestamp.db_timestamp = newDbEndMintingTimestamp
+
+        const updated = await updateIndexTimestamps(lastEndMintingTimestamp)
+        if (!updated) {
+          console.error(`Failed to update timestamp for end minting`)
+        }
+      }
+    }
+
+    job.resume()
   },
   { paused: true }
 )
@@ -218,14 +242,16 @@ const fetchFromGraphql = async (): Promise<Events | undefined> => {
   return events
 }
 
-const processStartMinting = async (startMinting: StartMintingEventData): Promise<boolean> => {
+const processStartMinting = async (
+  startMinting: StartMintingEventData
+): Promise<string | undefined | Statement<MintingType>> => {
   const chainId = networkIdFromId(startMinting.id)
   const txid = startMinting.txid
 
   let cachedMinting = await getMinting(txid, chainId)
   if (cachedMinting !== undefined) {
     console.log(`The start minting txid ${txid} on ${chainId} network is processed`)
-    return true
+    return
   }
 
   let mintingToAdd: MintingType = {
@@ -233,42 +259,40 @@ const processStartMinting = async (startMinting: StartMintingEventData): Promise
     networkId: chainId,
     txid: txid,
     timestamp: Math.floor(new Date(startMinting.db_write_timestamp).getTime() / 1000),
-    depositAmount: parseFloat(formatUnits(startMinting.usdcAmount, stableCoinDecimals(chainId))), // 0 or 1
-    ustcAmount: 0,
+    depositAmount: parseFloat(formatUnits(startMinting.usdcAmount, stableCoinDecimals(chainId))).toString(), // 0 or 1
+    ustcAmount: '0',
     orderCompleted: false,
     orderId: 0,
     nftId: parseInt(startMinting.depositId),
     manual: false,
     depositStatus: -1,
+    mintCompleted: false,
   }
   let minting = await addMinting(mintingToAdd)
-  if (minting !== undefined) {
+  if (typeof minting === 'string') {
     console.error(`Failed to add minting to database`)
     console.error(mintingToAdd)
-    return false
+    console.error(minting)
+    return minting
   }
-  return true
+  return minting
 }
 
-const processEndMinting = async (endMinting: EndMintingEventData): Promise<boolean> => {
+const processEndMinting = async (endMinting: EndMintingEventData): Promise<undefined | Statement<MintingType>> => {
   const chainId = networkIdFromId(endMinting.id)
   const nftId = parseInt(endMinting.depositIdIsTokenId)
 
   let cachedMinting = await getMintingByNftId(nftId, chainId)
   if (cachedMinting === undefined) {
-    return false
+    console.log(`Cached minting not found`)
+    return undefined
   } else if (cachedMinting.mintCompleted) {
-    return true
+    return undefined
   }
 
   cachedMinting.mintCompleted = true
-  let updated = await updateMinting(cachedMinting)
-  if (!updated) {
-    console.error(`${nftId} on ${chainId} failed to mark as completed`)
-    return false
-  }
-
-  return true
+  let updated = await markMintCompleted(cachedMinting.id!)
+  return updated
 }
 
 const processLpTransfer = async (transferEvent: NftTransferEventData): Promise<boolean> => {

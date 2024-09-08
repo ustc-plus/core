@@ -1,21 +1,15 @@
 'use client'
-import {
-  useAccount,
-  useAccountEffect,
-  useReadContract,
-  useSimulateContract,
-  useWaitForTransactionReceipt,
-  useWriteContract,
-} from 'wagmi'
+import { useReadContract, useSimulateContract, useWaitForTransactionReceipt, useWriteContract } from 'wagmi'
 import { useEffect, useState } from 'react'
-import { erc20Abi, formatEther, formatUnits, parseEther, parseUnits } from 'viem'
+import { erc20Abi, formatEther, parseEther, parseUnits } from 'viem'
 import useInterval from 'use-interval'
 import { useNotifications } from '@/context/Notifications'
-import { stableCoinDecimals, networkName } from '@/utils/network'
-import { GetAbi, GetAddr } from '@/utils/web3'
+import { networkName } from '@/utils/network'
+import { GetAbi } from '@/utils/web3'
 import LiquidityProcessList from './LiquidityProcessList'
 import { useLiquidityProcesses } from '@/context/LiquidityProcesses'
 import { timeout } from '@/utils/site'
+import { IAppStateConsumer } from './useAppState'
 
 type Info = {
   unixtimestamp: number
@@ -46,24 +40,11 @@ type MintingResult = {
   signature?: Signature
 }
 
-// export const Liquidity = ({ address, tokenAddress, toFixed, onBalanceChange, className }: TokenBalanceProps) => {
-export const Liquidity = () => {
+export const Liquidity = ({ appState }: IAppStateConsumer) => {
   const { Add } = useNotifications()
-  const account = useAccount()
   const [depositAmount, setDepositAmount] = useState<number>(0.0)
-  const [connected, setConnected] = useState<boolean>(false)
-  useAccountEffect({
-    onConnect() {
-      setConnected(true)
-    },
-    onDisconnect() {
-      setConnected(false)
-    },
-  })
   const [allowanceAmount, setAllowanceAmount] = useState<number>(0)
   const [info, setInfo] = useState<Info>()
-  const [lpManagerAddress, setLpManagerAddress] = useState<`0x${string}`>()
-  const [usdtAddress, setUsdtAddress] = useState<`0x${string}`>()
   const [approved, setApproved] = useState<boolean>(false)
   const [processing, setProcessing] = useState<boolean>(false)
   const [mintingStarted, setMintingStarted] = useState<boolean>(false)
@@ -74,13 +55,6 @@ export const Liquidity = () => {
   const [startMintingTxid, setStartMintingTxid] = useState<string>()
   const { Add: AddLiquidityProcess, Complete } = useLiquidityProcesses()
 
-  useEffect(() => {
-    if (connected) {
-      setLpManagerAddress(GetAddr('lpManagerAddress', account.chainId!))
-      setUsdtAddress(GetAddr('testErc20Address', account.chainId!))
-    }
-  }, [connected])
-
   // Simulate approving Lp Manager to spend user's tokens.
   // Depends on:
   //  user didn't approve
@@ -89,42 +63,34 @@ export const Liquidity = () => {
   const { error: approveEstimateError } = useSimulateContract({
     query: {
       enabled:
+        appState.activeTab === 'Liquidity' &&
         !approved &&
-        account.chain !== undefined &&
-        usdtAddress !== undefined &&
-        info !== undefined &&
-        lpManagerAddress !== undefined,
+        appState.appReady &&
+        appState.stableCoinAddress !== undefined &&
+        info !== undefined,
     },
     abi: erc20Abi,
-    address: usdtAddress,
+    address: appState.stableCoinAddress,
     functionName: 'approve',
-    args: [lpManagerAddress!, parseEther('10000000')],
+    args: [appState.lpManagerAddress!, parseEther('10000000')],
   })
 
   const { error: startMintingEstimateError } = useSimulateContract({
     query: {
-      enabled:
-        processing && approved && account.chain !== undefined && info !== undefined && lpManagerAddress !== undefined,
+      enabled: processing && approved && appState.appReady && info !== undefined,
     },
     abi: GetAbi('lpManagerAbi'),
-    address: lpManagerAddress,
+    address: appState.lpManagerAddress,
     functionName: 'startMinting',
-    args: [parseUnits(depositAmount.toString(), stableCoinDecimals(account.chainId!))],
+    args: [parseUnits(depositAmount.toString(), appState.stableCoinDecimals)],
   })
 
   const { error: endMintingEstimateError } = useSimulateContract({
     query: {
-      enabled:
-        signature !== undefined &&
-        mintingStarted &&
-        processing &&
-        approved &&
-        account.chain !== undefined &&
-        info !== undefined &&
-        lpManagerAddress !== undefined,
+      enabled: signature !== undefined && mintingStarted && processing && approved && appState.appReady,
     },
     abi: GetAbi('lpManagerAbi'),
-    address: lpManagerAddress,
+    address: appState.lpManagerAddress,
     functionName: 'endMinting',
     args: [
       nftId!,
@@ -157,8 +123,8 @@ export const Liquidity = () => {
     if (approveTxSuccess) {
       Add(`Approved`, {
         type: 'success',
-        href: account.chain?.blockExplorers?.default.url
-          ? `${account.chain.blockExplorers.default.url}/tx/${approveData}`
+        href: appState.account.chain?.blockExplorers?.default.url
+          ? `${appState.account.chain.blockExplorers.default.url}/tx/${approveData}`
           : undefined,
       })
       setApproved(true)
@@ -175,25 +141,25 @@ export const Liquidity = () => {
     if (startMintingTxSuccess) {
       Add(`Mint process started...`, {
         type: 'success',
-        href: account.chain?.blockExplorers?.default.url
-          ? `${account.chain.blockExplorers.default.url}/tx/${startMintingData}`
+        href: appState.account.chain?.blockExplorers?.default.url
+          ? `${appState.account.chain.blockExplorers.default.url}/tx/${startMintingData}`
           : undefined,
       })
       Add(`Waiting server to mint USTC+...`, {
         type: 'success',
-        href: account.chain?.blockExplorers?.default.url
-          ? `${account.chain.blockExplorers.default.url}/tx/${startMintingData}`
+        href: appState.account.chain?.blockExplorers?.default.url
+          ? `${appState.account.chain.blockExplorers.default.url}/tx/${startMintingData}`
           : undefined,
       })
 
       AddLiquidityProcess({
-        href: account.chain?.blockExplorers?.default.url
-          ? `${account.chain.blockExplorers.default.url}/tx/${startMintingData}`
+        href: appState.account.chain?.blockExplorers?.default.url
+          ? `${appState.account.chain.blockExplorers.default.url}/tx/${startMintingData}`
           : undefined,
         timestamp: Date.now(),
-        from: account?.address ? account.address : '',
-        networkId: account?.chain ? account.chain.id : 0,
-        networkName: account?.chain ? account.chain.name : 'Jean Kwon van Do touched it',
+        from: appState.account?.address ? appState.account.address : '',
+        networkId: appState.account?.chain ? appState.account.chain.id : 0,
+        networkName: appState.account?.chain ? appState.account.chain.name : 'Jean Kwon van Do touched it',
         txid: startMintingData ? startMintingData : 'Where is Terra money, Jean Kwon van Do?',
         usdtAmount: ustcAmount ? ustcAmount : 0,
         nftId: 1,
@@ -214,8 +180,8 @@ export const Liquidity = () => {
     if (endMintingTxSuccess) {
       Add(`Congratulations! Mint process ended!`, {
         type: 'success',
-        href: account.chain?.blockExplorers?.default.url
-          ? `${account.chain.blockExplorers.default.url}/tx/${endMintingData}`
+        href: appState.account.chain?.blockExplorers?.default.url
+          ? `${appState.account.chain.blockExplorers.default.url}/tx/${endMintingData}`
           : undefined,
       })
       setMintingStarted(false)
@@ -236,27 +202,29 @@ export const Liquidity = () => {
 
   // Every 1 second fetch the trading balance from server
   useInterval(async () => {
-    const url = process.env.NEXT_PUBLIC_BACKEND_URL!
+    if (appState.appReady && appState.activeTab === 'Liquidity') {
+      const url = process.env.NEXT_PUBLIC_BACKEND_URL!
 
-    const response = await fetch(`${url}/hello`)
-    const data = await response.json()
+      const response = await fetch(`${url}/hello`)
+      const data = await response.json()
 
-    if (data['message'] !== undefined) {
-      console.error('Failed to get information: ' + data['message'])
-    } else {
-      setInfo(data as Info)
+      if (data['message'] !== undefined) {
+        console.error('Failed to get information: ' + data['message'])
+      } else {
+        setInfo(data as Info)
+      }
     }
   }, 1000)
 
   // Determine whether the user approved tokens or not
-  const { data: allowance, refetch: refetchAllowance } = useReadContract({
+  const { data: allowance } = useReadContract({
     query: {
-      enabled: connected && usdtAddress !== undefined && lpManagerAddress !== undefined,
+      enabled: appState.appReady,
     },
     abi: erc20Abi,
-    address: usdtAddress,
+    address: appState.stableCoinAddress,
     functionName: 'allowance',
-    args: [account.address!, lpManagerAddress!],
+    args: [appState.account.address!, appState.lpManagerAddress!],
   })
 
   // Once the allowance returned, set the allowance amount in the state
@@ -304,15 +272,16 @@ export const Liquidity = () => {
       Add(`Transaction already going on, please refresh the page and try again`, { type: 'warning' })
       return
     }
-    if (account === undefined) {
-      Add(`Connect wallet first`, { type: 'error' })
+    if (!appState.appReady) {
+      Add(`App is not ready yet, wallet status: ${appState.account.status}`, { type: 'warning' })
       return
     }
-    if (account.address?.toLowerCase() !== owner.toLowerCase()) {
+
+    if (appState.account.address?.toLowerCase() !== owner.toLowerCase()) {
       Add(`Switch your account to ${owner}`, { type: 'error' })
       return
     }
-    if (account.chainId !== networkId) {
+    if (appState.account.chainId !== networkId) {
       Add(`Switch to Network with id ${networkName(networkId)} first`, { type: 'error' })
       return
     }
@@ -336,12 +305,12 @@ export const Liquidity = () => {
       setStartMintingTxid(undefined)
       return
     }
-    if (!connected || account === undefined) {
+    if (!appState.appReady) {
       Add(`Interrupted, as wallet disconnected, please connect wallet and try again`, { type: 'error' })
       return
     }
     const url = process.env.NEXT_PUBLIC_BACKEND_URL!
-    const response = await fetch(`${url}/start-minting/${account.chainId}/${startMintingTxid}`)
+    const response = await fetch(`${url}/start-minting/${appState.account.chainId}/${startMintingTxid}`)
     const data = await response.json()
 
     if (data['message'] !== undefined && (data['message'] as string).length > 0) {
@@ -410,14 +379,14 @@ export const Liquidity = () => {
 
     writeEndMinting({
       abi: GetAbi('lpManagerAbi'),
-      address: lpManagerAddress!,
+      address: appState.lpManagerAddress!,
       functionName: 'endMinting',
       args: [nftId!, parseEther(ustcAmount!.toString()), signature!.v, signature!.r, signature!.s],
     })
   }
 
   const onMint = (step: number = 0) => {
-    if (!connected) {
+    if (!appState.appReady) {
       Add(`Wallet error: Please connect your wallet`, {
         type: 'error',
       })
@@ -451,9 +420,9 @@ export const Liquidity = () => {
       }
       writeApprove({
         abi: erc20Abi,
-        address: usdtAddress!,
+        address: appState.stableCoinAddress!,
         functionName: 'approve',
-        args: [lpManagerAddress!, parseEther('10000000')],
+        args: [appState.lpManagerAddress!, parseEther('10000000')],
       })
       return
     }
@@ -471,16 +440,16 @@ export const Liquidity = () => {
 
       writeStartMinting({
         abi: GetAbi('lpManagerAbi'),
-        address: lpManagerAddress!,
+        address: appState.lpManagerAddress!,
         functionName: 'startMinting',
-        args: [parseUnits(depositAmount.toString(), stableCoinDecimals(account.chainId!))],
+        args: [parseUnits(depositAmount.toString(), appState.stableCoinDecimals)],
       })
     }
   }
 
   return (
     <div>
-      {connected ? (
+      {appState.appReady && appState.activeTab === 'Liquidity' ? (
         <div className='bg-base-100 border-base-300 rounded-box p-6 '>
           <h3 className='text-xl mb-2'>Create USTC+ and Ustc+ Liquidity</h3>
           <div className='flex my-10'>
@@ -531,7 +500,7 @@ export const Liquidity = () => {
         <div className='skeleton h-32 w-full'></div>
       )}
       <div className='bg-base-100 border-base-300 rounded-box p-6 mt-10'>
-        {connected ? (
+        {appState.appReady && appState.activeTab === 'Liquidity' ? (
           <LiquidityProcessList onContinue={onContinueMinting}></LiquidityProcessList>
         ) : (
           <div className='skeleton h-32 w-full'></div>

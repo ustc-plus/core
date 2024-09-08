@@ -3,7 +3,6 @@
 import React, { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react'
 import { toast, ToastContainer } from 'react-toastify'
 import { Notification } from '@/utils/types'
-import { useAccount } from 'wagmi'
 import dayjs from 'dayjs'
 import 'react-toastify/dist/ReactToastify.min.css'
 import '@/assets/notifications.css'
@@ -36,7 +35,6 @@ export const useNotifications = () => {
 
 export function NotificationProvider(props: PropsWithChildren) {
   const [notifications, setNotifications] = useState<Notification[]>([])
-  const { address } = useAccount()
 
   useEffect(() => {
     const storedNotifications = localStorage?.getItem('notifications')
@@ -50,7 +48,7 @@ export function NotificationProvider(props: PropsWithChildren) {
       message,
       type: options?.type || 'info',
       timestamp: options?.timestamp || dayjs().valueOf(),
-      from: options?.from || address,
+      from: options?.from,
       ...options,
     }
     localStorage.setItem('notifications', JSON.stringify([...notifications, notification]))

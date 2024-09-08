@@ -6,6 +6,21 @@ _For devs, this project uses the [Nexth](https://github.com/wslyvh/nexth) templa
 
 ![USTC Plus](./USTC_plus.png)
 
+## Packages 📦
+
+For the user, first, he deposits 50% to mint NFT.
+
+`TODO change parts`
+
+- [App](./packages/app) - Frontend
+- [Contracts](./packages/hardhat/) - Liquidity smartcontracts
+- [Ustc_plus](./packages/ustc_plus/) - Ustc+ smartcontract.
+- [Indexer](https://github.com/ustc-plus/indexer) &ndash; An indexer located in the `ustc-plus/indexer` repository.
+
+The USTC+ smartcontract is based on LayerZero which in turn based on old Hardhat packages.
+Meanwhile, the Liquidity smartcontracts are based on the most recent version of Hardhat and Openzeppelin Upgradeables.
+The recent hardhat used by openzeppelin upgradeables and layerzero are not compatible, therefore we made two separate packages.
+
 ## Smartcontract addresses
 
 ### Sepolia
@@ -38,20 +53,6 @@ The Binance addresses on Polygon:
 
 - USTC+ buyer &ndash; [0x21e5f3db8f14ac5c0d2171b81dfbe5a0047ba6bb](https://bscscan.com/address/0x21e5f3db8f14ac5c0d2171b81dfbe5a0047ba6bb)
 - Server's signer address `0x0864F2FdCa3730818c009354DD6874A3Cf207046`. **Off-chain and never will have a transaction**.
-
-## Packages 📦
-
-For the user, first, he deposits 50% to mint NFT.
-
-`TODO change parts`
-
-- [App](./packages/app) - Frontend
-- [Contracts](./packages/hardhat/) - Liquidity smartcontracts
-- [Ustc_plus](./packages/ustc_plus/) - Ustc+ smartcontract.
-
-The USTC+ smartcontract is based on LayerZero which in turn based on old Hardhat packages.
-Meanwhile, the Liquidity smartcontracts are based on the most recent version of Hardhat and Openzeppelin Upgradeables.
-The recent hardhat used by openzeppelin upgradeables and layerzero are not compatible, therefore we made two separate packages.
 
 ## Development 🛠️
 
@@ -111,3 +112,19 @@ On backend, create `RPC_URL_<chain_id>` environment variable and put the RPC nod
 create `SIGNER_KEY_<chain_id>` environment variable and set the private key of the signer.
 
 Then, open the `packages/backend/src/services/Blockchain.ts` and add the supported providers, ethers clients.
+
+### Running server on VPS
+
+The `packages/backend` must be working on the dedicated server with the static ip address, Instead of shared hosting or dynamic hostings where a cloud provider builds your project based on source code.
+
+This is needed for the USTC purchases as Binance accepts trading orders only from the whitelisted IP addresses.
+
+The mono-repo supports three scripts that you can use to run the server as a deamon.
+
+- `yarn build` &ndash; **for every update**, rebuild the javascript code from typescript code.
+- `yarn startd` &ndash; run backend as a deamon
+- `yarn stopd` &ndash; stop the backend as a deamon
+- `pm2 logs` &ndash; check the server logs
+
+The Ustc+ backend uses the `pm2` to run itself as a deamon.
+Therefore install it globally: `npm install pm2 --global`.

@@ -1,9 +1,8 @@
-import { useAccount, useReadContract } from 'wagmi'
+import { useReadContract } from 'wagmi'
 import oftAbi from './abi.json'
 import { parseEther } from 'viem'
 import { FormState } from '@/oft/useFormState'
 import { Options } from '@layerzerolabs/lz-v2-utilities'
-import { hexToBytes, bytesToHex } from 'viem'
 import { LAYERZERO_ENDPOINT, ReceiverGasLimit } from '@/utils/network'
 
 interface IParams {
@@ -31,7 +30,6 @@ export const addrToHex = (addr: string): string => {
 }
 
 export function useEstimateSendFee({ formState, processing }: IParams) {
-  const account = useAccount()
   const _options = Options.newOptions()
   const [gasLimit] = ReceiverGasLimit(formState.destinationChain!)
   _options.addExecutorLzReceiveOption(gasLimit, 0)
@@ -42,7 +40,6 @@ export function useEstimateSendFee({ formState, processing }: IParams) {
     query: {
       enabled:
         processing &&
-        account.status === 'connected' &&
         lzEndpoint !== undefined &&
         formState.destinationChain > 0 &&
         formState.recipient !== undefined &&

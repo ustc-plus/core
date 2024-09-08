@@ -11,8 +11,7 @@ export const Faucet = () => {
 <option value={1}>Ethereum</option>
       </select>
 <div className='divider'></div>
-      <button className='mx-5 btn btn-primary'>Unwrap</button> */}
-      // <p>You will get 100 Fake USDT on Sepolia Testnet</p>
+      <button className='mx-5 btn btn-primary'>Unwrap</button> <p>You will get 100 Fake USDT on Sepolia Testnet</p>*/}
     </div>
   )
 }

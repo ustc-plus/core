@@ -1,4 +1,4 @@
-import { useAccount, useWriteContract, useSimulateContract, useWaitForTransactionReceipt, Config } from 'wagmi'
+import { useWriteContract, useSimulateContract, useWaitForTransactionReceipt, Config } from 'wagmi'
 import { WaitForTransactionReceiptErrorType, parseEther } from 'viem'
 import { FormState } from '@/oft/useFormState'
 import oftAbi from './abi.json'
@@ -6,11 +6,13 @@ import { SendParam, addrToHex } from './useEstimateSendFee'
 import { Options } from '@layerzerolabs/lz-v2-utilities'
 import { LAYERZERO_ENDPOINT, ReceiverGasLimit } from '@/utils/network'
 import { WriteContractMutate } from 'wagmi/query'
+import { AppState } from '@/components/useAppState'
 
 interface IParams {
   formState: FormState
   enabled: boolean
   nativeFee: bigint | undefined
+  appState: AppState
 }
 
 interface IReturn {
@@ -23,8 +25,7 @@ interface IReturn {
   simulateData: any
 }
 
-export const useSendFrom = ({ formState, enabled, nativeFee }: IParams): IReturn => {
-  const wallet = useAccount()
+export const useSendFrom = ({ appState, formState, enabled, nativeFee }: IParams): IReturn => {
   const _options = Options.newOptions()
   const [gasLimit, _nativeDrop] = ReceiverGasLimit(formState.destinationChain!)
 
@@ -50,7 +51,7 @@ export const useSendFrom = ({ formState, enabled, nativeFee }: IParams): IReturn
         oftCmd: '0x00',
       } as SendParam,
       { nativeFee: nativeFee, lzTokenFee: 0 },
-      wallet.address,
+      appState.account.address,
     ],
   })
 

@@ -43,6 +43,36 @@ export const getIndexTimestamps = async (event_type: IndexedEventType): Promise<
   }
 }
 
+// Returns tableland minting table name
+export const addTablelandMintingName = async (mintingTableName: string): Promise<string | undefined> => {
+  const lastIndexTimestamp: LastIndexTimestampType = {
+    db_timestamp: mintingTableName,
+    event_type: '_tableland_minting_name',
+  }
+
+  // put the data
+  try {
+    const dbResult = await collections.indexes?.insertOne(lastIndexTimestamp)
+
+    if (!dbResult) {
+      return 'failed to indexer'
+    } else {
+      return undefined
+    }
+  } catch (error) {
+    return JSON.stringify(error)
+  }
+}
+
+export const getTablelandMintingName = async (): Promise<string | undefined> => {
+  const result = await getIndexTimestamps('_tableland_minting_name')
+  if (result === undefined || result.db_timestamp.length === 0) {
+    return undefined
+  }
+
+  return result.db_timestamp
+}
+
 export const updateIndexTimestamps = async (
   lastIndexes: LastIndexTimestamp | LastIndexTimestampType
 ): Promise<boolean> => {

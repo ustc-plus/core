@@ -1,54 +1,15 @@
 'use client'
-import {
-  useAccount,
-  useAccountEffect,
-  useReadContract,
-  useSimulateContract,
-  useWaitForTransactionReceipt,
-  useWriteContract,
-} from 'wagmi'
+import { useReadContract, useSimulateContract, useWaitForTransactionReceipt, useWriteContract } from 'wagmi'
 import { useEffect, useState } from 'react'
-import { erc20Abi, formatEther, formatUnits, parseEther, parseUnits } from 'viem'
-import useInterval from 'use-interval'
+import { formatEther, formatUnits } from 'viem'
 import { useNotifications } from '@/context/Notifications'
-import { stableCoinDecimals, networkName } from '@/utils/network'
-import { GetAbi, GetAddr } from '@/utils/web3'
-import LiquidityProcessList from './LiquidityProcessList'
-import { useLiquidityProcesses } from '@/context/LiquidityProcesses'
+import { GetAbi } from '@/utils/web3'
 import { NftParams, NftType } from '@/utils/types'
 import dayjs from 'dayjs'
-
-type Info = {
-  unixtimestamp: number
-  depositAddress: string
-  ustcPrice: number
-  minUsdt: number
-  maxUsdt: number
-}
-
-type BinanceOrderStatus = -1 | 0 | 6 | 1
-
-type Signature = {
-  v: string
-  r: string
-  s: string
-}
-
-type MintingResult = {
-  status?: BinanceOrderStatus
-  timestamp?: number
-  nftId?: number
-  orderCompleted?: boolean
-  orderCompletion?: string
-  orderId?: number
-  ustcPlusAmount?: string
-  message?: string
-  mintCompleted?: boolean
-  signature?: Signature
-}
+import { AppState } from './useAppState'
 
 type Props = {
-  lpNftAddress: `0x${string}`
+  appState: AppState
   nft: NftType
 }
 
@@ -91,9 +52,8 @@ const slashCurrentAmount = (startTime: number): number => {
   }
 }
 
-export const RedeemCard = ({ lpNftAddress, nft }: Props) => {
+export const RedeemCard = ({ appState, nft }: Props) => {
   const { Add } = useNotifications()
-  const account = useAccount()
   const [percent, setPercent] = useState<number>()
   const [nftParams, setNftParams] = useState<NftParams>()
   const [processing, setProcessing] = useState<boolean>(false)
@@ -103,8 +63,11 @@ export const RedeemCard = ({ lpNftAddress, nft }: Props) => {
     error: nftParamsOnNetworkError,
     refetch: refetchNftParamsOnNetwork,
   } = useReadContract({
+    query: {
+      enabled: appState.appReady && appState.activeTab === 'Redeem',
+    },
     abi: GetAbi('lpNftAbi'),
-    address: lpNftAddress,
+    address: appState.lpNftAddress,
     functionName: 'paramsOf',
     args: [nft.tokenId],
   })
@@ -130,10 +93,8 @@ export const RedeemCard = ({ lpNftAddress, nft }: Props) => {
     }
 
     parsed._slashPercentage = slashCurrentAmount(parsed.startTime)
-    parsed._remainingUsdt = parseFloat(
-      formatUnits(parsed.usdcAmount - parsed.usdcTaken, stableCoinDecimals(account!.chainId!))
-    )
-    const initialUsdt = parseFloat(formatUnits(parsed.usdcAmount, stableCoinDecimals(account!.chainId!)))
+    parsed._remainingUsdt = parseFloat(formatUnits(parsed.usdcAmount - parsed.usdcTaken, appState.stableCoinDecimals))
+    const initialUsdt = parseFloat(formatUnits(parsed.usdcAmount, appState.stableCoinDecimals))
     const percentage = initialUsdt / 100
     const remainingPercentage = parsed._remainingUsdt / percentage
     const initialUstcPercentage = parseFloat(formatEther(parsed.ustcPlusAmount)) / 100
@@ -147,14 +108,10 @@ export const RedeemCard = ({ lpNftAddress, nft }: Props) => {
   const { error: redeemEstimateError } = useSimulateContract({
     query: {
       enabled:
-        account !== undefined &&
-        account.status === 'connected' &&
-        percent !== undefined &&
-        percent > 0 &&
-        percent <= 100,
+        appState.appReady && appState.activeTab === 'Redeem' && percent !== undefined && percent > 0 && percent <= 100,
     },
     abi: GetAbi('lpNftAbi'),
-    address: lpNftAddress,
+    address: appState.lpNftAddress,
     functionName: 'redeem',
     args: [nft.tokenId, percent ? percent : 0],
   })
@@ -170,8 +127,8 @@ export const RedeemCard = ({ lpNftAddress, nft }: Props) => {
     if (redeemTxSuccess) {
       Add(`Redeemed...`, {
         type: 'success',
-        href: account.chain?.blockExplorers?.default.url
-          ? `${account.chain.blockExplorers.default.url}/tx/${redeemData}`
+        href: appState.account.chain?.blockExplorers?.default.url
+          ? `${appState.account.chain.blockExplorers.default.url}/tx/${redeemData}`
           : undefined,
       })
       refetchNftParamsOnNetwork()
@@ -185,8 +142,8 @@ export const RedeemCard = ({ lpNftAddress, nft }: Props) => {
   }, [redeemTxSuccess, redeemTxError])
 
   const onRedeem = () => {
-    if (!account || account.status !== 'connected') {
-      Add(`Wallet error: Please connect your wallet`, {
+    if (!appState.appReady) {
+      Add(`App Not ready`, {
         type: 'error',
       })
       return
@@ -211,10 +168,9 @@ export const RedeemCard = ({ lpNftAddress, nft }: Props) => {
       })
       return
     }
-
     writeRedeem({
       abi: GetAbi('lpNftAbi'),
-      address: lpNftAddress!,
+      address: appState.lpNftAddress!,
       functionName: 'redeem',
       args: [nft.tokenId!, percent!],
     })

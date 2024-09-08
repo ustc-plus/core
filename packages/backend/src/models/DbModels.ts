@@ -1,5 +1,3 @@
-import { ObjectId } from 'mongodb'
-
 export type IndexedEventType =
   | 'LpManager_StartMinting'
   | 'LpManager_EndMinting'
@@ -8,6 +6,7 @@ export type IndexedEventType =
   | 'LpNft_Mint'
   | 'LpManager_Wrap'
   | 'LpManager_Unwrap'
+  | '_tableland_minting_name' // table name
 
 export type LastIndexTimestampType = {
   db_timestamp: string
@@ -15,6 +14,7 @@ export type LastIndexTimestampType = {
 }
 
 export type MintingType = {
+  id?: number
   manual: boolean
   walletAddress: string // a user
   networkId: number
@@ -24,10 +24,9 @@ export type MintingType = {
   orderCompleted: boolean
   orderId: number
   nftId: number
-  depositAmount: number
-  ustcAmount: number
-  mintCompleted?: boolean
-  id?: ObjectId
+  depositAmount: string
+  ustcAmount: string
+  mintCompleted: boolean
 }
 
 export type NftType = {
@@ -39,24 +38,6 @@ export type NftType = {
   ustcPlusAmount: bigint
   initialStableCoinAmount: bigint
   initialUstcPlusAmount: bigint
-}
-
-export class Minting {
-  constructor(
-    public manual: boolean,
-    public walletAddress: string, // a user
-    public networkId: number,
-    public txid: string,
-    public timestamp: number,
-    public depositStatus: number, // 0 or 1
-    public orderCompleted: boolean,
-    public orderId: number,
-    public nftId: number,
-    public depositAmount: number,
-    public ustcAmount: number,
-    public mintCompleted?: boolean,
-    public id?: ObjectId
-  ) {}
 }
 
 export class Nft {

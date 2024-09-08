@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "@binance/connector-typescript": "^0.3.10",
+    "@tableland/sdk": "^7.2.1",
     "@urql/core": "^5.0.6",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",

@@ -1,15 +1,14 @@
 'use client'
-import { useAccount, useAccountEffect, useBalance, useReadContract } from 'wagmi'
+import { useBalance } from 'wagmi'
 import { useEffect, useState } from 'react'
 import { useNotifications } from '@/context/Notifications'
-import { GetAbi, GetAddr } from '@/utils/web3'
-import { NftType } from '@/utils/types'
 import { ETH_CHAINS } from '@/utils/network'
 import { Chain } from 'viem/chains'
 import { formatEther, parseEther } from 'viem'
 import { useEstimateSendFee } from '@/oft/useEstimateSendFee'
 import { useFormState } from '@/oft/useFormState'
 import { useSendFrom } from '@/oft/useSendFrom'
+import { IAppStateConsumer } from './useAppState'
 
 const otherChains = (chainId: number): Chain[] => {
   if (!chainId) {
@@ -26,47 +25,32 @@ const otherChains = (chainId: number): Chain[] => {
   return chains
 }
 
-export const Bridge = () => {
+export const Bridge = ({ appState }: IAppStateConsumer) => {
   const { Add } = useNotifications()
-  const account = useAccount()
-  const [connected, setConnected] = useState<boolean>(false)
   const [destinationChains, setDestinationChains] = useState<Chain[]>([])
-  const [ustcPlusAddress, setUstcPlusAddress] = useState<`0x${string}`>()
   const [processing, setProcessing] = useState<boolean>(false)
   const formState = useFormState()
 
-  useAccountEffect({
-    onConnect() {
-      setConnected(true)
-      if (account) {
-        formState.setRecipient(account.address!)
-        formState.setOftAddress(GetAddr('ustcPlusAddress', account?.chain!.id!))
-      }
-    },
-    onDisconnect() {
-      setConnected(false)
-    },
-  })
-
   useEffect(() => {
-    if (connected) {
-      const destChains = otherChains(account!.chainId!)
+    if (appState.appReady && appState.activeTab === 'Bridge') {
+      const destChains = otherChains(appState.account!.chainId!)
       if (destChains.length === 0) {
-        Add(`No bridged networks from ${account!.chain?.name}`, { type: 'error' })
+        Add(`No bridged networks from ${appState.account!.chain?.name}`, { type: 'error' })
         return
       }
+      formState.setRecipient(appState.account.address!)
+      formState.setOftAddress(appState.ustcPlusAddress!)
       setDestinationChains(destChains)
       formState.setDestinationChain(destChains[0].id)
-      setUstcPlusAddress(GetAddr('ustcPlusAddress', account.chainId!))
     }
-  }, [connected])
+  }, [appState])
 
   const { data: balanceAmount, error: balanceError } = useBalance({
     query: {
-      enabled: connected,
+      enabled: appState.appReady && appState.activeTab === 'Redeem',
     },
-    address: account?.address,
-    token: ustcPlusAddress,
+    address: appState.account?.address,
+    token: appState.ustcPlusAddress,
     unit: 'ether',
   })
 
@@ -85,9 +69,6 @@ export const Bridge = () => {
   } = useEstimateSendFee({ formState, processing })
 
   useEffect(() => {
-    console.log(
-      `Estimated Status; status=${estimateSendFeeSuccess}, error=${estimateSendFeeError}, nativeFee=${nativeFee}`
-    )
     if (estimateSendFeeError) {
       Add(`Error to estimate Layerzero fee: ${estimateSendFeeError}`, { type: 'error' })
       setProcessing(false)
@@ -99,8 +80,9 @@ export const Bridge = () => {
   const { writeContract, hash, writeIsSuccess, writeError, simulateIsSuccess, simulateError, simulateData } =
     useSendFrom({
       formState,
-      enabled: estimateSendFeeSuccess && processing,
+      enabled: estimateSendFeeSuccess && processing && appState.activeTab === 'Bridge',
       nativeFee,
+      appState,
     })
 
   useEffect(() => {
@@ -146,6 +128,10 @@ export const Bridge = () => {
       return
     }
 
+    if (appState.appReady) {
+      return
+    }
+
     setProcessing(true)
 
     Add(`Estimating ... fees and transaction parameters`, { type: 'info' })
@@ -153,11 +139,13 @@ export const Bridge = () => {
 
   return (
     <div>
-      {connected ? (
+      {appState.appReady && appState.activeTab === 'Bridge' ? (
         <div className='p-5'>
           <h3 className='text-xl mb-2'>
             Bridge USTC+ from{' '}
-            <span className='badge badge-md badge-accent'>{!account ? 'current network' : account.chain?.name}</span>
+            <span className='badge badge-md badge-accent'>
+              {!appState.account ? 'current network' : appState.account.chain?.name}
+            </span>
           </h3>
           <label className='form-control w-full my-5'>
             <div className='label'>
