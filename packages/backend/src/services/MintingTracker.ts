@@ -4,7 +4,6 @@ import { MintingType } from '../models/DbModels'
 import { tabelandDb, mintingTableName } from '../tableland'
 
 export const addMinting = async (mintingParams: MintingType): Promise<string | Statement<MintingType>> => {
-  console.log(`Add a minting to ${mintingTableName}... on tableland`)
   // put the data
   const keys = Object.keys(mintingParams)
   const values = Object.values(mintingParams)
@@ -23,8 +22,6 @@ export const addMinting = async (mintingParams: MintingType): Promise<string | S
     }
   }
   query += ')'
-  console.log(`Add minting table: ${query}`)
-  console.log(`The values: [${values.join(', ')}]`)
 
   try {
     const statement = tabelandDb.prepare(query).bind(...values)
@@ -33,17 +30,17 @@ export const addMinting = async (mintingParams: MintingType): Promise<string | S
     // Wait for transaction finality
     /*await insert.txn?.wait()
     if (insert.txn?.error) {
-      console.log(insert.txn?.error)
+      console.error(insert.txn?.error)
       return JSON.stringify(insert.txn?.error)
     }*/
   } catch (error) {
-    console.log(error)
+    console.error(error)
     return JSON.stringify(error)
   }
 }
 
 export const getMinting = async (txid: string, chainId: number): Promise<undefined | MintingType> => {
-  let query = `SELECT * FROM ${mintingTableName} WHERE txid = '${txid} AND networkId = ${chainId} LIMIT 1 `
+  let query = `SELECT * FROM ${mintingTableName} WHERE txid = '${txid}' AND networkId = ${chainId} LIMIT 1 `
 
   try {
     const found = await tabelandDb.prepare(query).first()
@@ -51,8 +48,7 @@ export const getMinting = async (txid: string, chainId: number): Promise<undefin
     if (found === null || found === undefined) {
       return undefined
     } else {
-      console.log(`Found on tableland minting: `, found)
-      return found[0]
+      return JSON.parse(JSON.stringify(found)) as MintingType
     }
   } catch (error) {
     return undefined
@@ -60,7 +56,7 @@ export const getMinting = async (txid: string, chainId: number): Promise<undefin
 }
 
 export const getMintingByNftId = async (nftId: number, chainId: number): Promise<undefined | MintingType> => {
-  let query = `SELECT * FROM ${mintingTableName} WHERE nftId = '${nftId} AND networkId = ${chainId} LIMIT 1 `
+  let query = `SELECT * FROM ${mintingTableName} WHERE nftId = '${nftId}' AND networkId = ${chainId} LIMIT 1 `
 
   try {
     const found = await tabelandDb.prepare(query).first()
@@ -68,8 +64,7 @@ export const getMintingByNftId = async (nftId: number, chainId: number): Promise
     if (found === null || found === undefined) {
       return undefined
     } else {
-      console.log(`Found on tableland minting by nft id: `, found)
-      return found[0]
+      return JSON.parse(JSON.stringify(found)) as MintingType
     }
   } catch (error) {
     return undefined
@@ -134,10 +129,10 @@ export const execBatch = async (batch: Statement<MintingType>[]) => {
     const result = results[i]
     if (result.error) {
       console.error(`Failed to execute #${i} query in batch: ${result.error}. Add yourself:`)
-      console.log(batch[i])
+      console.error(batch[i])
       return result.error
     } else if (result.success) {
-      console.log(`The query was executed successfully: ${i}`)
+      console.log(`The query was executed successfully for ${i}/${results.length - 1}`)
     }
   }
 }
