@@ -1,8 +1,9 @@
 // testing the leaderboard with the fake data
+import { Statement } from '@tableland/sdk'
 import { MintingType } from '../models/DbModels'
 import { tabelandDb, mintingTableName } from '../tableland'
 
-export const addMinting = async (mintingParams: MintingType): Promise<string | undefined> => {
+export const addMinting = async (mintingParams: MintingType): Promise<string | Statement<MintingType>> => {
   console.log(`Add a minting to ${mintingTableName}... on tableland`)
   // put the data
   const keys = Object.keys(mintingParams)
@@ -26,20 +27,15 @@ export const addMinting = async (mintingParams: MintingType): Promise<string | u
   console.log(`The values: [${values.join(', ')}]`)
 
   try {
-    const { meta: insert } = await tabelandDb
-      .prepare(query)
-      .bind(...values)
-      .run()
+    const statement = tabelandDb.prepare(query).bind(...values)
+    return statement
 
     // Wait for transaction finality
-    await insert.txn?.wait()
+    /*await insert.txn?.wait()
     if (insert.txn?.error) {
       console.log(insert.txn?.error)
       return JSON.stringify(insert.txn?.error)
-    }
-
-    console.log(`Minting was added to the tableland!`)
-    return
+    }*/
   } catch (error) {
     console.log(error)
     return JSON.stringify(error)
@@ -124,18 +120,24 @@ export const updateOrderStatus = async (
   return true
 }
 
-export const markMintCompleted = async (id: number): Promise<boolean> => {
+export const markMintCompleted = async (id: number): Promise<undefined | Statement<MintingType>> => {
   let query = `UPDATE ${mintingTableName}
     SET mintCompleted = '1' WHERE id = ?`
 
-  const result = await tabelandDb.prepare(query).bind(id).run()
-  if (result.success) {
-    return true
-  }
-  if (result.error) {
-    console.error(`Unexpected error to mark minting as completed  for ${id} minting on tableland: ${result.error}`)
-    return false
-  }
+  const result = tabelandDb.prepare(query).bind(id)
+  return result
+}
 
-  return true
+export const execBatch = async (batch: Statement<MintingType>[]) => {
+  const results = await tabelandDb.batch(batch)
+  for (let i in results) {
+    const result = results[i]
+    if (result.error) {
+      console.error(`Failed to execute #${i} query in batch: ${result.error}. Add yourself:`)
+      console.log(batch[i])
+      return result.error
+    } else if (result.success) {
+      console.log(`The query was executed successfully: ${i}`)
+    }
+  }
 }
