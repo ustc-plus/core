@@ -8,8 +8,7 @@ import helmet from 'helmet'
 import express, { Request, Response, NextFunction } from 'express'
 import logger from 'jet-logger'
 import cors from 'cors'
-import { addMinting, getMinting, getMintingByNftId, updateMinting } from './services/MintingTracker'
-import { gql, Client, cacheExchange, fetchExchange } from '@urql/core'
+import { getMinting, updateDepositStatus, updateOrderStatus } from './services/MintingTracker'
 
 import 'express-async-errors'
 
@@ -22,20 +21,10 @@ import { RouteError } from './common/classes'
 import { NodeEnvs } from './common/misc'
 
 import { Cron } from 'croner'
-import { endMintingSignature, stableCoinDecimals } from './services/Blockchain'
+import { endMintingSignature } from './services/Blockchain'
 import { Info, getInfo, trade, getOrderInfo, getDepositStatus } from './services/Binance'
-import { formatUnits, parseEther } from 'ethers'
-import { MintingType } from './models/DbModels'
-import {
-  EndMintingPayload,
-  NftTransferPayload,
-  StartMintingEventData,
-  StartMintingPayload,
-  isNftBurn,
-  networkIdFromId,
-  nftModelFromTransfer,
-} from './services/Indexer'
-import { addNft, deleteNft, getByOwner, getNft, updateNft } from './services/NftTracker'
+import { parseEther } from 'ethers'
+import { getByOwner } from './services/NftTracker'
 
 // **** Variables **** //
 
@@ -43,11 +32,6 @@ const app = express()
 let info: Info
 
 // **** Setup **** //
-
-const graphqlClient = new Client({
-  url: process.env.INDEXER_URL!,
-  exchanges: [cacheExchange, fetchExchange],
-})
 
 // Basic middleware
 app.use(express.json())
@@ -130,7 +114,7 @@ app.get('/start-minting/:chainId/:txid', async (req: Request, res: Response) => 
   if (cachedMinting === undefined) {
     return res.json({ message: 'Please try again later, its not indexed yet' })
   }
-  console.log(`Cached Minting: ${cachedMinting._id}`)
+  console.log(`Cached Minting: ${cachedMinting.id}`)
 
   const responseData = {
     status: cachedMinting.depositStatus,
@@ -165,7 +149,7 @@ app.get('/start-minting/:chainId/:txid', async (req: Request, res: Response) => 
       }
 
       cachedMinting.depositStatus = depositStatus.status
-      const updated = await updateMinting(cachedMinting)
+      const updated = await updateDepositStatus(cachedMinting.id!, depositStatus.status)
       if (!updated) {
         return res.json({ message: 'Failed to update deposit status, please try again later!' })
       }
@@ -175,7 +159,7 @@ app.get('/start-minting/:chainId/:txid', async (req: Request, res: Response) => 
     }
 
     cachedMinting.depositStatus = depositStatus.status
-    const updated = await updateMinting(cachedMinting)
+    const updated = await updateDepositStatus(cachedMinting.id!, cachedMinting.depositStatus)
     if (!updated) {
       return res.json({ message: 'Failed to update deposit status as succeed, please try again later!' })
     }
@@ -192,7 +176,7 @@ app.get('/start-minting/:chainId/:txid', async (req: Request, res: Response) => 
       }
 
       responseData.orderCompleted = orderInfo.completed
-      responseData.ustcPlusAmount = parseFloat(orderInfo.qty!)
+      responseData.ustcPlusAmount = orderInfo.qty!
 
       // Still not loaded, so update.
       // Client will see: deposit = 1, orderCompleted = false, orderId = !null
@@ -201,8 +185,8 @@ app.get('/start-minting/:chainId/:txid', async (req: Request, res: Response) => 
       }
 
       cachedMinting.orderCompleted = orderInfo.completed
-      cachedMinting.ustcAmount = parseFloat(orderInfo.qty!)
-      const updated = await updateMinting(cachedMinting)
+      cachedMinting.ustcAmount = orderInfo.qty!
+      const updated = await updateOrderStatus(cachedMinting.id!, cachedMinting.orderCompleted, cachedMinting.ustcAmount)
       if (!updated) {
         responseData.message = `Failed to update the order as completed: ${orderInfo}`
       }
@@ -233,7 +217,7 @@ app.get('/start-minting/:chainId/:txid', async (req: Request, res: Response) => 
     // Order not completed and order id not set, so let's trade
     console.log(`Data was deposited, therefore we will trade it by buying ${cachedMinting.depositAmount}...`)
 
-    const order = await trade(cachedMinting.depositAmount)
+    const order = await trade(parseFloat(cachedMinting.depositAmount))
     // Shall we update here cachedMinting.manual?
     if (typeof order === 'string') {
       responseData.message = order
@@ -246,14 +230,19 @@ app.get('/start-minting/:chainId/:txid', async (req: Request, res: Response) => 
     responseData.orderCompleted = order.completed
     cachedMinting.orderCompleted = order.completed
     if (order.qty) {
-      responseData.ustcPlusAmount = parseFloat(order.qty!)
-      cachedMinting.ustcAmount = parseFloat(order.qty!)
+      responseData.ustcPlusAmount = order.qty!
+      cachedMinting.ustcAmount = order.qty!
     } else {
-      responseData.ustcPlusAmount = 0.0
-      cachedMinting.ustcAmount = 0.0
+      responseData.ustcPlusAmount = '0'
+      cachedMinting.ustcAmount = '0'
     }
 
-    const updated = await updateMinting(cachedMinting)
+    const updated = await updateOrderStatus(
+      cachedMinting.id!,
+      cachedMinting.orderCompleted,
+      cachedMinting.ustcAmount,
+      cachedMinting.orderId
+    )
     if (!updated) {
       // DANGER, TODO, make sure that manual is updated
       console.error(`Todo, update manually. Calling this function will trade again`)

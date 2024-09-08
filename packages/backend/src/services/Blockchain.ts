@@ -3,9 +3,7 @@ import {
   JsonRpcProvider,
   TransactionReceipt,
   LogDescription,
-  TransactionResponse,
   Block,
-  parseUnits,
   formatUnits,
   Wallet,
   keccak256,
@@ -27,13 +25,13 @@ export type Signature = {
   v: string
 }
 
-const providers: { [key: number]: JsonRpcProvider } = {
+export const providers: { [key: number]: JsonRpcProvider } = {
   11155111: new JsonRpcProvider(process.env.RPC_URL_11155111!),
   137: new JsonRpcProvider(process.env.RPC_URL_137!),
   56: new JsonRpcProvider(process.env.RPC_URL_56!),
 }
 
-const signers: { [key: number]: Wallet } = {
+export const signers: { [key: number]: Wallet } = {
   11155111: new Wallet(process.env.PRIVATE_KEY_11155111!),
   137: new Wallet(process.env.PRIVATE_KEY_137!),
   56: new Wallet(process.env.PRIVATE_KEY_56!),

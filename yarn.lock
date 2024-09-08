@@ -35,6 +35,27 @@
     "@jridgewell/gen-mapping" "^0.3.5"
     "@jridgewell/trace-mapping" "^0.3.24"
 
+"@async-generators/from-emitter@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@async-generators/from-emitter/-/from-emitter-0.3.0.tgz#3496bf2a25f40ddbf2bcf5873ae3ceb3f4aa2dc4"
+  integrity sha512-9ne/GfJfbw77wuA08WtuNIvMhpDwAEPT/GX/Dn33y/Bu1zKqO0bOWmcWTpLiHrO2vedEbW0GihfkG7EINEghsA==
+  dependencies:
+    "@async-generators/subject" "^0.4"
+    "@async-generators/terminator" "^0.4"
+
+"@async-generators/subject@^0.4":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@async-generators/subject/-/subject-0.4.0.tgz#ca411ae5e07f800c886ad51b67dc8ed710c27d00"
+  integrity sha512-ydMe58ouMupnJlvBq6SaG6ranw1uX6rcAfAVE37oNJLen9RJ1+sY6yju8xp6en8RwWn3gBtAx03ot1Ycr3U0QQ==
+  dependencies:
+    "@async-generators/terminator" "^0.4.0"
+    events "^1.1.1"
+
+"@async-generators/terminator@^0.4", "@async-generators/terminator@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@async-generators/terminator/-/terminator-0.4.0.tgz#a2aa109337fdea375905b8df8596376ab237bbc0"
+  integrity sha512-Kj08FqHgdx4QZ1mwJrlN3L2MWNNWHHWSQezfClxMUvGU1pYjoRa/4Yev1U/2Y71aqDDXEYC7pr13HNv7Un7Kog==
+
 "@aws-crypto/sha256-js@1.2.2":
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@aws-crypto/sha256-js/-/sha256-js-1.2.2.tgz#02acd1a1fda92896fc5a28ec7c6e164644ea32fc"
@@ -1996,6 +2017,11 @@
   resolved "https://registry.npmjs.org/@openzeppelin/contracts-upgradeable/-/contracts-upgradeable-5.0.2.tgz"
   integrity sha512-0MmkHSHiW2NRFiT9/r5Lu4eJq5UJ4/tzlOgYXNAIj/ONkQTVnz22pLxDvp4C4uZ9he7ZFvGn3Driptn1/iU7tQ==
 
+"@openzeppelin/contracts@4.9.6":
+  version "4.9.6"
+  resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-4.9.6.tgz#2a880a24eb19b4f8b25adc2a5095f2aa27f39677"
+  integrity sha512-xSmezSupL+y9VkHZJGDoCBpmnB2ogM13ccaYDWqJTfS3dbuHkgjuwDFUmaFauBCboQMGB/S5UqUl2y54X99BmA==
+
 "@openzeppelin/contracts@^5.0.2":
   version "5.0.2"
   resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-5.0.2.tgz#b1d03075e49290d06570b2fd42154d76c2a5d210"
@@ -2630,6 +2656,29 @@
   integrity sha512-+PmQX0PiAYPMeVYe237LJAYvOMYW1j2rH5YROyS3b4CTVJum34HfRvKvAzozHAQG0TnHNdUfY9nCeUyRAs//cw==
   dependencies:
     defer-to-connect "^2.0.1"
+
+"@tableland/evm@^6.3.0":
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/@tableland/evm/-/evm-6.3.0.tgz#a41f7a0eac53f3060acf4922ba7263ace9ffdd7c"
+  integrity sha512-29oTx7zCapMQkdqAzu7po6CONWO+17i+JmeoLHHXqUlNo9geL1RoutKYz0sQS7tlsK3Pcmgd2omZuFYqDPHb6A==
+  dependencies:
+    "@openzeppelin/contracts" "4.9.6"
+    ethers "^6.12.0"
+
+"@tableland/sdk@^7.2.1":
+  version "7.2.1"
+  resolved "https://registry.yarnpkg.com/@tableland/sdk/-/sdk-7.2.1.tgz#ade8b78517ba7a1f39c4ed66aa0869c2b86b3993"
+  integrity sha512-1dROnQcaEAwwHytkZDeyWeq0FHx9ehd1IXr9AhJRVLOWm90rbQCtxg+JtAkBD4fYF7kakUwRAlXnDBkSXxtwuQ==
+  dependencies:
+    "@async-generators/from-emitter" "^0.3.0"
+    "@tableland/evm" "^6.3.0"
+    "@tableland/sqlparser" "^1.4.1"
+    ethers "^6.12.1"
+
+"@tableland/sqlparser@^1.4.1":
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/@tableland/sqlparser/-/sqlparser-1.4.1.tgz#56fb11b00ccce7b6c8605d39b05cf4107877390e"
+  integrity sha512-j8VTruuNm6WA+EuUKTHK4w1zinmsf0P0w9vTD8x8EzrUaXpIQx8/+51Kw2CqgyOhwaKbXrMUTycJbeWfXW5U0A==
 
 "@tailwindcss/typography@^0.5.10":
   version "0.5.12"
@@ -6851,7 +6900,7 @@ ethers@^5.7.0, ethers@^5.7.2, ethers@~5.7.0:
     "@ethersproject/web" "5.7.1"
     "@ethersproject/wordlists" "5.7.0"
 
-ethers@^6.13.1, ethers@^6.13.2, ethers@^6.7.0:
+ethers@^6.12.0, ethers@^6.12.1, ethers@^6.13.1, ethers@^6.13.2, ethers@^6.7.0:
   version "6.13.2"
   resolved "https://registry.yarnpkg.com/ethers/-/ethers-6.13.2.tgz#4b67d4b49e69b59893931a032560999e5e4419fe"
   integrity sha512-9VkriTTed+/27BGuY1s0hf441kqwHJ1wtN2edksEtiRvXx+soxRX3iSXTfFqq2+YwrOqbDoTHjIhQnjJRlzKmg==
@@ -6907,6 +6956,11 @@ events@3.3.0, events@^3.3.0:
   version "3.3.0"
   resolved "https://registry.npmjs.org/events/-/events-3.3.0.tgz"
   integrity sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==
+
+events@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/events/-/events-1.1.1.tgz#9ebdb7635ad099c70dcc4c2a1f5004288e8bd924"
+  integrity sha512-kEcvvCBByWXGnZy6JUlgAp2gBIUjfCAV6P6TgT1/aaQKcmuAEC4OZTV1I4EWQLz2gxZw76atuVyvHhTxvi0Flw==
 
 evp_bytestokey@^1.0.3:
   version "1.0.3"

@@ -14,8 +14,8 @@ import {
   nftModelFromTransfer,
 } from './services/Indexer'
 import { addIndexTimestamps, getIndexTimestamps, updateIndexTimestamps } from './services/IndexTracker'
-import { IndexedEventType, LastIndexTimestamp, LastIndexTimestampType, MintingType } from './models/DbModels'
-import { addMinting, getMinting, getMintingByNftId, updateMinting } from './services/MintingTracker'
+import { LastIndexTimestamp, LastIndexTimestampType, MintingType } from './models/DbModels'
+import { addMinting, getMinting, getMintingByNftId, markMintCompleted } from './services/MintingTracker'
 import { formatUnits } from 'ethers'
 import { stableCoinDecimals } from './services/Blockchain'
 import { addNft, deleteNft, getNft, updateNft } from './services/NftTracker'
@@ -42,8 +42,10 @@ const job = Cron(
   '*/5 * * * * *',
   /* Function (optional) */
   async () => {
+    job.pause()
     let events = await fetchFromGraphql()
     if (events === undefined) {
+      job.resume()
       console.error(`Fetching from graphql failed trying again later`)
       return
     }
@@ -125,6 +127,7 @@ const job = Cron(
     } else {
       console.error(`Occured error while fetching lp transfers`)
     }
+    job.resume()
   },
   { paused: true }
 )
@@ -233,18 +236,20 @@ const processStartMinting = async (startMinting: StartMintingEventData): Promise
     networkId: chainId,
     txid: txid,
     timestamp: Math.floor(new Date(startMinting.db_write_timestamp).getTime() / 1000),
-    depositAmount: parseFloat(formatUnits(startMinting.usdcAmount, stableCoinDecimals(chainId))), // 0 or 1
-    ustcAmount: 0,
+    depositAmount: parseFloat(formatUnits(startMinting.usdcAmount, stableCoinDecimals(chainId))).toString(), // 0 or 1
+    ustcAmount: '0',
     orderCompleted: false,
     orderId: 0,
     nftId: parseInt(startMinting.depositId),
     manual: false,
     depositStatus: -1,
+    mintCompleted: false,
   }
   let minting = await addMinting(mintingToAdd)
   if (minting !== undefined) {
     console.error(`Failed to add minting to database`)
     console.error(mintingToAdd)
+    console.error(minting)
     return false
   }
   return true
@@ -262,7 +267,7 @@ const processEndMinting = async (endMinting: EndMintingEventData): Promise<boole
   }
 
   cachedMinting.mintCompleted = true
-  let updated = await updateMinting(cachedMinting)
+  let updated = await markMintCompleted(cachedMinting.id!)
   if (!updated) {
     console.error(`${nftId} on ${chainId} failed to mark as completed`)
     return false
